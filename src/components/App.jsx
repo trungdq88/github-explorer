@@ -1,8 +1,16 @@
 import React from 'react';
+import './App.less';
+import './hamberger-menu.png';
 
 export default () => (
   <div>
-    Welcome!
-    <button id="the-bootstrap-btn" className="btn btn-primary">It's bootstrap!</button>
+    <div id="nav-bar">
+      <div id="hamberger-menu"></div>
+      <div id="brand-logo"></div>
+      <div id="notification-menu"></div>
+    </div>
+    <div id="profile">
+
+    </div>
   </div>
 );
