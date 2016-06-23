@@ -5,7 +5,7 @@
 
 
 # About
-My favorite boilerplate to create static web app with React.
+Progressive Web Apps experiments
 
 # Initial dev setup
 Make sure you have NodeJS v6 or above. 
