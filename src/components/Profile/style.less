@@ -1,0 +1,83 @@
+@navbarHeight: 60px;
+
+#profile {
+  background-image: linear-gradient(to bottom, #224365, #0a1b30);
+  padding-top: @navbarHeight;
+  #user-profile {
+    @profileImageSize: 100px;
+    display: flex;
+    padding: 10px 15px;
+
+    #avatar {
+      background-position: center center;
+      background-size: cover;
+      height: @profileImageSize;
+      width: @profileImageSize;
+    }
+
+    #user-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 15px;
+      #user-info-upper {
+        h1 {
+          font-family: GothamPro-Medium;
+          font-size: 18px;
+          color: #ffffff;
+          margin: 2px 0 12px;
+        }
+        h2 {
+          font-family: GothamPro;
+          font-size: 14px;
+          color: #ffffff;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  #user-bio {
+    opacity: 0.4;
+    font-family: GothamPro;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    margin: 20px 0;
+  }
+
+  #user-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .stats-title {
+      font-family: GothamPro-Bold;
+      font-size: 22px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .stats-description {
+      font-family: GothamPro;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      text-align: center;
+      color: #aeb6c0;
+    }
+
+    .stats-divider {
+      width: 2px;
+      height: 20px;
+      border: solid 0.5px rgba(255, 255, 255, 0.2);
+
+      &.space-holder {
+        border: solid 0.5px rgba(255, 255, 255, 0);
+      }
+    }
+  }
+
+  #view-repos {
+    text-align: center;
+    padding: 35px 0;
+  }
+}
