@@ -1,15 +1,89 @@
+@navbarHeight: 60px;
+
 #nav-bar {
-  @height: 60px;
+  @backgroundColor: #0F2035;
   @icon-width: 50px;
-  background-color: #0F2035;
   display: flex;
-  height: @height;
+  height: @navbarHeight;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
   #hamberger-menu {
     background-image: url('/assets/hamberger-menu.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 21px 16px;
-    height: @height;
+    height: @navbarHeight;
     width: @icon-width;
+  }
+  #notification-icon {
+    background-image: url('/assets/notification-icon.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 15px 17px;
+    height: @navbarHeight;
+    width: @icon-width;
+  }
+  #brand-logo {
+    background-image: url('/assets/github-logo.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 74px 20px;
+    height: @navbarHeight;
+    width: 74px;
+  }
+}
+
+#profile {
+  background-image: linear-gradient(to bottom, #224365, #0a1b30);
+  height: 420px;
+  padding-top: @navbarHeight;
+  #user-profile {
+    @profileImageSize: 100px;
+    display: flex;
+    padding: 15px;
+    #avatar {
+      background-position: center center;
+      background-size: cover;
+      height: @profileImageSize;
+      width: @profileImageSize;
+    }
+
+    #user-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 15px;
+      #user-info-upper {
+        h1 {
+          font-family: GothamPro-Medium;
+          font-size: 18px;
+          color: #ffffff;
+          margin: 2px 0 12px;
+        }
+        h2 {
+          font-family: GothamPro;
+          font-size: 14px;
+          color: #ffffff;
+          margin: 0;
+        }
+      }
+      #user-info-lower {
+
+      }
+    }
+  }
+
+  .round-btn {
+    width: 120px;
+    height: 32px;
+    border-radius: 50px;
+    border: solid 0.5px #7ed321;
+    font-family: GothamPro-Bold;
+    font-size: 14px;
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 32px;
   }
 }
