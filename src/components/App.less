@@ -36,12 +36,12 @@
 
 #profile {
   background-image: linear-gradient(to bottom, #224365, #0a1b30);
-  height: 420px;
   padding-top: @navbarHeight;
   #user-profile {
     @profileImageSize: 100px;
     display: flex;
-    padding: 15px;
+    padding: 10px 15px;
+
     #avatar {
       background-position: center center;
       background-size: cover;
@@ -68,22 +68,83 @@
           margin: 0;
         }
       }
-      #user-info-lower {
+    }
+  }
 
+  #user-bio {
+    opacity: 0.4;
+    font-family: GothamPro;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    margin: 20px 0;
+  }
+
+  #user-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .stats-title {
+      font-family: GothamPro-Bold;
+      font-size: 22px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .stats-description {
+      font-family: GothamPro;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      text-align: center;
+      color: #aeb6c0;
+    }
+
+    .stats-divider {
+      width: 2px;
+      height: 20px;
+      border: solid 0.5px rgba(255, 255, 255, 0.2);
+
+      &.space-holder {
+        border: solid 0.5px rgba(255, 255, 255, 0);
       }
     }
   }
 
-  .round-btn {
-    width: 120px;
-    height: 32px;
-    border-radius: 50px;
-    border: solid 0.5px #7ed321;
-    font-family: GothamPro-Bold;
-    font-size: 14px;
+  #view-repos {
     text-align: center;
-    color: #ffffff;
-    text-transform: uppercase;
-    line-height: 32px;
+    padding: 35px 0;
+  }
+}
+
+
+.round-btn {
+  width: 120px;
+  height: 32px;
+  border-radius: 50px;
+  border: solid 0.5px #7ed321;
+  font-family: GothamPro-Bold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 32px;
+}
+
+.green-btn {
+  display: inline-block;
+  width: 245px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 8px;
+  background-image: linear-gradient(to bottom, #a5de41, #55b130);
+  box-shadow: inset 0 0.5px 0.5px 0 #e2ffce;
+  font-family: GothamPro-Bold;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  &:hover, &:active {
+
   }
 }
