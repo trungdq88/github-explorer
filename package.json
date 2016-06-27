@@ -96,6 +96,8 @@
     "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
-    "rimraf": "^2.5.2"
+    "classname": "0.0.0",
+    "rimraf": "^2.5.2",
+    "rx": "^4.1.0"
   }
 }
