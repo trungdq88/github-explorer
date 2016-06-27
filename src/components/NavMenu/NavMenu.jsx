@@ -36,6 +36,9 @@ export default class NavMenu extends React.Component {
   render() {
     return (
       <div id="nav-menu">
+        <div id="menu-overlay"
+          style={{ display: this.props.open ? 'block' : 'none' }}
+          onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}></div>
         <div id="search-bar">
           <div id="search-content">
             <button><i className="fa fa-search"></i></button>
