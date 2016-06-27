@@ -1,15 +1,11 @@
 import React from 'react';
 import './App.less';
-import Header from './Header/Header.jsx';
-import Profile from './Profile/Profile.jsx';
-import PopularRepo from './PopularRepo/PopularRepo.jsx';
-import Footer from './Footer/Footer.jsx';
+import MainContent from './MainContent/MainContent.jsx';
+import NavMenu from './NavMenu/NavMenu.jsx';
 
 export default () => (
   <div>
-    <Header />
-    <Profile />
-    <PopularRepo />
-    <Footer />
+    <NavMenu />
+    <MainContent />
   </div>
 );
