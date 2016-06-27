@@ -30,6 +30,18 @@ export default () => (
         );
       })}
 
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => {
+        return (
+          <div key={i} className="user-item">
+            <div className="user-avatar" style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}></div>
+            <div className="user-info">
+              <div className="fullname">Jon Bryan</div>
+              <div className="username">jb2nite</div>
+            </div>
+          </div>
+        );
+      })}
+
     </div>
   </div>
 );
