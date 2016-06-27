@@ -58,6 +58,7 @@ const loaders = [
   { test: /\.woff(\?\S*)?/, loader: `${urlLoaderPrefix}font-woff` },
   { test: /\.ttf(\?\S*)?/, loader: `${urlLoaderPrefix}font-ttf` },
   { test: /\.svg(\?\S*)?/, loader: `${urlLoaderPrefix}font-svg` },
+  { test: /\.otf(\?\S*)?/, loader: `${urlLoaderPrefix}font-otf` },
   {
     test: /\.less$/,
     loader: 'style!css!less',
