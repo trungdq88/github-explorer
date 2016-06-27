@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const ENV = process.env.NODE_ENV || 'production';
 
-const urlLoaderPrefix = 'url-loader?name=assets/[name].[ext]&limit=100000&mimetype=application/';
+const urlLoaderPrefix = 'url-loader?name=assets/[name].[ext]&limit=100000';
 const fileLoader = 'file-loader?name=assets/[name].[ext]';
 let cssLoader;
 let jsxLoader;
@@ -53,12 +53,10 @@ const loaders = [
     test: /(\.jpe?g|\.gif|\.png|\.ico)/,
     loader: fileLoader,
   },
-  { test: /\.eot(\?\S*)?/, loader: `${urlLoaderPrefix}vnd.ms-fontobject` },
-  { test: /\.woff2(\?\S*)?/, loader: `${urlLoaderPrefix}font-woff2` },
-  { test: /\.woff(\?\S*)?/, loader: `${urlLoaderPrefix}font-woff` },
-  { test: /\.ttf(\?\S*)?/, loader: `${urlLoaderPrefix}font-ttf` },
-  { test: /\.svg(\?\S*)?/, loader: `${urlLoaderPrefix}font-svg` },
-  { test: /\.otf(\?\S*)?/, loader: `${urlLoaderPrefix}font-otf` },
+  {
+    test: /(\.eot|\.woff2|\.woff|\.ttf|\.svg|\.otf)/,
+    loader: ENV === 'development' ? urlLoaderPrefix : fileLoader,
+  },
   {
     test: /\.less$/,
     loader: 'style!css!less',
