@@ -8,6 +8,7 @@ export default () => (
       {[1, 2, 3, 4, 5, 6].map(i => {
         return (
           <div className="repo-item">
+            <div className="repo-pretitle">react-admin-framework/</div>
             <div className="repo-title">ChordDroid</div>
             <div className="repo-desc">Android library to render Guitar Chord.</div>
             <div className="repo-date">Updated on Sep 26, 2015</div>
