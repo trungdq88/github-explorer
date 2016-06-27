@@ -1,48 +1,64 @@
 #nav-menu {
   background-color: #3d536d;
   min-height: 100%;
-  width: 84%;
+  width: 100%;
   position: absolute;
   height: 100vh;
   overflow: auto;
 
   #search-bar {
-    padding: 15px;
     position: relative;
 
-    input {
-      height: 40px;
-      width: 100%;
-      line-height: 40px;
-      border-radius: 8px;
-      background-color: #ffffff;
-      font-family: GothamPro;
-      font-size: 14px;
-      border: 0;
-      color: #8f9aa8;
-      padding-left: 15px;
-      padding-right: 55px;
+    #search-content {
+      padding: 15px;
+      width: 84%;
+      position: relative;
+      input {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        font-family: GothamPro;
+        font-size: 14px;
+        border: 0;
+        color: #8f9aa8;
+        padding-left: 15px;
+        padding-right: 55px;
 
-      &:focus {
-        outline: 0;
+        &:focus {
+          outline: 0;
+        }
+      }
+
+      button {
+        width: 44px;
+        height: 40px;
+        border-radius: 0 8px 8px 0;
+        background-image: linear-gradient(to bottom, #a5de41, #55b130);
+        box-shadow: inset 0 0.5px 0.5px 0 #e2ffce;
+        border: none;
+        position: absolute;
+        right: 15px;
+        font-size: 20px;
+        color: #fff;
+
+        &:focus {
+          outline: 0;
+        }
       }
     }
 
-    button {
-      width: 44px;
-      height: 40px;
-      border-radius: 0 8px 8px 0;
-      background-image: linear-gradient(to bottom, #a5de41, #55b130);
-      box-shadow: inset 0 0.5px 0.5px 0 #e2ffce;
-      border: none;
+    #cancel-button {
       position: absolute;
-      right: 15px;
-      font-size: 20px;
+      top: 0;
+      right: 0;
+      height: 70px;
+      width: 16%;
+      text-align: left;
+      line-height: 70px;
       color: #fff;
-
-      &:focus {
-        outline: 0;
-      }
+      opacity: 0.5;
     }
   }
 

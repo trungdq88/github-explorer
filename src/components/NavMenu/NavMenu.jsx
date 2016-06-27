@@ -13,8 +13,11 @@ import './img/thumbnail-small-9.png';
 export default () => (
   <div id="nav-menu">
     <div id="search-bar">
-      <button><i className="fa fa-search"></i></button>
-      <input type="search" placeholder="Search by username…" />
+      <div id="search-content">
+        <button><i className="fa fa-search"></i></button>
+        <input type="search" placeholder="Search by username…" />
+      </div>
+      <div id="cancel-button">Cancel</div>
     </div>
     <div id="user-list">
 
