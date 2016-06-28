@@ -98,6 +98,7 @@
   "dependencies": {
     "classname": "0.0.0",
     "firebase-tools": "^3.0.3",
+    "react-router": "^2.5.1",
     "rimraf": "^2.5.2",
     "rx": "^4.1.0"
   }

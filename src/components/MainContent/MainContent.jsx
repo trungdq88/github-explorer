@@ -1,8 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header.jsx';
-import Profile from '../Profile/Profile.jsx';
-import PopularRepo from '../PopularRepo/PopularRepo.jsx';
 import Footer from '../Footer/Footer.jsx';
+import UserPage from '../UserPage/UserPage.jsx';
 import './style.less';
 
 import classNames from 'classnames';
@@ -15,8 +14,7 @@ export default class MainContent extends React.Component {
         full: this.props.full,
       })}>
         <Header />
-        <Profile />
-        <PopularRepo />
+        <UserPage />
         <Footer />
       </div>
     );

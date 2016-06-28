@@ -47,7 +47,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <NavMenu open={this.state.open} />
+        <NavMenu open={this.state.open} full={this.state.full} />
         <MainContent open={this.state.open} full={this.state.full} />
       </div>
     );
