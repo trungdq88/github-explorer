@@ -1,4 +1,5 @@
 import React from 'react';
+import atob from 'atob';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
