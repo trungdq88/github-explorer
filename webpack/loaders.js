@@ -61,5 +61,9 @@ const loaders = [
     test: /\.less$/,
     loader: 'style!css!less',
   },
+  {
+    test: /\.json$/,
+    loader: 'json',
+  },
 ];
 module.exports = loaders;
