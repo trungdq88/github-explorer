@@ -1,17 +1,9 @@
 import React from 'react';
+import Rx from 'rx';
 import classNames from 'classnames';
 import SearchInput from '../SearchInput/SearchInput.jsx';
 import { Link } from 'react-router';
 import './style.less';
-import './img/thumbnail-small-1.png';
-import './img/thumbnail-small-2.png';
-import './img/thumbnail-small-3.png';
-import './img/thumbnail-small-4.png';
-import './img/thumbnail-small-5.png';
-import './img/thumbnail-small-6.png';
-import './img/thumbnail-small-7.png';
-import './img/thumbnail-small-8.png';
-import './img/thumbnail-small-9.png';
 
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
 
@@ -23,6 +15,10 @@ export default class NavMenu extends React.Component {
       searchText: '',
       users: [],
     };
+
+    this.obsSearchTextChange = new Rx.Subject();
+
+    this.onSearchTextChange = this.onSearchTextChange.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +33,9 @@ export default class NavMenu extends React.Component {
     .subscribe(users => {
       this.setState({ users });
     });
+    this.obsTriggerTextChange = this.obsSearchTextChange
+    .debounce(1000)
+    .subscribe(text => actionFactory.getUsers(text));
 
     // Send get users request
     actionFactory.getUsers();
@@ -45,6 +44,13 @@ export default class NavMenu extends React.Component {
   componentWillUnmount() {
     this.obsCancelSearch.dispose();
     this.obsReceiveUsers.dispose();
+  }
+
+  onSearchTextChange(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
+    this.obsSearchTextChange.onNext(e.target.value);
   }
 
   render() {
@@ -58,7 +64,7 @@ export default class NavMenu extends React.Component {
         <div id="search-bar">
           <SearchInput
             onFocus={() => action.onNext({ name: ACTIONS.FULL_NAV_MENU })}
-            onChange={e => this.setState({ searchText: e.target.value })}
+            onChange={this.onSearchTextChange}
             value={this.state.searchText}
             placeholder="Search by username…"
           />
