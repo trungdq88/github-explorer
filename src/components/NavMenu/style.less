@@ -35,7 +35,12 @@
       text-align: left;
       line-height: 70px;
       color: #fff;
-      opacity: 0.5;
+      opacity: 0;
+      transition: opacity 0.3s 0.2s;
+
+      &.show {
+        opacity: 0.5;
+      }
     }
   }
 

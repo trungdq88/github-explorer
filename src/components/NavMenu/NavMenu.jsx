@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import SearchInput from '../SearchInput/SearchInput.jsx';
 import { Link } from 'react-router';
 import './style.less';
@@ -52,6 +53,7 @@ export default class NavMenu extends React.Component {
           />
           <div
             id="cancel-button"
+            className={classNames({ show: this.props.full })}
             onClick={() => action.onNext({ name: ACTIONS.OPEN_NAV_MENU })}
           >Cancel</div>
         </div>
