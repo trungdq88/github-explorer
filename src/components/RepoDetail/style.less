@@ -1,16 +1,22 @@
+@tabHeight: 50px;
+
 #repo-detail {
   min-height: 100vh;
 }
 
-#repo-tabs {
-  @tabHeight: 50px;
+#repo-tabs-wrapper {
   height: @tabHeight;
+  overflow: hidden;
+  border-bottom: solid 0.5px #e5e5e5;
+}
+
+#repo-tabs {
+  height: @tabHeight + 20px;
   background-color: #f6f7f8;
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  border-bottom: solid 0.5px #e5e5e5;
 
   .repo-tab-item {
     font-family: GothamPro;

@@ -28,7 +28,7 @@
   },
   "config": {
     "buildDir": "./build",
-    "devHost": "localhost",
+    "devHost": "0.0.0.0",
     "devPort": 8763
   },
   "homepage": "https://github.com/trungdq88/github-explorer",

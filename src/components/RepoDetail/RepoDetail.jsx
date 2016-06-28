@@ -26,15 +26,17 @@ export default class RepoDetail extends React.Component {
     return (
       <div id="repo-detail">
         <RepoContent />
-        <div id="repo-tabs">
-          {TABS.map(tab =>
-            <div
-              key={tab.key}
-              onClick={() => this.setState({ activeTab: tab.key })}
-              className={classNames('repo-tab-item',
-                                    { selected: this.state.activeTab === tab.key })}
-            >{tab.value}</div>
-          )}
+        <div id="repo-tabs-wrapper">
+          <div id="repo-tabs">
+            {TABS.map(tab =>
+              <div
+                key={tab.key}
+                onClick={() => this.setState({ activeTab: tab.key })}
+                className={classNames('repo-tab-item',
+                                      { selected: this.state.activeTab === tab.key })}
+              >{tab.value}</div>
+            )}
+          </div>
         </div>
         <div id="repo-tab-content">
           <div
