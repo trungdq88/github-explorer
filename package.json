@@ -105,6 +105,7 @@
     "react-markdown": "^2.3.0",
     "react-router": "^2.5.1",
     "rimraf": "^2.5.2",
-    "rx": "^4.1.0"
+    "rx": "^4.1.0",
+    "whatwg-fetch": "^1.0.0"
   }
 }

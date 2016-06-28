@@ -13,7 +13,7 @@ import './img/thumbnail-small-7.png';
 import './img/thumbnail-small-8.png';
 import './img/thumbnail-small-9.png';
 
-import action, { ACTIONS } from '../../action/action.js';
+import action, { ACTIONS, actionFactory } from '../../action/action.js';
 
 export default class NavMenu extends React.Component {
 
@@ -21,6 +21,7 @@ export default class NavMenu extends React.Component {
     super();
     this.state = {
       searchText: '',
+      users: [],
     };
   }
 
@@ -30,10 +31,20 @@ export default class NavMenu extends React.Component {
     .subscribe(() => {
       this.setState({ searchText: '' });
     });
+    this.obsReceiveUsers = action
+    .filter(a => a.name === ACTIONS.USERS_RECEIVED)
+    .map(a => a.data)
+    .subscribe(users => {
+      this.setState({ users });
+    });
+
+    // Send get users request
+    actionFactory.getUsers();
   }
 
   componentWillUnmount() {
     this.obsCancelSearch.dispose();
+    this.obsReceiveUsers.dispose();
   }
 
   render() {
@@ -59,38 +70,20 @@ export default class NavMenu extends React.Component {
         </div>
         <div id="user-list">
 
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
+          {this.state.users.map(user =>
             <Link
-              key={i}
+              key={user.id}
               className="user-item"
-              to={`/user/${i}`}
+              to={`/user/${user.login}`}
               onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
             >
               <div
                 className="user-avatar"
-                style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
+                style={{ backgroundImage: `url('https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}')` }}
               ></div>
               <div className="user-info">
-                <div className="fullname">Jon Bryan</div>
-                <div className="username">jb2nite</div>
-              </div>
-            </Link>
-          )}
-
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-            <Link
-              key={i}
-              className="user-item"
-              to={`/user/${i}`}
-              onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
-            >
-              <div
-                className="user-avatar"
-                style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
-              ></div>
-              <div className="user-info">
-                <div className="fullname">Jon Bryan</div>
-                <div className="username">jb2nite</div>
+                <div className="fullname">{user.fullname}</div>
+                <div className="username">{user.login}</div>
               </div>
             </Link>
           )}
