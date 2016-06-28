@@ -1,6 +1,6 @@
 {
   "name": "github-explorer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Boilerplate for Admin UI application built on React and Flux",
   "main": "src/app.jsx",
   "scripts": {
@@ -14,7 +14,8 @@
     "start": "NODE_ENV=development node dev-server ./webpack/config",
     "test": "NODE_ENV=test karma start",
     "test-travis": "NODE_ENV=test karma start --single-run",
-    "webpack": "webpack --colors --progress --config ./webpack/config"
+    "webpack": "webpack --colors --progress --config ./webpack/config",
+    "publish": "npm version patch && npm run build && firebase deploy"
   },
   "repository": {
     "type": "git+git@github.com:trungdq88/github-explorer.git",
