@@ -2,62 +2,98 @@ import React from 'react';
 import { Link } from 'react-router';
 import './style.less';
 import './img/user-photo.png';
+import action, { ACTIONS, actionFactory } from '../../action/action.js';
 
-export default (props) => (
-  <div id="profile">
+export default class Profile extends React.Component {
 
-    <div id="user-profile">
-      <div
-        id="avatar"
-        style={{ backgroundImage: 'url("/assets/user-photo.png")' }}
-      ></div>
+  constructor() {
+    super();
+    this.state = {
+      profile: {},
+    };
+  }
 
-      <div id="user-info">
-        <div id="user-info-upper">
-          <h1>Dinh Quang Trung</h1>
-          <h2>trungdq88 ({props.params.username})</h2>
-        </div>
-        <div id="user-info-lower">
-          <div className="round-btn">
-            Follow
+  componentDidMount() {
+    this.obsReceivedUserProfile = action
+    .filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED)
+    .map(a => a.data)
+    .subscribe(profile => this.setState({ profile }));
+
+    // Get user profile
+    actionFactory.getUserProfile(this.props.params.username);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.username !== this.props.params.username) {
+      this.setState({ profile: {} });
+      actionFactory.getUserProfile(nextProps.params.username);
+    }
+  }
+
+  componentWillUnmount() {
+    this.obsReceivedUserProfile.dispose();
+  }
+
+  render() {
+    return (
+      <div id="profile">
+
+        <div id="user-profile">
+          <div
+            id="avatar"
+            style={{ backgroundImage: `url("${this.state.profile.avatar_url}")` }}
+          ></div>
+
+          <div id="user-info">
+            <div id="user-info-upper">
+              <h1>{this.state.profile.name}</h1>
+              <h2>{this.state.profile.login}</h2>
+            </div>
+            <div id="user-info-lower">
+              <div className="round-btn">
+                Follow
+              </div>
+            </div>
           </div>
+
         </div>
-      </div>
 
-    </div>
+        <div id="user-bio">
+          {this.state.profile.bio}
+        </div>
 
-    <div id="user-bio">
-      “Write code, save the world.”
-    </div>
+        <div id="user-stats">
+          <div className="stats-divider space-holder"></div>
 
-    <div id="user-stats">
-      <div className="stats-divider space-holder"></div>
+          <div className="stats-block">
+            <div className="stats-title">{this.state.profile.followers}</div>
+            <div className="stats-description">Followers</div>
+          </div>
 
-      <div className="stats-block">
-        <div className="stats-title">20</div>
-        <div className="stats-description">Followers</div>
-      </div>
+          <div className="stats-divider"></div>
 
-      <div className="stats-divider"></div>
+          <div className="stats-block">
+            <div className="stats-title">{this.state.profile.public_repos}</div>
+            <div className="stats-description">Public repos</div>
+          </div>
 
-      <div className="stats-block">
-        <div className="stats-title">141</div>
-        <div className="stats-description">Starred</div>
-      </div>
+          <div className="stats-divider"></div>
 
-      <div className="stats-divider"></div>
+          <div className="stats-block">
+            <div className="stats-title">{this.state.profile.following}</div>
+            <div className="stats-description">Following</div>
+          </div>
 
-      <div className="stats-block">
-        <div className="stats-title">10</div>
-        <div className="stats-description">Following</div>
-      </div>
+          <div className="stats-divider space-holder"></div>
+        </div>
 
-      <div className="stats-divider space-holder"></div>
-    </div>
+        <div id="view-repos">
+          <Link
+            to={`/user/${this.props.params.username}/repos`}
+            className="green-btn"
+          >VIEW REPOSITORIES</Link>
+        </div>
 
-    <div id="view-repos">
-      <Link to={`/user/${props.params.username}/repos`} className="green-btn">VIEW REPOSITORIES</Link>
-    </div>
-
-  </div>
-);
+      </div>);
+  }
+}
