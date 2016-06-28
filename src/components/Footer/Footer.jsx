@@ -7,7 +7,7 @@ export default () => (
       <i className="fa fa-github"></i>
     </div>
     <div id="footer-credit">
-      GitHub concept by<br/>
+      GitHub concept by<br />
       Quan &amp; Bang
     </div>
   </div>

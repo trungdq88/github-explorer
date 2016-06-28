@@ -6,8 +6,10 @@ export default () => (
   <div id="profile">
 
     <div id="user-profile">
-      <div id="avatar"
-        style={{ backgroundImage: 'url("/assets/user-photo.png")' }}></div>
+      <div
+        id="avatar"
+        style={{ backgroundImage: 'url("/assets/user-photo.png")' }}
+      ></div>
 
       <div id="user-info">
         <div id="user-info-upper">

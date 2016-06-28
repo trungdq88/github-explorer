@@ -15,40 +15,48 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this._toggleNavMenu = action
-    .filter(action => action.name === ACTIONS.TOGGLE_NAV_MENU)
+    this.obsToggleNavMenu = action
+    .filter(a => a.name === ACTIONS.TOGGLE_NAV_MENU)
     .subscribe(() => {
       this.setState({ open: !this.state.open, full: false });
     });
-    this._openNavMenu = action
-    .filter(action => action.name === ACTIONS.OPEN_NAV_MENU)
+    this.obsOpenNavMenu = action
+    .filter(a => a.name === ACTIONS.OPEN_NAV_MENU)
     .subscribe(() => {
       this.setState({ open: true, full: false });
     });
-    this._fullNavMenu = action
-    .filter(action => action.name === ACTIONS.FULL_NAV_MENU)
+    this.obsFullNavMenu = action
+    .filter(a => a.name === ACTIONS.FULL_NAV_MENU)
     .subscribe(() => {
       this.setState({ open: true, full: true });
     });
-    this._closeNavMenu = action
-    .filter(action => action.name === ACTIONS.CLOSE_NAV_MENU)
+    this.obsCloseNavMenu = action
+    .filter(a => a.name === ACTIONS.CLOSE_NAV_MENU)
     .subscribe(() => {
       this.setState({ open: false, full: false });
     });
   }
 
   componentWillUnmount() {
-    this._openNavMenu.dispose();
-    this._fullNavMenu.dispose();
-    this._closeNavMenu.dispose();
-    this._toggleNavMenu.dispose();
+    this.obsOpenNavMenu.dispose();
+    this.obsFullNavMenu.dispose();
+    this.obsCloseNavMenu.dispose();
+    this.obsToggleNavMenu.dispose();
   }
 
   render() {
     return (
       <div>
-        <NavMenu open={this.state.open} full={this.state.full} />
-        <MainContent open={this.state.open} full={this.state.full} />
+        <NavMenu
+          open={this.state.open}
+          full={this.state.full}
+        />
+        <MainContent
+          open={this.state.open}
+          full={this.state.full}
+        >
+          {this.props.children}
+        </MainContent>
       </div>
     );
   }
