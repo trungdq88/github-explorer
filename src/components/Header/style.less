@@ -1,19 +1,20 @@
-@navbarHeight: 60px;
+@headerHeight: 60px;
 
-#nav-bar {
+#header {
   @backgroundColor: #0F2035;
   @icon-width: 50px;
   display: flex;
-  height: @navbarHeight;
+  height: @headerHeight;
   justify-content: space-between;
   position: fixed;
   width: 100%;
+  background-color: #0f2035;
   #hamberger-menu {
     background-image: url('/assets/hamberger-menu.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 21px 16px;
-    height: @navbarHeight;
+    height: @headerHeight;
     width: @icon-width;
   }
   #notification-icon {
@@ -21,7 +22,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 15px 17px;
-    height: @navbarHeight;
+    height: @headerHeight;
     width: @icon-width;
   }
   #brand-logo {
@@ -29,7 +30,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 74px 20px;
-    height: @navbarHeight;
+    height: @headerHeight;
     width: 74px;
   }
 }

@@ -3,9 +3,9 @@ import Profile from '../Profile/Profile.jsx';
 import PopularRepo from '../PopularRepo/PopularRepo.jsx';
 import './style.less';
 
-export default () => (
+export default (props) => (
   <div id="user-page">
-    <Profile />
+    <Profile {...props} />
     <PopularRepo />
   </div>
 );

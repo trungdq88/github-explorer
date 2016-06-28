@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 import './style.less';
 import './img/user-photo.png';
 
-export default () => (
+export default (props) => (
   <div id="profile">
 
     <div id="user-profile">
@@ -14,7 +15,7 @@ export default () => (
       <div id="user-info">
         <div id="user-info-upper">
           <h1>Dinh Quang Trung</h1>
-          <h2>trungdq88</h2>
+          <h2>trungdq88 ({props.params.username})</h2>
         </div>
         <div id="user-info-lower">
           <div className="round-btn">
@@ -55,7 +56,7 @@ export default () => (
     </div>
 
     <div id="view-repos">
-      <a href="#" className="green-btn">VIEW REPOSITORIES</a>
+      <Link to={`/user/${props.params.username}/repos`} className="green-btn">VIEW REPOSITORIES</Link>
     </div>
 
   </div>

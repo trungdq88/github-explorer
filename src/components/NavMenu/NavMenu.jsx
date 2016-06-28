@@ -60,7 +60,12 @@ export default class NavMenu extends React.Component {
         <div id="user-list">
 
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-            <Link key={i} className="user-item" to={`/${i}`}>
+            <Link
+              key={i}
+              className="user-item"
+              to={`/user/${i}`}
+              onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+            >
               <div
                 className="user-avatar"
                 style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
@@ -73,7 +78,12 @@ export default class NavMenu extends React.Component {
           )}
 
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-            <Link key={i} className="user-item" to={`/${i}`}>
+            <Link
+              key={i}
+              className="user-item"
+              to={`/user/${i}`}
+              onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+            >
               <div
                 className="user-avatar"
                 style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
