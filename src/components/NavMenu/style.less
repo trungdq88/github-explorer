@@ -19,46 +19,11 @@
 
   #search-bar {
     position: relative;
+    padding: 15px;
 
-    #search-content {
-      padding: 15px;
+    // In case there is a search input
+    #search-input {
       width: 84%;
-      position: relative;
-      input {
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        border-radius: 8px;
-        background-color: #ffffff;
-        font-family: GothamPro;
-        font-size: 14px;
-        border: 0;
-        color: #8f9aa8;
-        padding-left: 15px;
-        padding-right: 55px;
-
-        &:focus {
-          outline: 0;
-        }
-      }
-
-      button {
-        width: 44px;
-        height: 40px;
-        border-radius: 0 8px 8px 0;
-        background-image: linear-gradient(to bottom, #a5de41, #55b130);
-        box-shadow: inset 0 0.5px 0.5px 0 #e2ffce;
-        border: none;
-        position: absolute;
-        right: 15px;
-        font-size: 20px;
-        color: #fff;
-        text-align: center;
-
-        &:focus {
-          outline: 0;
-        }
-      }
     }
 
     #cancel-button {

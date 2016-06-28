@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchInput from '../SearchInput/SearchInput.jsx';
 import { Link } from 'react-router';
 import './style.less';
 import './img/thumbnail-small-1.png';
@@ -43,15 +44,12 @@ export default class NavMenu extends React.Component {
           onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
         ></div>
         <div id="search-bar">
-          <div id="search-content">
-            <button><i className="fa fa-search"></i></button>
-            <input
-              onFocus={() => action.onNext({ name: ACTIONS.FULL_NAV_MENU })}
-              onChange={e => this.setState({ searchText: e.target.value })}
-              value={this.state.searchText}
-              type="search" placeholder="Search by username…"
-            />
-          </div>
+          <SearchInput
+            onFocus={() => action.onNext({ name: ACTIONS.FULL_NAV_MENU })}
+            onChange={e => this.setState({ searchText: e.target.value })}
+            value={this.state.searchText}
+            placeholder="Search by username…"
+          />
           <div
             id="cancel-button"
             onClick={() => action.onNext({ name: ACTIONS.OPEN_NAV_MENU })}
