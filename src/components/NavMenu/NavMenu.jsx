@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import './style.less';
 import './img/thumbnail-small-1.png';
 import './img/thumbnail-small-2.png';
@@ -59,7 +60,7 @@ export default class NavMenu extends React.Component {
         <div id="user-list">
 
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-            <div key={i} className="user-item">
+            <Link key={i} className="user-item" to={`/${i}`}>
               <div
                 className="user-avatar"
                 style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
@@ -68,11 +69,11 @@ export default class NavMenu extends React.Component {
                 <div className="fullname">Jon Bryan</div>
                 <div className="username">jb2nite</div>
               </div>
-            </div>
+            </Link>
           )}
 
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-            <div key={i} className="user-item">
+            <Link key={i} className="user-item" to={`/${i}`}>
               <div
                 className="user-avatar"
                 style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
@@ -81,7 +82,7 @@ export default class NavMenu extends React.Component {
                 <div className="fullname">Jon Bryan</div>
                 <div className="username">jb2nite</div>
               </div>
-            </div>
+            </Link>
           )}
 
         </div>

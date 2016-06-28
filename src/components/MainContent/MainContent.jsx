@@ -4,16 +4,16 @@ import Footer from '../Footer/Footer.jsx';
 import './style.less';
 import classNames from 'classnames';
 
-export default () => (
+export default (props) => (
   <div
     id="main-content"
     className={classNames({
-      open: this.props.open,
-      full: this.props.full,
+      open: props.open,
+      full: props.full,
     })}
   >
     <Header />
-    {this.props.children}
+    {props.children}
     <Footer />
   </div>
 );
