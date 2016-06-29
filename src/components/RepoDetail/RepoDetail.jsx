@@ -3,6 +3,7 @@ import atob from 'atob';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
+import action, { ACTIONS, actionFactory } from '../../action/action.js';
 import './style.less';
 
 const TABS = [
@@ -18,14 +19,74 @@ export default class RepoDetail extends React.Component {
     super();
     this.state = {
       activeTab: 'readme',
+      repo: {},
+      readme: '',
+      contribs: [],
+      contents: [],
+      languages: [],
     };
   }
 
+  componentDidMount() {
+    this.obsRepoDetailReceived = action
+    .filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED)
+    .map(a => a.data)
+    .subscribe(repo => this.setState({ repo }));
+
+    this.obsRepoReadmeReceived = action
+    .filter(a => a.name === ACTIONS.REPO_README_RECEIVED)
+    .map(a => a.data.content)
+    .subscribe(readme => this.setState({ readme }));
+
+    this.obsRepoContribsReceived = action
+    .filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED)
+    .map(a => a.data)
+    .subscribe(contribs => this.setState({ contribs }));
+
+    this.obsRepoContentsReceived = action
+    .filter(a => a.name === ACTIONS.REPO_CONTENTS_RECEIVED)
+    .map(a => a.data)
+    .map(contents => {
+      contents.sort((a, b) => a.type.localeCompare(b.type));
+      return contents;
+    })
+    .subscribe(contents => this.setState({ contents }));
+
+    this.obsRepoLanguagesReceived = action
+    .filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED)
+    .map(a => a.data)
+    .map(languages => {
+      const newLanguages = Object.keys(languages)
+      .map(key => ({ name: key, value: languages[key] }));
+      const total = newLanguages.reduce((a, b) => a.value + b.value);
+      return newLanguages.map(a => ({
+        name: a.name,
+        value: Math.round(1000 * a.value / total) / 10,
+      }));
+    })
+    .subscribe(languages => this.setState({ languages }));
+
+    // Get user profile
+    actionFactory.getRepoDetail(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoReadme(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoContents(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoContribs(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoLanguages(this.props.params.username, this.props.params.repoName);
+  }
+
+  componentWillUnmount() {
+    this.obsRepoDetailReceived.dispose();
+    this.obsRepoReadmeReceived.dispose();
+    this.obsRepoContribsReceived.dispose();
+    this.obsRepoContentsReceived.dispose();
+    this.obsRepoLanguagesReceived.dispose();
+  }
+
   render() {
-    const input = atob("IyAzOSBSaWRpY3Vsb3VzIEJveCBTaGFkb3dzCgpEZWxpY2lvdXMsIGp1aWN5 IENTUzMuICAKClJpcGUgZm9yIHRoZSB0YWtpbmcuCgpPaCwgdGhlIGdsb3J5 LgoKCiMjIEFib3V0Ckluc3BpcmVkIGJ5IFtEb3VnIEF2ZXJ54oCZcyBwb3N0 XShodHRwOi8vd3d3LnZpZ2V0LmNvbS91cGxvYWRzL2ZpbGUvYm94c2hhZG93 cy8pLCB0aGlzIApoYW5keSBsaXR0bGUgU3R5bHVzL0NTUyBMaWJyYXJ5IGlz IGp1c3Qgd2FpdGluZyBmb3IgeW91IHRvIHNoYXJlIHRoZSBzaGFkb3d5IGdv b2RuZXNzIApvbiB0aGUgV2ViLgoKCiMjIEZpbGUgTGF5b3V0CgogKiBFYWNo IGJveCBzaGFkb3cgaXMgc2VwYXJhdGVkIGludG8gaXRzIG93biBmaWxlLCBz byB5b3UgY2FuIGBAaW1wb3J0YCBvbmx5IHRoZSBzaGFkb3dzIHlvdSBuZWVk LiAgCiAqIFRoZSBgc3R5bHVzYCBkaXJlY3RvcnkgaXMgdGhlIOKAnHRydWXi gJ0gc291cmNlIGNvZGUuICBJdCBnZW5lcmF0ZXMgZXZlcnl0aGluZyB5b3Ug c2VlIGluIGBjc3NgIGFuZCBgY3NzLW1pbmAuCiAqIElmIHlvdSBkb27igJl0 IHVzZSBTdHlsdXMgKHlvdSB0b3RhbGx5IHNob3VsZCwgdGhvdWdoKSwgdGhl cmXigJlzIHByZS1jb21waWxlZCBDU1MgcmVhZHkgZm9yIHlvdSB0byB1c2Ug b3V0IG9mIHRoZSBib3guICBUaGVyZeKAmXMgZXZlbiBwcmUtKm1pbmlmaWVk KiBDU1MgaWYgeW91IHByZWZlci4gIEFyZW7igJl0IEkgdGhvdWdodGZ1bD8g Oi0pIAogKiBUaGUgZmlsZW5hbWVzIGFyZSBzaWxseSwgSSBrbm934oCmICBU aGV54oCZcmUgbmFtZWQgYWZ0ZXIgdGhlIENTUyBjbGFzcyBuYW1lcyBvZiB0 aGUgb3JpZ2luYWwgYXV0aG9yLiAgSeKAmWQgbGlrZSB0byBkbyBzb21ldGhp bmcgdG8gaW1wcm92ZSB0aGUgc2l0dWF0aW9uIHdpdGhvdXQgY29tcGxldGVs eSBsb3NpbmcgdGhlIHdoaW1zeSwgdGhvdWdoLiAgKE1heWJlIHN5bWxpbmtz 4oCmPyk= ".replace(/\s/g, ''));
+    const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : '';
     return (
       <div id="repo-detail">
-        <RepoContent />
+        <RepoContent {...this.state.repo} />
         <div id="repo-tabs-wrapper">
           <div id="repo-tabs">
             {TABS.map(tab =>
@@ -51,16 +112,16 @@ export default class RepoDetail extends React.Component {
             className={classNames('repo-tab-item', { show: this.state.activeTab === 'files' })}
             id="files"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-              <div key={i} className="file-item">
+            {this.state.contents.map(content =>
+              <div key={content.sha} className="file-item">
                 <div className="file-icon">
-                  {i % 2 ?
-                    <i className="fa fa-folder"></i> :
-                    <i className="fa fa-file-text-o"></i>}
+                  {content.type === 'file' ?
+                    <i className="fa fa-file-text-o"></i> :
+                    <i className="fa fa-folder"></i>}
                 </div>
                 <div className="file-info">
-                  <div className="file-name">.openshift</div>
-                  <div className="file-date">about 1 year ago</div>
+                  <div className="file-name">{content.name}</div>
+                  <div className="file-date">{content.size}</div>
                 </div>
               </div>
             )}
@@ -71,15 +132,16 @@ export default class RepoDetail extends React.Component {
                                   { show: this.state.activeTab === 'contributors' })}
             id="contributors"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-              <div key={i} className="contrib-item">
+            {this.state.contribs.map(contrib =>
+              <div key={contrib.id} className="contrib-item">
                 <div
                   className="contrib-avatar"
-                  style={{ backgroundImage: `url('/assets/thumbnail-small-${i}.png')` }}
+                  style={{ backgroundImage: `url('${contrib.avatar_url}')` }}
                 ></div>
                 <div className="contrib-info">
-                  <div className="contrib-name">HaiNNT</div>
-                  <div className="contrib-value">690 contributions</div>
+                  <div className="contrib-name">{contrib.login}</div>
+                  <div className="contrib-value">{contrib.contributions}
+                    contribution{contrib.contributions.length === 1 ? '' : 's'}</div>
                 </div>
               </div>
             )}
@@ -89,15 +151,15 @@ export default class RepoDetail extends React.Component {
             className={classNames('repo-tab-item', { show: this.state.activeTab === 'languages' })}
             id="languages"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i =>
-              <div key={i} className="lang-item">
+            {this.state.languages.map(language =>
+              <div key={language.name} className="lang-item">
                 <div
                   className="lang-color"
                   style={{ backgroundColor: '#b17300' }}
                 ></div>
                 <div className="lang-info">
-                  <div className="lang-name">JavaScript</div>
-                  <div className="lang-value">89.9%</div>
+                  <div className="lang-name">{language.name}</div>
+                  <div className="lang-value">{language.value}%</div>
                 </div>
               </div>
             )}

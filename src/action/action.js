@@ -16,6 +16,11 @@ const ACTION_TYPES = {
   USER_REPOS_RECEIVED: 'USER_REPOS_RECEIVED',
   USER_REPOS_NEXT_PAGE_RECEIVED: 'USER_REPOS_NEXT_PAGE_RECEIVED',
   USER_REPOS_COMPLETE: 'USER_REPOS_COMPLETE',
+  REPO_DETAIL_RECEIVED: 'REPO_DETAIL_RECEIVED',
+  REPO_README_RECEIVED: 'REPO_README_RECEIVED',
+  REPO_CONTENTS_RECEIVED: 'REPO_CONTENTS_RECEIVED',
+  REPO_CONTRIS_RECEIVED: 'REPO_CONTRIS_RECEIVED',
+  REPO_LANGUAGES_RECEIVED: 'REPO_LANGUAGES_RECEIVED',
 };
 
 action.subscribe(console.log.bind(console, '[ACTION]'));
@@ -75,6 +80,51 @@ export const actionFactory = {
           name: ACTION_TYPES.USER_REPOS_COMPLETE,
         });
       }
+    }),
+  getRepoDetail: (username, repoName) =>
+    api(`https://api.github.com/repos/${username}/${repoName}`)
+    .then(response => response.json())
+    .then(repo => {
+      action.onNext({
+        name: ACTION_TYPES.REPO_DETAIL_RECEIVED,
+        data: repo,
+      });
+    }),
+  getRepoReadme: (username, repoName) =>
+    api(`https://api.github.com/repos/${username}/${repoName}/readme`)
+    .then(response => response.json())
+    .then(readme => {
+      action.onNext({
+        name: ACTION_TYPES.REPO_README_RECEIVED,
+        data: readme,
+      });
+    }),
+  getRepoContents: (username, repoName) =>
+    api(`https://api.github.com/repos/${username}/${repoName}/contents`)
+    .then(response => response.json())
+    .then(contents => {
+      action.onNext({
+        name: ACTION_TYPES.REPO_CONTENTS_RECEIVED,
+        data: contents,
+      });
+    }),
+  getRepoContribs: (username, repoName) =>
+    api(`https://api.github.com/repos/${username}/${repoName}/contributors`)
+    .then(response => response.json())
+    .then(contris => {
+      action.onNext({
+        name: ACTION_TYPES.REPO_CONTRIS_RECEIVED,
+        data: contris,
+      });
+    }),
+  getRepoLanguages: (username, repoName) =>
+    api(`https://api.github.com/repos/${username}/${repoName}/languages`)
+    .then(response => response.json())
+    .then(languages => {
+      action.onNext({
+        name: ACTION_TYPES.REPO_LANGUAGES_RECEIVED,
+        data: languages,
+      });
     }),
 };
 

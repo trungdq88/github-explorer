@@ -19,7 +19,7 @@ ReactDOM.render(
       <IndexRoute component={UserPage} />
       <Route path="user/:username" component={UserPage} />
       <Route path="user/:username/repos" component={RepoList} />
-      <Route path="user/:username/repos/:reponame" component={RepoDetail} />
+      <Route path="user/:username/repos/:repoName" component={RepoDetail} />
       <Route path="*" component={NotFound} />
     </Route>
   </Router>, document.getElementById('root'));
