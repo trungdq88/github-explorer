@@ -1,6 +1,9 @@
 import Rx from 'rx';
 import 'whatwg-fetch';
 
+const TOKEN = '48d499e1bbc2e206d1e4f720f101af12a5918806';
+const REPO_PER_PAGE = 10;
+
 const action = new Rx.Subject();
 
 const ACTION_TYPES = {
@@ -12,15 +15,22 @@ const ACTION_TYPES = {
   USER_PROFILE_RECEIVED: 'USER_PROFILE_RECEIVED',
   USER_REPOS_RECEIVED: 'USER_REPOS_RECEIVED',
   USER_REPOS_NEXT_PAGE_RECEIVED: 'USER_REPOS_NEXT_PAGE_RECEIVED',
+  USER_REPOS_COMPLETE: 'USER_REPOS_COMPLETE',
 };
 
 action.subscribe(console.log.bind(console, '[ACTION]'));
 
 export default action;
 
+const api = (url) => fetch(url, {
+  headers: {
+    Authorization: `token ${TOKEN}`,
+  },
+});
+
 export const actionFactory = {
   getUsers: (keyword) =>
-    fetch(`https://api.github.com/legacy/user/search/${keyword || 't'}%20sort:followers`)
+    api(`https://api.github.com/legacy/user/search/${keyword || 't'}%20sort:followers`)
     .then(response => response.json())
     .then(data => data.users)
     .then(users => {
@@ -30,7 +40,7 @@ export const actionFactory = {
       });
     }),
   getUserProfile: (username) =>
-    fetch(`https://api.github.com/users/${username}`)
+    api(`https://api.github.com/users/${username}`)
     .then(response => response.json())
     .then(profile => {
       action.onNext({
@@ -39,22 +49,32 @@ export const actionFactory = {
       });
     }),
   getUserRepos: (username) =>
-    fetch(`https://api.github.com/users/${username}/repos?page=1&per_page=10`)
+    api(`https://api.github.com/users/${username}/repos?page=1&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
     .then(repos => {
       action.onNext({
         name: ACTION_TYPES.USER_REPOS_RECEIVED,
         data: repos,
       });
+      if (repos.length < REPO_PER_PAGE) {
+        action.onNext({
+          name: ACTION_TYPES.USER_REPOS_COMPLETE,
+        });
+      }
     }),
   getUserReposNextPage: (username, page) =>
-    fetch(`https://api.github.com/users/${username}/repos?page=${page + 1}&per_page=10`)
+    api(`https://api.github.com/users/${username}/repos?page=${page + 1}&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
     .then(repos => {
       action.onNext({
         name: ACTION_TYPES.USER_REPOS_NEXT_PAGE_RECEIVED,
         data: { page: page + 1, repos },
       });
+      if (repos.length < REPO_PER_PAGE) {
+        action.onNext({
+          name: ACTION_TYPES.USER_REPOS_COMPLETE,
+        });
+      }
     }),
 };
 

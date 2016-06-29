@@ -48,7 +48,7 @@ export default class UserPage extends React.Component {
   render() {
     return (
       <div id="user-page">
-        <Profile {...this.props} />
+        <Profile profile={this.state.profile} />
         <div className="repo-list">
           <div className="repo-list-header">POPULAR REPOSITORIES</div>
           <div>

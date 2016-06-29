@@ -11,10 +11,15 @@ export default class Repo extends React.Component {
     this.state = {
       page: 1,
       repos: [],
+      complete: false,
     };
   }
 
   componentDidMount() {
+    this.obsUserReposComplete = action
+    .filter(a => a.name === ACTIONS.USER_REPOS_COMPLETE)
+    .subscribe(() => this.setState({ complete: true }));
+
     this.obsReceiveUserRepos = action
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
     .map(a => a.data)
@@ -46,6 +51,7 @@ export default class Repo extends React.Component {
   componentWillUnmount() {
     this.obsReceiveUserRepos.dispose();
     this.obsReceiveUserReposNextPage.dispose();
+    this.obsUserReposComplete.dispose();
   }
 
   render() {
@@ -61,10 +67,13 @@ export default class Repo extends React.Component {
           )}
         </div>
 
-        <div
-          id="load-more"
-          onClick={() => action.getUserReposNextPage(this.props.params.username, this.state.page)}
-        >LOAD MORE</div>
+        {!this.state.complete ?
+          <div
+            id="load-more"
+            onClick={() => actionFactory
+              .getUserReposNextPage(this.props.params.username, this.state.page)}
+          >LOAD MORE</div>
+        : ''}
       </div>
     );
   }
