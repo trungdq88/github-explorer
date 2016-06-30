@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
+import languageColor from '../../utils/lanugage-color.js';
 import './style.less';
 
 const TABS = [
@@ -58,7 +59,8 @@ export default class RepoDetail extends React.Component {
     .map(languages => {
       const newLanguages = Object.keys(languages)
       .map(key => ({ name: key, value: languages[key] }));
-      const total = newLanguages.reduce((a, b) => a.value + b.value);
+      const total = newLanguages.length === 1 ?
+        newLanguages[0].value : newLanguages.reduce((a, b) => a.value + b.value);
       return newLanguages.map(a => ({
         name: a.name,
         value: Math.round(1000 * a.value / total) / 10,
@@ -155,7 +157,7 @@ export default class RepoDetail extends React.Component {
               <div key={language.name} className="lang-item">
                 <div
                   className="lang-color"
-                  style={{ backgroundColor: '#b17300' }}
+                  style={{ backgroundColor: languageColor[language.name] }}
                 ></div>
                 <div className="lang-info">
                   <div className="lang-name">{language.name}</div>
