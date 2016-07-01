@@ -49,6 +49,7 @@
     .user-item {
       display: flex;
       padding: 12px 15px;
+      will-change: transform;
 
       .user-avatar {
         width: 40px;
@@ -79,13 +80,28 @@
   }
 }
 
-.example-appear {
-  transform: translate3d(0, 100px, 0);
-  opacity: 0;
-  transition: transform 0.5s, opacity 0.5s;
+.list-appear {
+  opacity: 0.01;
+  transition: opacity 0.8s, transform 0.5s;
+  &:nth-child(0) { transform: translate3d(0, 100px, 0) }
+  &:nth-child(1) { transform: translate3d(0, 150px, 0) }
+  &:nth-child(2) { transform: translate3d(0, 200px, 0) }
+  &:nth-child(3) { transform: translate3d(0, 250px, 0) }
+  &:nth-child(4) { transform: translate3d(0, 300px, 0) }
+  &:nth-child(5) { transform: translate3d(0, 350px, 0) }
+  &:nth-child(6) { transform: translate3d(0, 400px, 0) }
+  &:nth-child(7) { transform: translate3d(0, 450px, 0) }
+  &:nth-child(8) { transform: translate3d(0, 500px, 0) }
+  &:nth-child(9) { transform: translate3d(0, 550px, 0) }
+  &:nth-child(10) { transform: translate3d(0, 600px, 0) }
+  &:nth-child(11) { transform: translate3d(0, 650px, 0) }
+  &:nth-child(12) { transform: translate3d(0, 700px, 0) }
+  &:nth-child(13) { transform: translate3d(0, 750px, 0) }
+  &:nth-child(14) { transform: translate3d(0, 800px, 0) }
+  &:nth-child(15) { transform: translate3d(0, 850px, 0) }
 }
 
-.example-appear.example-appear-active {
+.list-appear.list-appear-active {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0) !important;
 }

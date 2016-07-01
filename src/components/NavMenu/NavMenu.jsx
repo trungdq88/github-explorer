@@ -86,35 +86,36 @@ export default class NavMenu extends React.Component {
         </div>
         <div id="user-list">
 
-          <ReactCSSTransitionGroup
-            transitionName="example"
-            transitionEnterTimeout={300} transitionLeaveTimeout={300}
-          >
-            {this.state.searching ?
-              <div id="loading">
-                <img role="presentation" src="/assets/loading.svg" />
-              </div> :
-              <div>
-                {this.state.users.map(user =>
-                  <Link
-                    key={user.id}
-                    className="user-item"
-                    to={`/user/${user.login}`}
-                    onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
-                  >
-                    <Image
-                      className="user-avatar"
-                      src={`https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}`}
-                    />
-                    <div className="user-info">
-                      <div className="fullname">{user.fullname}</div>
-                      <div className="username">{user.login}</div>
-                    </div>
-                  </Link>
-                )}
-              </div>
-            }
-          </ReactCSSTransitionGroup>
+          {this.state.searching ?
+            <div id="loading">
+              <img role="presentation" src="/assets/loading.svg" />
+            </div> :
+            <ReactCSSTransitionGroup
+              transitionName="list"
+              transitionAppear
+              transitionAppearTimeout={500}
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+            >
+              {this.state.users.map((user, index) =>
+                <Link
+                  key={user.id}
+                  className="user-item"
+                  to={`/user/${user.login}`}
+                  onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+                >
+                  <Image
+                    className="user-avatar"
+                    src={`https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}`}
+                  />
+                  <div className="user-info">
+                    <div className="fullname">{user.fullname}</div>
+                    <div className="username">{user.login}</div>
+                  </div>
+                </Link>
+              )}
+            </ReactCSSTransitionGroup>
+          }
 
         </div>
       </div>

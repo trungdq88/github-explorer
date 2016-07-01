@@ -37,7 +37,7 @@ export const actionFactory = {
   getUsers: (keyword) =>
     api(`https://api.github.com/legacy/user/search/${keyword || 't'}%20sort:followers`)
     .then(response => response.json())
-    .then(data => data.users)
+    .then(data => data.users.slice(0, 15))
     .then(users => {
       action.onNext({
         name: ACTION_TYPES.USERS_RECEIVED,

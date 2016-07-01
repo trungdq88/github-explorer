@@ -9,12 +9,17 @@ export default class Image extends React.Component {
     this.state = {
       loaded: false,
     };
+    this.img = new window.Image();
+    this.onImageLoad = this.onImageLoad.bind(this);
   }
 
   componentDidMount() {
-    const img = new window.Image();
-    img.onload = this.onImageLoad.bind(this);
-    img.src = this.props.src;
+    this.img.onload = this.onImageLoad;
+    this.img.src = this.props.src;
+  }
+
+  componentWillUnmount() {
+    this.img.onload = () => {};
   }
 
   onImageLoad() {
