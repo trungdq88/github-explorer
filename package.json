@@ -103,6 +103,7 @@
     "github-markdown-css": "^2.3.0",
     "json-loader": "^0.5.4",
     "react-addons-css-transition-group": "^15.1.0",
+    "react-easy-transition": "0.0.5",
     "react-markdown": "^2.3.0",
     "react-router": "^2.5.1",
     "rimraf": "^2.5.2",

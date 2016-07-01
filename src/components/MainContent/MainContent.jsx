@@ -1,5 +1,5 @@
 import React from 'react';
-import Rx from 'rx';
+// import Rx from 'rx';
 import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 import './style.less';
@@ -7,34 +7,41 @@ import classNames from 'classnames';
 
 export default class MainContent extends React.Component {
 
-  constructor() {
-    super();
-    this.wait = false;
-  }
+  // constructor() {
+  //   super();
+  //   this.wait = false;
+  // }
 
   componentDidMount() {
-    this.headerDOM = document.getElementById('header');
+    // this.headerDOM = document.getElementById('header');
     // Move search bar
-    this.obsMoveHeader = Rx.Observable
-    .fromEvent(this.refs.mainContent, 'scroll')
-    .subscribe(() => {
-      this.lastScrollTop = this.refs.mainContent.scrollTop;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          // Access direct to the DOM for better scrolling performance
-          this.headerDOM.style.transform =
-            `translate3d(0, ${this.lastScrollTop}px, 0)`;
-          this.headerDOM.className =
-            this.lastScrollTop === 0 ? 'transparent' : '';
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+    // this.obsMoveHeader = Rx.Observable
+    // .fromEvent(this.refs.mainContent, 'scroll')
+    // .subscribe(() => {
+    //   this.lastScrollTop = this.refs.mainContent.scrollTop;
+    //   if (this.wait === false) {
+    //     window.requestAnimationFrame(() => {
+    //       // Access direct to the DOM for better scrolling performance
+    //       this.headerDOM.style.transform =
+    //         `translate3d(0, ${this.lastScrollTop}px, 0)`;
+    //       this.headerDOM.className =
+    //         this.lastScrollTop === 0 ? 'transparent' : '';
+    //       this.wait = false;
+    //     });
+    //     this.wait = true;
+    //   }
+    // });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Scroll to top when switch page
+    if (nextProps.children !== this.props.children) {
+      this.refs.mainContent.scrollTop = 0;
+    }
   }
 
   componentWillUnmount() {
-    this.obsMoveHeader.dispose();
+    // this.obsMoveHeader.dispose();
   }
 
   render() {

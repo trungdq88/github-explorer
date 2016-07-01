@@ -3,6 +3,7 @@ import RepoItem from '../RepoItem/RepoItem.jsx';
 import SearchInput from '../SearchInput/SearchInput.jsx';
 import './style.less';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Repo extends React.Component {
 
@@ -12,6 +13,7 @@ export default class Repo extends React.Component {
       page: 1,
       repos: [],
       complete: false,
+      showSearch: false,
     };
   }
 
@@ -37,6 +39,9 @@ export default class Repo extends React.Component {
 
     // Get user profile
     actionFactory.getUserRepos(this.props.params.username);
+
+    // Show search
+    setTimeout(() => this.setState({ showSearch: true }), 500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,14 +62,31 @@ export default class Repo extends React.Component {
   render() {
     return (
       <div id="repo-list-page">
-        <SearchInput
-          placeholder="Find a repository..."
-          buttonText="SEARCH"
-        />
+        <ReactCSSTransitionGroup
+          transitionName="list"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {this.state.showSearch ?
+            <SearchInput
+              placeholder="Find a repository..."
+              buttonText="SEARCH"
+            /> : ''}
+        </ReactCSSTransitionGroup>
         <div id="repo-list">
-          {this.state.repos.map(repo =>
-            <RepoItem key={repo.id} {...repo} />
-          )}
+          <ReactCSSTransitionGroup
+            transitionName="list"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {this.state.repos.map(repo =>
+              <RepoItem key={repo.id} {...repo} />
+            )}
+          </ReactCSSTransitionGroup>
         </div>
 
         {!this.state.complete ?

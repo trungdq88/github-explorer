@@ -20,7 +20,7 @@ export default class NavMenu extends React.Component {
       searching: true,
     };
 
-    this.wait = false;
+    // this.wait = false;
 
     this.obsSearchTextChange = new Rx.Subject();
 
@@ -53,27 +53,27 @@ export default class NavMenu extends React.Component {
     actionFactory.getUsers();
 
     // Move search bar
-    this.obsMoveSearchBar = Rx.Observable
-    .fromEvent(this.refs.navMenu, 'scroll')
-    .subscribe(() => {
-      this.lastScrollTop = this.refs.navMenu.scrollTop;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          this.refs.searchBar.style.transform =
-            `translate3d(0, ${this.lastScrollTop}px, 0)`;
-          this.refs.searchBar.style.backgroundColor =
-            this.lastScrollTop === 0 ? 'rgba(0, 0, 0, 0)' : '#2E3F53';
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+    // this.obsMoveSearchBar = Rx.Observable
+    // .fromEvent(this.refs.navMenu, 'scroll')
+    // .subscribe(() => {
+    //   this.lastScrollTop = this.refs.navMenu.scrollTop;
+    //   if (this.wait === false) {
+    //     window.requestAnimationFrame(() => {
+    //       this.refs.searchBar.style.transform =
+    //         `translate3d(0, ${this.lastScrollTop}px, 0)`;
+    //       this.refs.searchBar.style.backgroundColor =
+    //         this.lastScrollTop === 0 ? 'rgba(0, 0, 0, 0)' : '#2E3F53';
+    //       this.wait = false;
+    //     });
+    //     this.wait = true;
+    //   }
+    // });
   }
 
   componentWillUnmount() {
     this.obsCancelSearch.dispose();
     this.obsReceiveUsers.dispose();
-    this.obsMoveSearchBar.dispose();
+    // this.obsMoveSearchBar.dispose();
   }
 
   onSearchTextChange(e) {
