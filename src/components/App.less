@@ -6,6 +6,7 @@ body {
   font-family: GothamPro;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+  background-color: #3d536d;
 }
 
 .round-btn {
@@ -36,3 +37,43 @@ body {
   color: #ffffff !important;
   text-decoration: none !important;
 }
+
+.list-appear, .list-enter {
+  opacity: 0.01;
+  transition: opacity 0.8s, transform 0.5s;
+  &:nth-child(0) { transform: translate3d(0, 100px, 0) }
+  &:nth-child(1) { transform: translate3d(0, 150px, 0) }
+  &:nth-child(2) { transform: translate3d(0, 200px, 0) }
+  &:nth-child(3) { transform: translate3d(0, 250px, 0) }
+  &:nth-child(4) { transform: translate3d(0, 300px, 0) }
+  &:nth-child(5) { transform: translate3d(0, 350px, 0) }
+  &:nth-child(6) { transform: translate3d(0, 400px, 0) }
+  &:nth-child(7) { transform: translate3d(0, 450px, 0) }
+  &:nth-child(8) { transform: translate3d(0, 500px, 0) }
+  &:nth-child(9) { transform: translate3d(0, 550px, 0) }
+  &:nth-child(10) { transform: translate3d(0, 600px, 0) }
+  &:nth-child(11) { transform: translate3d(0, 650px, 0) }
+  &:nth-child(12) { transform: translate3d(0, 700px, 0) }
+  &:nth-child(13) { transform: translate3d(0, 750px, 0) }
+  &:nth-child(14) { transform: translate3d(0, 800px, 0) }
+  &:nth-child(15) { transform: translate3d(0, 850px, 0) }
+}
+
+.list-appear.list-appear-active, .list-enter.list-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) !important;
+}
+.list-leave {
+  opacity: 0;
+}
+
+
+.fade-appear, .fade-enter {
+  opacity: 0.01;
+  transition: opacity 1s;
+}
+
+.fade-appear.fade-appear-active, .fade-enter.fade-enter-active {
+  opacity: 1;
+}
+

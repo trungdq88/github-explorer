@@ -9,13 +9,22 @@ export default class Image extends React.Component {
     this.state = {
       loaded: false,
     };
-    this.img = new window.Image();
     this.onImageLoad = this.onImageLoad.bind(this);
   }
 
   componentDidMount() {
+    this.img = new window.Image();
     this.img.onload = this.onImageLoad;
     this.img.src = this.props.src;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.src !== nextProps.src) {
+      this.img = new window.Image();
+      this.img.onload = this.onImageLoad;
+      this.img.src = nextProps.src;
+      this.setState({ loaded: false });
+    }
   }
 
   componentWillUnmount() {
@@ -29,6 +38,7 @@ export default class Image extends React.Component {
   render() {
     return (
       <div
+        id={this.props.id}
         className={classNames(this.props.className, ' image-fade')}
         style={this.state.loaded ? {
           backgroundImage: `url('${this.props.src}')`,

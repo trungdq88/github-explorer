@@ -65,7 +65,10 @@ export default class NavMenu extends React.Component {
 
   render() {
     return (
-      <div id="nav-menu">
+      <div
+        id="nav-menu"
+        className={classNames({ open: this.props.open })}
+      >
         <div
           id="menu-overlay"
           style={{ display: this.props.open && !this.props.full ? 'block' : 'none' }}
@@ -97,7 +100,7 @@ export default class NavMenu extends React.Component {
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}
             >
-              {this.state.users.map((user, index) =>
+              {this.state.users.map(user =>
                 <Link
                   key={user.id}
                   className="user-item"
@@ -109,8 +112,8 @@ export default class NavMenu extends React.Component {
                     src={`https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}`}
                   />
                   <div className="user-info">
-                    <div className="fullname">{user.fullname}</div>
-                    <div className="username">{user.login}</div>
+                    <div className="fullname">{user.fullname || user.login}</div>
+                    <div className="username">{user.login || user.fullname}</div>
                   </div>
                 </Link>
               )}
