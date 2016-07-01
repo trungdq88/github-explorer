@@ -60,7 +60,7 @@ export default class RepoDetail extends React.Component {
       const newLanguages = Object.keys(languages)
       .map(key => ({ name: key, value: languages[key] }));
       const total = newLanguages.length === 1 ?
-        newLanguages[0].value : newLanguages.reduce((a, b) => a.value + b.value);
+        newLanguages[0].value : newLanguages.reduce((a, b) => ({ value: a.value + b.value })).value;
       return newLanguages.map(a => ({
         name: a.name,
         value: Math.round(1000 * a.value / total) / 10,
@@ -142,8 +142,8 @@ export default class RepoDetail extends React.Component {
                 ></div>
                 <div className="contrib-info">
                   <div className="contrib-name">{contrib.login}</div>
-                  <div className="contrib-value">{contrib.contributions}
-                    contribution{contrib.contributions.length === 1 ? '' : 's'}</div>
+                  <div className="contrib-value">{contrib.contributions} {' '}
+                    contribution{contrib.contributions === 1 ? '' : 's'}</div>
                 </div>
               </div>
             )}

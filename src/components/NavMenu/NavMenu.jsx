@@ -3,7 +3,10 @@ import Rx from 'rx';
 import classNames from 'classnames';
 import SearchInput from '../SearchInput/SearchInput.jsx';
 import { Link } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Image from '../Image/Image.jsx';
 import './style.less';
+import './svg/loading.svg';
 
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
 
@@ -14,6 +17,7 @@ export default class NavMenu extends React.Component {
     this.state = {
       searchText: '',
       users: [],
+      searching: true,
     };
 
     this.obsSearchTextChange = new Rx.Subject();
@@ -31,11 +35,17 @@ export default class NavMenu extends React.Component {
     .filter(a => a.name === ACTIONS.USERS_RECEIVED)
     .map(a => a.data)
     .subscribe(users => {
-      this.setState({ users });
+      this.setState({ users, searching: false });
     });
     this.obsTriggerTextChange = this.obsSearchTextChange
     .debounce(1000)
-    .subscribe(text => actionFactory.getUsers(text));
+    .distinctUntilChanged()
+    .flatMap(text => {
+      this.setState({ searching: true });
+      return Rx.Observable.fromPromise(actionFactory.getUsers(text))
+      .takeUntil(this.obsSearchTextChange);
+    })
+    .subscribe(() => this.setState({ searching: false }));
 
     // Send get users request
     actionFactory.getUsers();
@@ -76,23 +86,35 @@ export default class NavMenu extends React.Component {
         </div>
         <div id="user-list">
 
-          {this.state.users.map(user =>
-            <Link
-              key={user.id}
-              className="user-item"
-              to={`/user/${user.login}`}
-              onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
-            >
-              <div
-                className="user-avatar"
-                style={{ backgroundImage: `url('https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}')` }}
-              ></div>
-              <div className="user-info">
-                <div className="fullname">{user.fullname}</div>
-                <div className="username">{user.login}</div>
+          <ReactCSSTransitionGroup
+            transitionName="example"
+            transitionEnterTimeout={300} transitionLeaveTimeout={300}
+          >
+            {this.state.searching ?
+              <div id="loading">
+                <img role="presentation" src="/assets/loading.svg" />
+              </div> :
+              <div>
+                {this.state.users.map(user =>
+                  <Link
+                    key={user.id}
+                    className="user-item"
+                    to={`/user/${user.login}`}
+                    onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+                  >
+                    <Image
+                      className="user-avatar"
+                      src={`https://avatars.githubusercontent.com/u/${user.id.split('-')[1]}`}
+                    />
+                    <div className="user-info">
+                      <div className="fullname">{user.fullname}</div>
+                      <div className="username">{user.login}</div>
+                    </div>
+                  </Link>
+                )}
               </div>
-            </Link>
-          )}
+            }
+          </ReactCSSTransitionGroup>
 
         </div>
       </div>

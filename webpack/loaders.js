@@ -50,11 +50,11 @@ const loaders = [
     loader: htmlLoader,
   },
   {
-    test: /(\.jpe?g|\.gif|\.png|\.ico)/,
+    test: /(\.jpe?g|\.gif|\.png|\.ico|\.svg)/,
     loader: fileLoader,
   },
   {
-    test: /(\.eot|\.woff2|\.woff|\.ttf|\.svg|\.otf)/,
+    test: /(\.eot|\.woff2|\.woff|\.ttf|\.otf)/,
     loader: ENV === 'development' ? urlLoaderPrefix : fileLoader,
   },
   {
