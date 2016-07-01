@@ -8,7 +8,7 @@ import action, { ACTIONS } from '../../action/action.js';
 import { Link } from 'react-router';
 
 export default () => (
-  <div id="header">
+  <div id="header" className="transparent">
     <div id="hamberger-menu" onClick={() => action.onNext({ name: ACTIONS.TOGGLE_NAV_MENU })}></div>
     <Link to="/">
       <div id="brand-logo"></div>
