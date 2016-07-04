@@ -15,30 +15,43 @@ export default class PageTransition extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.children !== nextProps.children) {
-      console.log('[PageTransition]', nextProps);
+      const previousPathname = this.props.children.props.location.pathname;
       this.state[`child${this.state.nextChild}`] = nextProps.children;
       this.forceUpdate(() => {
-        const newDom = ReactDom
-        .findDOMNode(this.refs[`child${this.state.nextChild}`]);
-        if (newDom.classList.contains('transition-item')) {
-          newDom.classList.add('transition-appear');
-          setTimeout(() => newDom.classList.add('transition-appear-active'), 17);
+        const child = this.refs[`child${this.state.nextChild}`];
+        const dom = ReactDom.findDOMNode(child);
+        let timeout = 0;
+        const att = dom.getAttribute('data-from-path');
+
+        child.onTransitionData && child.onTransitionData(this.props.data);
+
+        if (dom.classList.contains('transition-item') &&
+            (att === null || att === previousPathname)) {
+          dom.classList.add('transition-appear');
+          setTimeout(() => dom.classList.add('transition-appear-active'), 17);
+          timeout = this.props.timeout || 500;
         }
+
+        setTimeout(() => {
+          this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
+          this.state[`child${this.state.nextChild}`] = null;
+          this.forceUpdate(() => {
+            if (dom.classList.contains('transition-item')) {
+              dom.classList.remove('transition-appear');
+              dom.classList.remove('transition-appear-active');
+              dom.classList.remove('transition-item');
+            }
+            this.props.onLoad();
+            child.onTransitionDone && child.onTransitionDone(this.props.data);
+          });
+        }, timeout);
       });
-      setTimeout(() => {
-        const previousChild = this.state.nextChild;
-        this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
-        this.state[`child${this.state.nextChild}`] = null;
-        this.forceUpdate(() => {
-          const newDom = ReactDom
-          .findDOMNode(this.refs[`child${previousChild}`]);
-          if (newDom.classList.contains('transition-item')) {
-            newDom.classList.remove('transition-appear');
-            newDom.classList.remove('transition-appear-active');
-          }
-        });
-      }, 500);
     }
+  }
+
+  componentDidMount() {
+    const child = this.refs.child1;
+    child.onTransitionDone && child.onTransitionDone(this.props.data);
   }
 
   render() {

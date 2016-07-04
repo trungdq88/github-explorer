@@ -8,10 +8,14 @@ import PageTransition from '../PageTransition/PageTransition.jsx';
 
 export default class MainContent extends React.Component {
 
-  // constructor() {
-  //   super();
-  //   this.wait = false;
-  // }
+  constructor() {
+    super();
+    this.state = {
+      scrollTop: 0,
+    };
+    // this.wait = false;
+    this.onPageLoad = this.onPageLoad.bind(this);
+  }
 
   componentDidMount() {
     // this.headerDOM = document.getElementById('header');
@@ -34,15 +38,18 @@ export default class MainContent extends React.Component {
     // });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Scroll to top when switch page
-    if (nextProps.children !== this.props.children) {
-      this.refs.mainContent.scrollTop = 0;
-    }
+  componentWillReceiveProps() {
+    this.setState({
+      scrollTop: this.refs.mainContent.scrollTop,
+    });
   }
 
   componentWillUnmount() {
     // this.obsMoveHeader.dispose();
+  }
+
+  onPageLoad() {
+    this.refs.mainContent.scrollTop = 0;
   }
 
   render() {
@@ -56,7 +63,13 @@ export default class MainContent extends React.Component {
         })}
       >
         <Header />
-        <PageTransition>
+        <PageTransition
+          timeout={500}
+          onLoad={this.onPageLoad}
+          data={{
+            scrollTop: this.state.scrollTop,
+          }}
+        >
           {this.props.children}
         </PageTransition>
         <Footer />

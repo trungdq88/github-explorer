@@ -4,6 +4,15 @@
   min-height: 100vh;
   overflow: hidden;
   background-color: #f5f5f5;
+
+  &.transition-appear {
+    transform: translate3d(0, 100%, 0);
+    transition: transform 0.5s;
+  }
+
+  &.transition-appear.transition-appear-active {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 #repo-tabs-wrapper {

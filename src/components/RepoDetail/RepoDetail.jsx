@@ -118,7 +118,10 @@ export default class RepoDetail extends React.Component {
   render() {
     const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : '';
     return (
-      <div id="repo-detail">
+      <div
+        id="repo-detail"
+        className="transition-item"
+      >
         <RepoContent {...this.state.repo} />
         <div id="repo-tabs-wrapper">
           <div id="repo-tabs">

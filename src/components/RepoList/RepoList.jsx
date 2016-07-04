@@ -14,6 +14,7 @@ export default class RepoList extends React.Component {
       repos: [],
       complete: false,
       showSearch: false,
+      offsetTop: 0,
     };
   }
 
@@ -38,12 +39,6 @@ export default class RepoList extends React.Component {
         repos: this.state.repos.concat(paging.repos),
       });
     });
-
-    // Get user profile
-    actionFactory.getUserRepos(this.props.params.username);
-
-    // Show search, need a delay to trigger CSS animation
-    setTimeout(() => this.setState({ showSearch: true }), 50);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,9 +56,29 @@ export default class RepoList extends React.Component {
     this.obsUserReposComplete.dispose();
   }
 
+  onTransitionData(data) {
+    console.log(data);
+    this.setState({
+      offsetTop: data.scrollTop + 60, // Scroll top + 60px header
+    });
+  }
+
+  onTransitionDone() {
+    // Get user profile
+    actionFactory.getUserRepos(this.props.params.username);
+
+    // Show search, need a delay to trigger CSS animation
+    setTimeout(() => this.setState({ showSearch: true }), 50);
+  }
+
   render() {
     return (
-      <div id="repo-list-page" className="transition-item">
+      <div
+        id="repo-list-page"
+        className="transition-item"
+        data-from-path={`/user/${this.props.params.username}`}
+        style={{ top: this.state.offsetTop }}
+      >
         <ReactCSSTransitionGroup
           transitionName="list"
           transitionAppear
