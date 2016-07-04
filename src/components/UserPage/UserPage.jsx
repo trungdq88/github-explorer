@@ -19,12 +19,6 @@ export default class UserPage extends React.Component {
     this.obsReceivedUserProfile = action
     .filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED)
     .map(a => a.data)
-    .map(profile => Object.assign({}, profile, {
-      bio: profile.bio || ' ',
-      followers: profile.followers || '0',
-      public_repos: profile.public_repos || '0',
-      following: profile.following || '0',
-    }))
     .subscribe(profile => this.setState({ profile }));
     this.obsReceiveUserRepos = action
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)

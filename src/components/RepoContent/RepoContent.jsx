@@ -1,14 +1,31 @@
 import React from 'react';
+import TextHolder from '../TextHolder/TextHolder.jsx';
 import './style.less';
 
 export default (props) => (
   <div className="repo-content">
     {/* <div className="repo-pretitle">react-admin-framework/</div> */}
-    <div className="repo-title">{props.name}</div>
-    <div className="repo-desc">{props.description}</div>
-    <div className="repo-date">{props.updated_at}</div>
+    <div className="repo-title">
+      <TextHolder width={150} height={23}>
+        {props.name}
+      </TextHolder>
+    </div>
+    <div className="repo-desc">
+      <TextHolder width={260} height={21}>
+        {props.description}
+      </TextHolder>
+    </div>
+    <div className="repo-date">
+      <TextHolder width={80} height={12}>
+        {props.updated_at}
+      </TextHolder>
+    </div>
     <div className="repo-info">
-      <div className="repo-language">{props.language}</div>
+      <div className="repo-language">
+        <TextHolder width={100} height={15}>
+          {props.language}
+        </TextHolder>
+      </div>
       <div className="repo-stats">
         <i className="fa fa-eye"></i> {props.watchers_count}
         <i className="fa fa-star"></i> {props.stargazers_count}
