@@ -45,18 +45,26 @@
 
 #repo-tab-content {
   position: relative;
+  overflow: hidden;
+  transition: height 0.5s;
 
-  .repo-tab-item {
-    display: none;
+  .repo-content-item {
     padding: 15px;
+    opacity: 0;
+    transform: translate3d(0, 100px, 0);
+    transition: opacity 0.5s, transform 0.5s;
+    position: absolute;
+    right: 15px;
+    left: 15px;
+    top: 15px;
 
     &.show {
-      display: block;
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 
-  #readme-content, #files, #languages {
-    margin: 15px;
+  #readme, #files, #languages {
     border-radius: 6px;
     background-color: #ffffff;
     border: solid 1px #e5e5e5;

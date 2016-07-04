@@ -103,9 +103,11 @@
     "github-markdown-css": "^2.3.0",
     "json-loader": "^0.5.4",
     "react-addons-css-transition-group": "^15.1.0",
+    "react-css-transition-replace": "^1.2.0-beta",
     "react-easy-transition": "0.0.5",
     "react-markdown": "^2.3.0",
     "react-router": "^2.5.1",
+    "react-router-transition": "0.0.5",
     "rimraf": "^2.5.2",
     "rx": "^4.1.0",
     "whatwg-fetch": "^1.0.0"

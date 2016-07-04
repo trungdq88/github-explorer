@@ -52,6 +52,7 @@ export default class App extends React.Component {
           full={this.state.full}
         />
         <MainContent
+          location={this.props.location}
           open={this.state.open}
           full={this.state.full}
         >

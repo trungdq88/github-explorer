@@ -19,13 +19,16 @@ export default class RepoDetail extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeTab: 'readme',
+      activeTab: '',
       repo: {},
       readme: '',
       contribs: [],
       contents: [],
       languages: [],
     };
+
+    this.switchTab = this.switchTab.bind(this);
+    this.refreshContentHeight = this.refreshContentHeight.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +40,14 @@ export default class RepoDetail extends React.Component {
     this.obsRepoReadmeReceived = action
     .filter(a => a.name === ACTIONS.REPO_README_RECEIVED)
     .map(a => a.data.content)
-    .subscribe(readme => this.setState({ readme }));
+    .subscribe(readme => {
+      this.setState({
+        readme,
+        activeTab: 'readme',
+      }, () => {
+        this.refreshContentHeight(TABS[0]);
+      });
+    });
 
     this.obsRepoContribsReceived = action
     .filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED)
@@ -59,8 +69,16 @@ export default class RepoDetail extends React.Component {
     .map(languages => {
       const newLanguages = Object.keys(languages)
       .map(key => ({ name: key, value: languages[key] }));
-      const total = newLanguages.length === 1 ?
-        newLanguages[0].value : newLanguages.reduce((a, b) => ({ value: a.value + b.value })).value;
+
+      let total = 0;
+      if (newLanguages.length === 0) {
+        total = 0;
+      } else if (newLanguages.length === 1) {
+        total = newLanguages[0].value;
+      } else {
+        total = newLanguages.reduce((a, b) => ({ value: a.value + b.value })).value;
+      }
+
       return newLanguages.map(a => ({
         name: a.name,
         value: Math.round(1000 * a.value / total) / 10,
@@ -84,6 +102,19 @@ export default class RepoDetail extends React.Component {
     this.obsRepoLanguagesReceived.dispose();
   }
 
+  switchTab(tab) {
+    this.setState({
+      activeTab: tab.key,
+    }, () => {
+      this.refreshContentHeight(tab);
+    });
+  }
+
+  refreshContentHeight(tab) {
+    const selectedTab = document.getElementById(tab.key);
+    this.refs.tabContent.style.height = `${selectedTab.offsetHeight + 30}px`;
+  }
+
   render() {
     const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : '';
     return (
@@ -94,24 +125,24 @@ export default class RepoDetail extends React.Component {
             {TABS.map(tab =>
               <div
                 key={tab.key}
-                onClick={() => this.setState({ activeTab: tab.key })}
+                onClick={() => this.switchTab(tab)}
                 className={classNames('repo-tab-item',
                                       { selected: this.state.activeTab === tab.key })}
               >{tab.value}</div>
             )}
           </div>
         </div>
-        <div id="repo-tab-content">
+        <div ref="tabContent" id="repo-tab-content">
           <div
-            className={classNames('repo-tab-item', 'markdown-body',
+            className={classNames('repo-content-item', 'markdown-body',
                                   { show: this.state.activeTab === 'readme' })}
-            id="readme-content"
+            id="readme"
           >
             <ReactMarkdown source={input} />
           </div>
 
           <div
-            className={classNames('repo-tab-item', { show: this.state.activeTab === 'files' })}
+            className={classNames('repo-content-item', { show: this.state.activeTab === 'files' })}
             id="files"
           >
             {this.state.contents.map(content =>
@@ -130,7 +161,7 @@ export default class RepoDetail extends React.Component {
           </div>
 
           <div
-            className={classNames('repo-tab-item',
+            className={classNames('repo-content-item',
                                   { show: this.state.activeTab === 'contributors' })}
             id="contributors"
           >
@@ -150,7 +181,8 @@ export default class RepoDetail extends React.Component {
           </div>
 
           <div
-            className={classNames('repo-tab-item', { show: this.state.activeTab === 'languages' })}
+            className={classNames('repo-content-item',
+                                  { show: this.state.activeTab === 'languages' })}
             id="languages"
           >
             {this.state.languages.map(language =>
