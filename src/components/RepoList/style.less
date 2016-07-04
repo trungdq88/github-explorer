@@ -1,6 +1,7 @@
 #repo-list-page {
   padding: 15px;
   padding-top: 25px;
+  background-color: #f5f5f5;
 
   #search-input input {
     border: solid 0.5px #e5e5e5;
@@ -24,4 +25,15 @@
     text-align: center;
     color: #8f9aa8;
  }
+
+
+  &.transition-appear {
+    transform: scale(0);
+    transition: transform 0.5s;
+  }
+
+  &.transition-appear.transition-appear-active {
+    transform: scale(1);
+  }
 }
+

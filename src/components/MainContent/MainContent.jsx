@@ -4,7 +4,7 @@ import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 import './style.less';
 import classNames from 'classnames';
-import ReactCSSTransitionReplace from 'react-css-transition-replace';
+import PageTransition from '../PageTransition/PageTransition.jsx';
 
 export default class MainContent extends React.Component {
 
@@ -56,13 +56,9 @@ export default class MainContent extends React.Component {
         })}
       >
         <Header />
-        <ReactCSSTransitionReplace
-          transitionName="cross-fade"
-          transitionEnterTimeout={1000}
-          transitionLeaveTimeout={1000}
-        >
+        <PageTransition>
           {this.props.children}
-        </ReactCSSTransitionReplace>
+        </PageTransition>
         <Footer />
       </div>
     );

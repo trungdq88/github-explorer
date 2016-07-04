@@ -5,7 +5,7 @@ import './style.less';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export default class Repo extends React.Component {
+export default class RepoList extends React.Component {
 
   constructor() {
     super();
@@ -18,6 +18,8 @@ export default class Repo extends React.Component {
   }
 
   componentDidMount() {
+    console.log('RepoList mounted');
+
     this.obsUserReposComplete = action
     .filter(a => a.name === ACTIONS.USER_REPOS_COMPLETE)
     .subscribe(() => this.setState({ complete: true }));
@@ -40,8 +42,8 @@ export default class Repo extends React.Component {
     // Get user profile
     actionFactory.getUserRepos(this.props.params.username);
 
-    // Show search
-    setTimeout(() => this.setState({ showSearch: true }), 500);
+    // Show search, need a delay to trigger CSS animation
+    setTimeout(() => this.setState({ showSearch: true }), 50);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,7 +63,7 @@ export default class Repo extends React.Component {
 
   render() {
     return (
-      <div id="repo-list-page">
+      <div id="repo-list-page" className="transition-item">
         <ReactCSSTransitionGroup
           transitionName="list"
           transitionAppear

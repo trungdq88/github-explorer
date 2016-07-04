@@ -16,6 +16,8 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
+    console.log('UserPage mounted');
+
     this.obsReceivedUserProfile = action
     .filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED)
     .map(a => a.data)

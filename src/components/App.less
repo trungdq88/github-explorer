@@ -87,7 +87,7 @@ a {
 
 .zoom-appear, .zoom-enter {
   transform: scale(0);
-  transition: transform 5s;
+  transition: transform 0.5s;
 }
 
 .zoom-appear.zoom-appear-active, .zoom-enter.zoom-enter-active {
@@ -112,4 +112,15 @@ a {
  
 .cross-fade-height {
   transition: height .5s ease-in-out;
+}
+
+.trasition-wrapper {
+  position: relative;
+  .transition-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
 }
