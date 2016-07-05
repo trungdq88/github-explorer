@@ -11,23 +11,7 @@
   z-index: 2;
   background-color: rgba(15, 32, 53, 1);
   transform: translate3d(0, 0, 0);
-
-  &.fixed {
-    position: fixed;
-    visibility: visible;
-    transition: visibility 0s 0.3s, box-shadow 0.3s;
-    box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
-  }
-
-  &.hidden {
-    visibility: hidden;
-    transition: visibility 0s 0s, box-shadow 0.3s;
-  }
-
-  &.transparent {
-    background-color: rgba(0, 0, 0, 0);
-    box-shadow: none;
-  }
+  box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
 
   #hamberger-menu {
     background-image: url('/assets/hamberger-menu.png');
