@@ -28,6 +28,10 @@ export default class UserPage extends React.Component {
     // Get user profile
     actionFactory.getUserProfile(this.props.params.username);
     actionFactory.getUserRepos(this.props.params.username);
+
+    // Special condition style for user page
+    // So far I haven't found a way to do this in React Router
+    document.getElementById('main-content').classList.add('user-page');
   }
 
   componentWillReceiveProps(nextProps) {
