@@ -3,7 +3,7 @@ import './style.less';
 
 export default (props) => (
   <div id="search-input">
-    <button className={!props.buttonText ? 'icon' : ''}>
+    <button className={!props.buttonText ? 'icon' : null}>
       {props.buttonText ?
         props.buttonText :
         <i className="fa fa-search"></i>

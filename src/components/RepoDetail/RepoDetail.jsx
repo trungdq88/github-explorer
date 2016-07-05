@@ -162,7 +162,7 @@ export default class RepoDetail extends React.Component {
   }
 
   render() {
-    const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : '';
+    const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : null;
     return (
       <div
         id="repo-detail"
@@ -201,14 +201,15 @@ export default class RepoDetail extends React.Component {
                                   { show: this.state.activeTab === 'readme' })}
             id="readme"
           >
-            <ReactMarkdown source={input} />
+            {input ?
+              <ReactMarkdown source={input} /> : <div className="empty-data">No data</div>}
           </div>
 
           <div
             className={classNames('repo-content-item', { show: this.state.activeTab === 'files' })}
             id="files"
           >
-            {this.state.contents.map(content =>
+            {this.state.contents.length ? this.state.contents.map(content =>
               <div key={content.sha + content.name} className="file-item">
                 <div className="file-icon">
                   {content.type === 'file' ?
@@ -220,7 +221,7 @@ export default class RepoDetail extends React.Component {
                   <div className="file-date">{content.size}</div>
                 </div>
               </div>
-            )}
+            ) : <div className="empty-data">No data</div>}
           </div>
 
           <div
@@ -228,8 +229,8 @@ export default class RepoDetail extends React.Component {
                                   { show: this.state.activeTab === 'contributors' })}
             id="contributors"
           >
-            {this.state.contribs.map(contrib =>
-              <div key={contrib.id} className="contrib-item">
+            {this.state.contribs.length ? this.state.contribs.map(contrib =>
+              <div key={contrib.id + contrib.login} className="contrib-item">
                 <div
                   className="contrib-avatar"
                   style={{ backgroundImage: `url('${contrib.avatar_url}')` }}
@@ -240,7 +241,7 @@ export default class RepoDetail extends React.Component {
                     contribution{contrib.contributions === 1 ? '' : 's'}</div>
                 </div>
               </div>
-            )}
+            ) : <div className="empty-data">No data</div>}
           </div>
 
           <div
@@ -248,7 +249,7 @@ export default class RepoDetail extends React.Component {
                                   { show: this.state.activeTab === 'languages' })}
             id="languages"
           >
-            {this.state.languages.map(language =>
+            {this.state.languages.length ? this.state.languages.map(language =>
               <div key={language.name} className="lang-item">
                 <div
                   className="lang-color"
@@ -259,7 +260,7 @@ export default class RepoDetail extends React.Component {
                   <div className="lang-value">{language.value}%</div>
                 </div>
               </div>
-            )}
+              ) : <div className="empty-data">No data</div>}
           </div>
 
         </div>

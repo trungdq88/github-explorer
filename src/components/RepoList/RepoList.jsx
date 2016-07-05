@@ -92,7 +92,7 @@ export default class RepoList extends React.Component {
             <SearchInput
               placeholder="Find a repository..."
               buttonText="SEARCH"
-            /> : ''}
+            /> : null}
         </ReactCSSTransitionGroup>
         <div id="repo-list">
           <ReactCSSTransitionGroup
@@ -114,7 +114,7 @@ export default class RepoList extends React.Component {
             onClick={() => actionFactory
               .getUserReposNextPage(this.props.params.username, this.state.page)}
           >LOAD MORE</div>
-        : ''}
+        : null}
       </div>
     );
   }
