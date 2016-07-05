@@ -95,8 +95,10 @@ export default class RepoList extends React.Component {
     // Get user profile
     actionFactory.getUserRepos(this.props.params.username);
 
+    this.setState({ offsetTop: 0 });
+
     // Show search, need a delay to trigger CSS animation
-    setTimeout(() => this.setState({ showSearch: true, offsetTop: 0 }), 50);
+    setTimeout(() => this.setState({ showSearch: true }), 50);
 
     // Hack the footer
     this.hackTheFooter();
