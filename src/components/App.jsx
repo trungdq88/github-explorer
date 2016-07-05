@@ -49,6 +49,11 @@ export default class App extends React.Component {
     return (
       <div>
         <Header fixed open={this.state.open} />
+        <div
+          id="menu-overlay"
+          style={{ display: this.state.open && !this.state.full ? 'block' : 'none' }}
+          onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+        ></div>
         <NavMenu
           open={this.state.open}
           full={this.state.full}
