@@ -1,22 +1,24 @@
 #loading-block {
   height: 3px;
+  width: 100%;
   background-color: #46a42f;
-  width: 0%;
+  transform: scaleX(0);
   z-index: 3;
   position: absolute;
+  transform-origin: 0 0;
 
   &.one {
-    width: 20%;
-    transition: width 0.5s;
+    transform: scaleX(0.2);
+    transition: transform 0.5s;
   }
 
   &.two {
-    width: 80%;
-    transition: width 20s cubic-bezier(0, 1.17, 1, 1);
+    transform: scaleX(0.8);
+    transition: transform 20s cubic-bezier(0, 1.17, 1, 1);
   }
 
   &.three {
-    width: 100%;
-    transition: width 0.3s;
+    transform: scaleX(1);
+    transition: transform 0.3s;
   }
 }
