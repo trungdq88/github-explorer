@@ -20,7 +20,7 @@ export default class NavMenu extends React.Component {
       searching: true,
     };
 
-    // this.wait = false;
+    this.wait = false;
 
     this.obsSearchTextChange = new Rx.Subject();
 
@@ -52,28 +52,29 @@ export default class NavMenu extends React.Component {
     // Send get users request
     actionFactory.getUsers();
 
-    // Move search bar
-    // this.obsMoveSearchBar = Rx.Observable
-    // .fromEvent(this.refs.navMenu, 'scroll')
-    // .subscribe(() => {
-    //   this.lastScrollTop = this.refs.navMenu.scrollTop;
-    //   if (this.wait === false) {
-    //     window.requestAnimationFrame(() => {
-    //       this.refs.searchBar.style.transform =
-    //         `translate3d(0, ${this.lastScrollTop}px, 0)`;
-    //       this.refs.searchBar.style.backgroundColor =
-    //         this.lastScrollTop === 0 ? 'rgba(0, 0, 0, 0)' : '#2E3F53';
-    //       this.wait = false;
-    //     });
-    //     this.wait = true;
-    //   }
-    // });
+    // Highlight search bar
+    this.obsHighlightSearchbar = Rx.Observable
+    .fromEvent(this.refs.userList, 'scroll')
+    .subscribe(() => {
+      this.lastScrollTop = this.refs.userList.scrollTop;
+      if (this.wait === false) {
+        window.requestAnimationFrame(() => {
+          if (this.lastScrollTop > 0) {
+            this.refs.searchBar.classList.add('dark-bg');
+          } else {
+            this.refs.searchBar.classList.remove('dark-bg');
+          }
+          this.wait = false;
+        });
+        this.wait = true;
+      }
+    });
   }
 
   componentWillUnmount() {
     this.obsCancelSearch.dispose();
     this.obsReceiveUsers.dispose();
-    // this.obsMoveSearchBar.dispose();
+    this.obsHighlightSearchbar.dispose();
   }
 
   onSearchTextChange(e) {
@@ -87,7 +88,6 @@ export default class NavMenu extends React.Component {
     return (
       <div
         id="nav-menu"
-        ref="navMenu"
         className={classNames({ open: this.props.open })}
       >
         <div
@@ -106,7 +106,10 @@ export default class NavMenu extends React.Component {
             onClick={() => action.onNext({ name: ACTIONS.OPEN_NAV_MENU })}
           >Cancel</div>
         </div>
-        <div id="user-list">
+        <div
+          id="user-list"
+          ref="userList"
+        >
 
           {this.state.searching ?
             <div id="loading">

@@ -6,9 +6,6 @@
   opacity: 0.1;
   transform: translate3d(-150px, 0, 0);
   transition: transform 0.3s cubic-bezier(0.7, 0, 0.25, 1), opacity 0.4s;
-  overflow-y: scroll; /* has to be scroll, not auto */
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
 
   &.open {
     opacity: 1;
@@ -20,6 +17,10 @@
     padding: 15px;
     transition: background-color 0.3s;
     z-index: 1;
+
+    &.dark-bg {
+      background-color: #2c4052;
+    }
 
     // In case there is a search input
     #search-input {
@@ -37,6 +38,7 @@
       color: #fff;
       opacity: 0;
       transition: opacity 0.3s 0.2s;
+      font-size: 14px;
 
       &.show {
         opacity: 0.5;
@@ -45,7 +47,15 @@
   }
 
   #user-list {
-    margin-top: 15px;
+    position: absolute;
+    left: 0;
+    top: 70px;
+    right: 0;
+    bottom: 0;
+    overflow-y: scroll; /* has to be scroll, not auto */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
     .user-item {
       display: flex;
       padding: 12px 15px;

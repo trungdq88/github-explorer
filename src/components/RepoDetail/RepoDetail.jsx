@@ -93,7 +93,6 @@ export default class RepoDetail extends React.Component {
       }));
     })
     .subscribe(languages => this.setState({ languages }));
-
   }
 
   componentWillUnmount() {
@@ -122,8 +121,7 @@ export default class RepoDetail extends React.Component {
     actionFactory.getRepoLanguages(this.props.params.username, this.props.params.repoName);
   }
 
-  transitionManuallyStart(data) {
-    console.log('start');
+  transitionManuallyStart() {
     this.setState({
       startPosition: {
         top: 60,
@@ -132,8 +130,7 @@ export default class RepoDetail extends React.Component {
     });
   }
 
-  transitionManuallyStop(data) {
-    console.log('stop');
+  transitionManuallyStop() {
     this.setState({
       doTransform: false,
     });
@@ -159,7 +156,9 @@ export default class RepoDetail extends React.Component {
         id="repo-detail"
         className="transition-item"
         style={{
-          transform: this.state.doTransform ? `translate3d(0, ${this.state.startPosition.top + this.state.offsetTop - 60}px, 0)` : undefined,
+          transform: this.state.doTransform ?
+            `translate3d(0, ${this.state.startPosition.top + this.state.offsetTop - 60}px, 0)` :
+              undefined,
         }}
       >
         <RepoContent {...(this.state.repoDetailData || this.state.repo)} />

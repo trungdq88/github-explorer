@@ -42,8 +42,8 @@ export default class UserPage extends React.Component {
       });
       actionFactory.getUserProfile(nextProps.params.username);
       actionFactory.getUserRepos(nextProps.params.username);
-      document.getElementById('main-content').className = 'user-page';
     }
+    document.getElementById('main-content').classList.add('user-page');
   }
 
   componentWillUnmount() {
