@@ -1,5 +1,5 @@
 import React from 'react';
-import Rx from 'rx';
+// import Rx from 'rx';
 import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 import './style.less';
@@ -15,7 +15,7 @@ export default class MainContent extends React.Component {
     this.state = {
       scrollTop: 0,
     };
-    this.wait = false;
+    // this.wait = false;
     this.onPageLoad = this.onPageLoad.bind(this);
   }
 
@@ -25,36 +25,52 @@ export default class MainContent extends React.Component {
     .map(a => a.data)
     .subscribe(data => this.setState({ detailPageData: data }));
 
-    this.headerDOM = document.querySelector('.header.fixed');
-    this.obsMoveHeader = Rx.Observable
-    .fromEvent(this.refs.mainContent, 'scroll')
-    .subscribe(() => {
-      this.lastScrollTop = this.refs.mainContent.scrollTop;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          // Access direct to the DOM for better scrolling performance
-          if (this.lastScrollTop === 0) {
-            this.headerDOM.classList.add('transparent');
-          } else {
-            this.headerDOM.classList.remove('transparent');
-          }
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+    // this.headerDOM = document.querySelector('.header.fixed');
+    // this.headerDOM.classList.remove('user-page');
+    //
+    // if (this.refs.mainContent.classList.contains('user-page')) {
+    //   this.obsMoveHeader = Rx.Observable
+    //   .fromEvent(this.refs.mainContent, 'scroll')
+    //   .subscribe(() => {
+    //     this.lastScrollTop = this.refs.mainContent.scrollTop;
+    //     if (this.wait === false) {
+    //       window.requestAnimationFrame(() => {
+    //         // Access direct to the DOM for better scrolling performance
+    //         if (this.lastScrollTop === 0) {
+    //           this.headerDOM.classList.add('transparent');
+    //         } else {
+    //           this.headerDOM.classList.remove('transparent');
+    //         }
+    //         this.wait = false;
+    //       });
+    //       this.wait = true;
+    //     }
+    //   });
+    // } else {
+    //   this.headerDOM.classList.remove('transparent');
+    // }
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     this.setState({
       scrollTop: this.refs.mainContent.classList.contains('user-page') ?
         this.refs.mainContent.scrollTop + 60 :
           this.refs.mainContent.scrollTop,
     });
+    if (nextProps.open === true) {
+      document.querySelector('#main-content .header').style.transform =
+        `translate3d(0, ${this.refs.mainContent.scrollTop}px, 0)`;
+    } else {
+      setTimeout(() => {
+        document.querySelector('#main-content .header').style.transform =
+          'translate3d(0, 0, 0)';
+      }, 300);
+    }
   }
 
   componentWillUnmount() {
-    // this.obsMoveHeader.dispose();
+    // this.obsMoveHeader.dispose && this.obsMoveHeader.dispose();
   }
 
   onPageLoad() {

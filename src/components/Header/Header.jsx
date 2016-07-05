@@ -11,7 +11,7 @@ import classNames from 'classnames';
 export default (props) => (
   <div
     className={
-      classNames('header', 'transparent', {
+      classNames('header', {
         fixed: props.fixed,
         hidden: props.open,
       })

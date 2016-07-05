@@ -56,7 +56,7 @@ export default class RepoList extends React.Component {
 
   onTransitionWillStart(data) {
     this.setState({
-      offsetTop: data.scrollTop + 60, // Scroll top + 60px header
+      offsetTop: data.scrollTop,
     });
   }
 
