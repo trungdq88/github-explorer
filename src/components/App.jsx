@@ -2,6 +2,7 @@ import React from 'react';
 import './App.less';
 import MainContent from './MainContent/MainContent.jsx';
 import NavMenu from './NavMenu/NavMenu.jsx';
+import Header from './Header/Header.jsx';
 import action, { ACTIONS } from '../action/action.js';
 
 export default class App extends React.Component {
@@ -47,6 +48,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        <Header fixed open={this.state.open} />
         <NavMenu
           open={this.state.open}
           full={this.state.full}

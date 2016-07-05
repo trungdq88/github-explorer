@@ -1,6 +1,6 @@
 @headerHeight: 60px;
 
-#header {
+.header {
   @backgroundColor: #0F2035;
   @icon-width: 50px;
   display: flex;
@@ -8,10 +8,26 @@
   justify-content: space-between;
   width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   transition: background-color 0.3s;
   background-color: rgba(15, 32, 53, 1);
   box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
+  transition: visibility 0s 0.5s, box-shadow 0.3s;
+  transform: translate3d(0, 0, 0);
+
+  &.fixed {
+    position: fixed;
+  }
+
+  &.hidden {
+    visibility: hidden;
+    transition: visibility 0s 0s, box-shadow 0.3s;
+  }
+
+  &.transparent {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+  }
 
   #hamberger-menu {
     background-image: url('/assets/hamberger-menu.png');

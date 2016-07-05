@@ -6,9 +6,17 @@ import './img/notification-icon.png';
 
 import action, { ACTIONS } from '../../action/action.js';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
-export default () => (
-  <div id="header" className="transparent">
+export default (props) => (
+  <div
+    className={
+      classNames('header', 'transparent', {
+        fixed: props.fixed,
+        hidden: props.open,
+      })
+    }
+  >
     <div id="hamberger-menu" onClick={() => action.onNext({ name: ACTIONS.TOGGLE_NAV_MENU })}></div>
     <Link to="/">
       <div id="brand-logo"></div>
