@@ -19,8 +19,6 @@ export default class RepoList extends React.Component {
   }
 
   componentDidMount() {
-    console.log('RepoList mounted');
-
     this.obsUserReposComplete = action
     .filter(a => a.name === ACTIONS.USER_REPOS_COMPLETE)
     .subscribe(() => this.setState({ complete: true }));
@@ -56,14 +54,13 @@ export default class RepoList extends React.Component {
     this.obsUserReposComplete.dispose();
   }
 
-  onTransitionData(data) {
-    console.log(data);
+  onTransitionWillStart(data) {
     this.setState({
       offsetTop: data.scrollTop + 60, // Scroll top + 60px header
     });
   }
 
-  onTransitionDone() {
+  onTransitionDidEnd() {
     // Get user profile
     actionFactory.getUserRepos(this.props.params.username);
 

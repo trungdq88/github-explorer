@@ -28,11 +28,14 @@
 
   &.transition-appear {
     transform: scale(0);
-    transition: transform 0.5s;
+    opacity: 0.01;
+    transition: transform 0.3s cubic-bezier(0.7, 0, 0.25, 1),
+                box-shadow 0.3s cubic-bezier(0.7, 0, 0.25, 1);
   }
 
   &.transition-appear.transition-appear-active {
     transform: scale(1);
+    opacity: 1;
   }
 }
 

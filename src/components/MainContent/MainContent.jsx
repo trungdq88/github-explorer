@@ -6,6 +6,8 @@ import './style.less';
 import classNames from 'classnames';
 import PageTransition from '../PageTransition/PageTransition.jsx';
 
+import action, { ACTIONS } from '../../action/action.js';
+
 export default class MainContent extends React.Component {
 
   constructor() {
@@ -18,6 +20,11 @@ export default class MainContent extends React.Component {
   }
 
   componentDidMount() {
+    this.obsReceivedUserProfile = action
+    .filter(a => a.name === ACTIONS.DETAIL_TRANSITION_DATA)
+    .map(a => a.data)
+    .subscribe(data => this.setState({ detailPageData: data }));
+
     // this.headerDOM = document.getElementById('header');
     // Move search bar
     // this.obsMoveHeader = Rx.Observable
@@ -64,10 +71,11 @@ export default class MainContent extends React.Component {
       >
         <Header />
         <PageTransition
-          timeout={500}
+          timeout={300}
           onLoad={this.onPageLoad}
           data={{
             scrollTop: this.state.scrollTop,
+            detailPageData: this.state.detailPageData,
           }}
         >
           {this.props.children}

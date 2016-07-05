@@ -25,6 +25,12 @@ export default class RepoDetail extends React.Component {
       contribs: [],
       contents: [],
       languages: [],
+      offsetTop: 0,
+      startPosition: {
+        top: 0,
+        left: 0,
+        right: 0,
+      },
     };
 
     this.switchTab = this.switchTab.bind(this);
@@ -86,12 +92,6 @@ export default class RepoDetail extends React.Component {
     })
     .subscribe(languages => this.setState({ languages }));
 
-    // Get user profile
-    actionFactory.getRepoDetail(this.props.params.username, this.props.params.repoName);
-    actionFactory.getRepoReadme(this.props.params.username, this.props.params.repoName);
-    actionFactory.getRepoContents(this.props.params.username, this.props.params.repoName);
-    actionFactory.getRepoContribs(this.props.params.username, this.props.params.repoName);
-    actionFactory.getRepoLanguages(this.props.params.username, this.props.params.repoName);
   }
 
   componentWillUnmount() {
@@ -100,6 +100,32 @@ export default class RepoDetail extends React.Component {
     this.obsRepoContribsReceived.dispose();
     this.obsRepoContentsReceived.dispose();
     this.obsRepoLanguagesReceived.dispose();
+  }
+
+  onTransitionWillStart(data) {
+    this.setState({
+      startPosition: data.detailPageData.startPosition,
+      repoDetailData: data.detailPageData.repoData,
+      offsetTop: data.scrollTop,
+    });
+  }
+
+  onTransitionDidEnd() {
+    // Get user profile
+    actionFactory.getRepoDetail(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoReadme(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoContents(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoContribs(this.props.params.username, this.props.params.repoName);
+    actionFactory.getRepoLanguages(this.props.params.username, this.props.params.repoName);
+  }
+
+  transitionManuallyStart(data) {
+    console.log('start');
+    this.setState({ startPosition: {
+      top: 60,
+      left: 0,
+      right: 0,
+    }});
   }
 
   switchTab(tab) {
@@ -121,8 +147,14 @@ export default class RepoDetail extends React.Component {
       <div
         id="repo-detail"
         className="transition-item"
+        style={{
+          top: this.state.startPosition.top + this.state.offsetTop - 60,
+          left: this.state.startPosition.left,
+          height: this.state.startPosition.height,
+          right: this.state.startPosition.left, // Use `left` for right prop
+        }}
       >
-        <RepoContent {...this.state.repo} />
+        <RepoContent {...this.state.repoDetailData} />
         <div id="repo-tabs-wrapper">
           <div id="repo-tabs">
             {TABS.map(tab =>

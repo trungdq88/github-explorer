@@ -23,26 +23,34 @@ export default class PageTransition extends React.Component {
         let timeout = 0;
         const att = dom.getAttribute('data-from-path');
 
-        child.onTransitionData && child.onTransitionData(this.props.data);
+        child.onTransitionWillStart && child.onTransitionWillStart(this.props.data);
 
         if (dom.classList.contains('transition-item') &&
             (att === null || att === previousPathname)) {
           dom.classList.add('transition-appear');
-          setTimeout(() => dom.classList.add('transition-appear-active'), 17);
+          window.requestAnimationFrame(() => {
+            if (child.transitionManuallyStart) {
+              child.transitionManuallyStart(this.props.data);
+            } else {
+              dom.classList.add('transition-appear-active')
+            }
+          });
           timeout = this.props.timeout || 500;
         }
+        child.onTransitionDidStart && child.onTransitionDidStart(this.props.data);
 
         setTimeout(() => {
           this.state.nextChild = this.state.nextChild === 1 ? 2 : 1;
           this.state[`child${this.state.nextChild}`] = null;
           this.forceUpdate(() => {
+            child.onTransitionWillEnd && child.onTransitionWillEnd(this.props.data);
             if (dom.classList.contains('transition-item')) {
               dom.classList.remove('transition-appear');
               dom.classList.remove('transition-appear-active');
               dom.classList.remove('transition-item');
             }
             this.props.onLoad();
-            child.onTransitionDone && child.onTransitionDone(this.props.data);
+            child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
           });
         }, timeout);
       });
@@ -51,7 +59,7 @@ export default class PageTransition extends React.Component {
 
   componentDidMount() {
     const child = this.refs.child1;
-    child.onTransitionDone && child.onTransitionDone(this.props.data);
+    child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
   }
 
   render() {
