@@ -1,4 +1,5 @@
 import React from 'react';
+import Rx from 'rx';
 import RepoItem from '../RepoItem/RepoItem.jsx';
 import SearchInput from '../SearchInput/SearchInput.jsx';
 import './style.less';
@@ -16,6 +17,7 @@ export default class RepoList extends React.Component {
       showSearch: false,
       offsetTop: 0,
     };
+    this.wait = false;
   }
 
   componentDidMount() {
@@ -41,7 +43,31 @@ export default class RepoList extends React.Component {
       });
     });
 
+    // Track the search box
+    this.obsHighlightSearchbox = Rx.Observable
+    .fromEvent(this.refs.scrollWrapper, 'scroll')
+    .subscribe(() => {
+      this.lastScrollTop = this.refs.scrollWrapper.scrollTop;
+      if (this.wait === false) {
+        window.requestAnimationFrame(() => {
+          if (this.lastScrollTop > 0) {
+            this.refs.searchWrapper.classList.add('shadow');
+          } else {
+            this.refs.searchWrapper.classList.remove('shadow');
+          }
+          this.wait = false;
+        });
+        this.wait = true;
+      }
+    });
+
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
+
+    // Hack the footer
+    const oldFooter = document.getElementById('footer');
+    const newFooter = document.getElementById('footer').cloneNode(true);
+    oldFooter.style.display = 'none';
+    document.querySelector('#repo-list-page #scroll-wrapper').appendChild(newFooter);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,6 +83,7 @@ export default class RepoList extends React.Component {
     this.obsReceiveUserRepos.dispose();
     this.obsReceiveUserReposNextPage.dispose();
     this.obsUserReposComplete.dispose();
+    this.obsHighlightSearchbox.dispose();
   }
 
   onTransitionWillStart(data) {
@@ -81,20 +108,10 @@ export default class RepoList extends React.Component {
         data-from-path={`/user/${this.props.params.username}`}
         style={{ top: this.state.offsetTop }}
       >
-        <ReactCSSTransitionGroup
-          transitionName="list"
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+        <div
+          ref="searchWrapper"
+          id="search-wrapper"
         >
-          {this.state.showSearch ?
-            <SearchInput
-              placeholder="Find a repository..."
-              buttonText="SEARCH"
-            /> : null}
-        </ReactCSSTransitionGroup>
-        <div id="repo-list">
           <ReactCSSTransitionGroup
             transitionName="list"
             transitionAppear
@@ -102,19 +119,39 @@ export default class RepoList extends React.Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}
           >
-            {this.state.repos.map(repo =>
-              <RepoItem key={repo.id} {...repo} />
-            )}
+            {this.state.showSearch ?
+              <SearchInput
+                placeholder="Find a repository..."
+                buttonText="SEARCH"
+              /> : null}
           </ReactCSSTransitionGroup>
         </div>
+        <div
+          ref="scrollWrapper"
+          id="scroll-wrapper"
+        >
+          <div id="repo-list">
+            <ReactCSSTransitionGroup
+              transitionName="list"
+              transitionAppear
+              transitionAppearTimeout={500}
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+            >
+              {this.state.repos.map(repo =>
+                <RepoItem key={repo.id} {...repo} />
+              )}
+            </ReactCSSTransitionGroup>
+          </div>
 
-        {!this.state.complete ?
-          <div
-            id="load-more"
-            onClick={() => actionFactory
-              .getUserReposNextPage(this.props.params.username, this.state.page)}
-          >LOAD MORE</div>
-        : null}
+          {!this.state.complete ?
+            <div
+              id="load-more"
+              onClick={() => actionFactory
+                .getUserReposNextPage(this.props.params.username, this.state.page)}
+            >LOAD MORE</div>
+          : null}
+        </div>
       </div>
     );
   }
