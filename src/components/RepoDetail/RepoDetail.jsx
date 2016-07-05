@@ -1,4 +1,5 @@
 import React from 'react';
+import Rx from 'rx';
 import atob from 'atob';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
@@ -40,13 +41,16 @@ export default class RepoDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.obsRepoDetailReceived = action
-    .filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED)
-    .map(a => a.data)
+    const repoDetail = action.filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED);
+    const repoReadme = action.filter(a => a.name === ACTIONS.REPO_README_RECEIVED);
+    const repoContribs = action.filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED);
+    const repoContents = action.filter(a => a.name === ACTIONS.REPO_CONTENTS_RECEIVED);
+    const repoLanguages = action.filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED);
+
+    this.obsRepoDetailReceived = repoDetail.map(a => a.data)
     .subscribe(repo => this.setState({ repo }));
 
-    this.obsRepoReadmeReceived = action
-    .filter(a => a.name === ACTIONS.REPO_README_RECEIVED)
+    this.obsRepoReadmeReceived = repoReadme
     .map(a => a.data.content)
     .subscribe(readme => {
       this.setState({
@@ -57,13 +61,11 @@ export default class RepoDetail extends React.Component {
       });
     });
 
-    this.obsRepoContribsReceived = action
-    .filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED)
+    this.obsRepoContribsReceived = repoContribs
     .map(a => a.data)
     .subscribe(contribs => this.setState({ contribs }));
 
-    this.obsRepoContentsReceived = action
-    .filter(a => a.name === ACTIONS.REPO_CONTENTS_RECEIVED)
+    this.obsRepoContentsReceived = repoContents
     .map(a => a.data)
     .map(contents => {
       contents.sort((a, b) => a.type.localeCompare(b.type));
@@ -71,8 +73,7 @@ export default class RepoDetail extends React.Component {
     })
     .subscribe(contents => this.setState({ contents }));
 
-    this.obsRepoLanguagesReceived = action
-    .filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED)
+    this.obsRepoLanguagesReceived = repoLanguages
     .map(a => a.data)
     .map(languages => {
       const newLanguages = Object.keys(languages)
@@ -93,6 +94,16 @@ export default class RepoDetail extends React.Component {
       }));
     })
     .subscribe(languages => this.setState({ languages }));
+
+    this.obsLoadDone = Rx.Observable.zip(
+      repoDetail,
+      repoReadme,
+      repoContribs,
+      repoContents,
+      repoLanguages
+    ).subscribe(() => action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE }));
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   componentWillUnmount() {
@@ -101,6 +112,7 @@ export default class RepoDetail extends React.Component {
     this.obsRepoContribsReceived.dispose();
     this.obsRepoContentsReceived.dispose();
     this.obsRepoLanguagesReceived.dispose();
+    this.obsLoadDone.dispose();
   }
 
   onTransitionWillStart(data) {

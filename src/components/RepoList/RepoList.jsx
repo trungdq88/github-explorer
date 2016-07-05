@@ -26,7 +26,10 @@ export default class RepoList extends React.Component {
     this.obsReceiveUserRepos = action
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
     .map(a => a.data)
-    .subscribe(repos => this.setState({ repos }));
+    .subscribe(repos => {
+      this.setState({ repos });
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
+    });
 
     this.obsReceiveUserReposNextPage = action
     .filter(a => a.name === ACTIONS.USER_REPOS_NEXT_PAGE_RECEIVED)
@@ -37,6 +40,8 @@ export default class RepoList extends React.Component {
         repos: this.state.repos.concat(paging.repos),
       });
     });
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   componentWillReceiveProps(nextProps) {

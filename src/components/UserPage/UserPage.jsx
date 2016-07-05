@@ -1,4 +1,5 @@
 import React from 'react';
+import Rx from 'rx';
 import Profile from '../Profile/Profile.jsx';
 import RepoItem from '../RepoItem/RepoItem.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -16,18 +17,21 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    this.obsReceivedUserProfile = action
-    .filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED)
-    .map(a => a.data)
+    const userProfile = action.filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED);
+    const userRepos = action.filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED);
+
+    this.obsReceivedUserProfile = userProfile.map(a => a.data)
     .subscribe(profile => this.setState({ profile }));
-    this.obsReceiveUserRepos = action
-    .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
-    .map(a => a.data)
+    this.obsReceiveUserRepos = userRepos.map(a => a.data)
     .subscribe(repos => this.setState({ repos }));
+    this.obsLoadDone = Rx.Observable.zip(userProfile, userRepos)
+    .subscribe(() => action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE }));
 
     // Get user profile
     actionFactory.getUserProfile(this.props.params.username);
     actionFactory.getUserRepos(this.props.params.username);
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,12 +42,15 @@ export default class UserPage extends React.Component {
       });
       actionFactory.getUserProfile(nextProps.params.username);
       actionFactory.getUserRepos(nextProps.params.username);
+
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
     }
   }
 
   componentWillUnmount() {
     this.obsReceivedUserProfile.dispose();
     this.obsReceiveUserRepos.dispose();
+    this.obsLoadDone.dispose();
   }
 
   render() {
