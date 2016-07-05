@@ -47,7 +47,9 @@ export default class MainContent extends React.Component {
 
   componentWillReceiveProps() {
     this.setState({
-      scrollTop: this.refs.mainContent.scrollTop,
+      scrollTop: this.refs.mainContent.classList.contains('user-page') ?
+        this.refs.mainContent.scrollTop + 60 :
+          this.refs.mainContent.scrollTop,
     });
   }
 

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
 import languageColor from '../../utils/lanugage-color.js';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './style.less';
 
 const TABS = [
@@ -25,6 +26,7 @@ export default class RepoDetail extends React.Component {
       contribs: [],
       contents: [],
       languages: [],
+      doTransform: false,
       offsetTop: 0,
       startPosition: {
         top: 0,
@@ -107,6 +109,7 @@ export default class RepoDetail extends React.Component {
       startPosition: data.detailPageData.startPosition,
       repoDetailData: data.detailPageData.repoData,
       offsetTop: data.scrollTop,
+      doTransform: true,
     });
   }
 
@@ -121,11 +124,19 @@ export default class RepoDetail extends React.Component {
 
   transitionManuallyStart(data) {
     console.log('start');
-    this.setState({ startPosition: {
-      top: 60,
-      left: 0,
-      right: 0,
-    }});
+    this.setState({
+      startPosition: {
+        top: 60,
+      },
+      doTransform: true,
+    });
+  }
+
+  transitionManuallyStop(data) {
+    console.log('stop');
+    this.setState({
+      doTransform: false,
+    });
   }
 
   switchTab(tab) {
@@ -148,25 +159,31 @@ export default class RepoDetail extends React.Component {
         id="repo-detail"
         className="transition-item"
         style={{
-          top: this.state.startPosition.top + this.state.offsetTop - 60,
-          left: this.state.startPosition.left,
-          height: this.state.startPosition.height,
-          right: this.state.startPosition.left, // Use `left` for right prop
+          transform: this.state.doTransform ? `translate3d(0, ${this.state.startPosition.top + this.state.offsetTop - 60}px, 0)` : undefined,
         }}
       >
-        <RepoContent {...this.state.repoDetailData} />
-        <div id="repo-tabs-wrapper">
-          <div id="repo-tabs">
-            {TABS.map(tab =>
-              <div
-                key={tab.key}
-                onClick={() => this.switchTab(tab)}
-                className={classNames('repo-tab-item',
-                                      { selected: this.state.activeTab === tab.key })}
-              >{tab.value}</div>
-            )}
+        <RepoContent {...(this.state.repoDetailData || this.state.repo)} />
+
+        <ReactCSSTransitionGroup
+          transitionName="list"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          <div id="repo-tabs-wrapper">
+            <div id="repo-tabs">
+              {TABS.map(tab =>
+                <div
+                  key={tab.key}
+                  onClick={() => this.switchTab(tab)}
+                  className={classNames('repo-tab-item',
+                                        { selected: this.state.activeTab === tab.key })}
+                >{tab.value}</div>
+              )}
+            </div>
           </div>
-        </div>
+        </ReactCSSTransitionGroup>
         <div ref="tabContent" id="repo-tab-content">
           <div
             className={classNames('repo-content-item', 'markdown-body',
@@ -181,7 +198,7 @@ export default class RepoDetail extends React.Component {
             id="files"
           >
             {this.state.contents.map(content =>
-              <div key={content.sha} className="file-item">
+              <div key={content.sha + content.name} className="file-item">
                 <div className="file-icon">
                   {content.type === 'file' ?
                     <i className="fa fa-file-text-o"></i> :

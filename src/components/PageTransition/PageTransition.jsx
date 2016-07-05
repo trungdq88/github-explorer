@@ -28,13 +28,13 @@ export default class PageTransition extends React.Component {
         if (dom.classList.contains('transition-item') &&
             (att === null || att === previousPathname)) {
           dom.classList.add('transition-appear');
-          window.requestAnimationFrame(() => {
+          setTimeout(() => {
             if (child.transitionManuallyStart) {
               child.transitionManuallyStart(this.props.data);
             } else {
               dom.classList.add('transition-appear-active')
             }
-          });
+          }, 17);
           timeout = this.props.timeout || 500;
         }
         child.onTransitionDidStart && child.onTransitionDidStart(this.props.data);
@@ -46,8 +46,13 @@ export default class PageTransition extends React.Component {
             child.onTransitionWillEnd && child.onTransitionWillEnd(this.props.data);
             if (dom.classList.contains('transition-item')) {
               dom.classList.remove('transition-appear');
-              dom.classList.remove('transition-appear-active');
               dom.classList.remove('transition-item');
+
+              if (child.transitionManuallyStop) {
+                child.transitionManuallyStop(this.props.data);
+              } else {
+                dom.classList.remove('transition-appear-active');
+              }
             }
             this.props.onLoad();
             child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
