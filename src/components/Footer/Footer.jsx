@@ -2,7 +2,7 @@ import React from 'react';
 import './style.less';
 
 export default () => (
-  <div id="footer">
+  <div className="footer original">
     <div id="footer-logo">
       <i className="fa fa-github"></i>
       <span id="version">

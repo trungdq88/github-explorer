@@ -62,12 +62,6 @@ export default class RepoList extends React.Component {
     });
 
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
-
-    // Hack the footer
-    const oldFooter = document.getElementById('footer');
-    const newFooter = document.getElementById('footer').cloneNode(true);
-    oldFooter.style.display = 'none';
-    document.querySelector('#repo-list-page #scroll-wrapper').appendChild(newFooter);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,6 +78,11 @@ export default class RepoList extends React.Component {
     this.obsReceiveUserReposNextPage.dispose();
     this.obsUserReposComplete.dispose();
     this.obsHighlightSearchbox.dispose();
+
+    console.log('unmount');
+
+    // Undo the footer hack in RepoList
+    document.querySelector('.footer.original').style.display = 'flex';
   }
 
   onTransitionWillStart(data) {
@@ -97,7 +96,19 @@ export default class RepoList extends React.Component {
     actionFactory.getUserRepos(this.props.params.username);
 
     // Show search, need a delay to trigger CSS animation
-    setTimeout(() => this.setState({ showSearch: true }), 50);
+    setTimeout(() => this.setState({ showSearch: true, offsetTop: 0 }), 50);
+
+    // Hack the footer
+    this.hackTheFooter();
+  }
+
+  hackTheFooter() {
+    console.log('hack!');
+    const oldFooter = document.querySelector('.footer');
+    const newFooter = oldFooter.cloneNode(true);
+    oldFooter.style.display = 'none';
+    newFooter.classList.remove('original');
+    document.querySelector('#repo-list-page #scroll-wrapper').appendChild(newFooter);
   }
 
   render() {

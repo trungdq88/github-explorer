@@ -55,15 +55,6 @@ export default class MainContent extends React.Component {
     this.setState({
       scrollTop: this.refs.scrollSection.scrollTop,
     });
-    // if (nextProps.open === true) {
-    //   document.querySelector('#main-content .header').style.transform =
-    //     `translate3d(0, ${this.refs.mainContent.scrollTop}px, 0)`;
-    // } else {
-    //   setTimeout(() => {
-    //     document.querySelector('#main-content .header').style.transform =
-    //       'translate3d(0, 0, 0)';
-    //   }, 300);
-    // }
   }
 
   componentWillUnmount() {
