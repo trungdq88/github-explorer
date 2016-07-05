@@ -51,22 +51,19 @@ export default class MainContent extends React.Component {
     // }
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+  componentWillReceiveProps() {
     this.setState({
-      scrollTop: this.refs.mainContent.classList.contains('user-page') ?
-        this.refs.mainContent.scrollTop + 60 :
-          this.refs.mainContent.scrollTop,
+      scrollTop: this.refs.scrollSection.scrollTop,
     });
-    if (nextProps.open === true) {
-      document.querySelector('#main-content .header').style.transform =
-        `translate3d(0, ${this.refs.mainContent.scrollTop}px, 0)`;
-    } else {
-      setTimeout(() => {
-        document.querySelector('#main-content .header').style.transform =
-          'translate3d(0, 0, 0)';
-      }, 300);
-    }
+    // if (nextProps.open === true) {
+    //   document.querySelector('#main-content .header').style.transform =
+    //     `translate3d(0, ${this.refs.mainContent.scrollTop}px, 0)`;
+    // } else {
+    //   setTimeout(() => {
+    //     document.querySelector('#main-content .header').style.transform =
+    //       'translate3d(0, 0, 0)';
+    //   }, 300);
+    // }
   }
 
   componentWillUnmount() {
@@ -74,13 +71,12 @@ export default class MainContent extends React.Component {
   }
 
   onPageLoad() {
-    this.refs.mainContent.scrollTop = 0;
+    this.refs.scrollSection.scrollTop = 0;
   }
 
   render() {
     return (
       <div
-        ref="mainContent"
         id="main-content"
         className={classNames({
           open: this.props.open,
@@ -88,17 +84,22 @@ export default class MainContent extends React.Component {
         })}
       >
         <Header />
-        <PageTransition
-          timeout={300}
-          onLoad={this.onPageLoad}
-          data={{
-            scrollTop: this.state.scrollTop,
-            detailPageData: this.state.detailPageData,
-          }}
+        <div
+          id="scroll-section"
+          ref="scrollSection"
         >
-          {this.props.children}
-        </PageTransition>
-        <Footer />
+          <PageTransition
+            timeout={300}
+            onLoad={this.onPageLoad}
+            data={{
+              scrollTop: this.state.scrollTop,
+              detailPageData: this.state.detailPageData,
+            }}
+          >
+            {this.props.children}
+          </PageTransition>
+          <Footer />
+        </div>
       </div>
     );
   }

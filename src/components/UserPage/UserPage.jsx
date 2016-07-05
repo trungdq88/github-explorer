@@ -28,10 +28,6 @@ export default class UserPage extends React.Component {
     // Get user profile
     actionFactory.getUserProfile(this.props.params.username);
     actionFactory.getUserRepos(this.props.params.username);
-
-    // Special condition style for user page
-    // So far I haven't found a way to do this in React Router
-    document.getElementById('main-content').classList.add('user-page');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,13 +39,11 @@ export default class UserPage extends React.Component {
       actionFactory.getUserProfile(nextProps.params.username);
       actionFactory.getUserRepos(nextProps.params.username);
     }
-    document.getElementById('main-content').classList.add('user-page');
   }
 
   componentWillUnmount() {
     this.obsReceivedUserProfile.dispose();
     this.obsReceiveUserRepos.dispose();
-    document.getElementById('main-content').className = '';
   }
 
   render() {

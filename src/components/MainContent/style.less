@@ -3,12 +3,9 @@
   transition: transform 0.3s cubic-bezier(0.7, 0, 0.25, 1),
               box-shadow 0.3s cubic-bezier(0.7, 0, 0.25, 1);
   box-shadow: -3px 0 5px 0 rgba(15, 31, 52, 0.4);
-  height: 100vh;
-  overflow-y: scroll; /* has to be scroll, not auto */
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   top: 0;
+  height: 100vh;
   width: 100%;
   background-color: rgba(15, 32, 53, 1);
 
@@ -22,6 +19,17 @@
       transform: translate3d(100%, 0, 0);
       box-shadow: none;
     }
+  }
+
+  #scroll-section {
+    position: absolute;
+    overflow-y: scroll; /* has to be scroll, not auto */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 
 }
