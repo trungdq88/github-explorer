@@ -20,10 +20,23 @@
   }
 }
 
+.tab-wrapper-transition-group {
+  height: @tabHeight;
+  display: block;
+}
+
 #repo-tabs-wrapper {
   height: @tabHeight;
   overflow: hidden;
   border-bottom: solid 0.5px #e5e5e5;
+  z-index: 2;
+
+  &.fixed {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    left: 0;
+  }
 }
 
 #repo-tabs {
@@ -79,6 +92,7 @@
   position: relative;
   overflow: hidden;
   transition: height 0.5s;
+  z-index: 1;
 
   .repo-content-item {
     padding: 15px;

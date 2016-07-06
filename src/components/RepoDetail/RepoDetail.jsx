@@ -35,12 +35,15 @@ export default class RepoDetail extends React.Component {
         right: 0,
       },
     };
+    this.wait = false;
 
     this.switchTab = this.switchTab.bind(this);
     this.refreshContentHeight = this.refreshContentHeight.bind(this);
   }
 
   componentDidMount() {
+    this.scrollDom = document.getElementById('scroll-section');
+
     const repoDetail = action.filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED);
     const repoReadme = action.filter(a => a.name === ACTIONS.REPO_README_RECEIVED);
     const repoContribs = action.filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED);
@@ -102,6 +105,25 @@ export default class RepoDetail extends React.Component {
       repoContents,
       repoLanguages
     ).subscribe(() => action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE }));
+
+    // Track the tab wrapper
+    this.obsTabWrapper = Rx.Observable
+    .fromEvent(this.scrollDom, 'scroll')
+    .subscribe(() => {
+      this.lastOffsetTop = this.refs.tabWrapper.parentElement.getBoundingClientRect().top;
+      if (this.wait === false) {
+        window.requestAnimationFrame(() => {
+          if (this.lastOffsetTop < 60) {
+            this.refs.tabWrapper.classList.add('fixed');
+          } else {
+            this.refs.tabWrapper.classList.remove('fixed');
+          }
+          this.wait = false;
+        });
+        this.wait = true;
+      }
+    });
+
 
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
@@ -176,13 +198,17 @@ export default class RepoDetail extends React.Component {
         <RepoContent {...(this.state.repoDetailData || this.state.repo)} />
 
         <ReactCSSTransitionGroup
+          className="tab-wrapper-transition-group"
           transitionName="list"
           transitionAppear
           transitionAppearTimeout={500}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
-          <div id="repo-tabs-wrapper">
+          <div
+            id="repo-tabs-wrapper"
+            ref="tabWrapper"
+          >
             <div id="repo-tabs">
               {TABS.map(tab =>
                 <div
