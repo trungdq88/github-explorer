@@ -57,7 +57,7 @@ export const actionFactory = {
       });
     }),
   getUserRepos: (username) =>
-    api(`https://api.github.com/users/${username}/repos?sort=pushed&page=1&per_page=${REPO_PER_PAGE}`)
+    api(`https://api.github.com/users/${username}/repos?sort=updated&page=1&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
     .then(repos => {
       action.onNext({
@@ -71,7 +71,7 @@ export const actionFactory = {
       }
     }),
   getUserReposNextPage: (username, page) =>
-    api(`https://api.github.com/users/${username}/repos?sort=pushed&page=${page + 1}&per_page=${REPO_PER_PAGE}`)
+    api(`https://api.github.com/users/${username}/repos?sort=updated&page=${page + 1}&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
     .then(repos => {
       action.onNext({

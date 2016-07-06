@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import TextHolder from '../TextHolder/TextHolder.jsx';
 import './style.less';
 
@@ -17,7 +18,7 @@ export default (props) => (
     </div>
     <div className="repo-date">
       <TextHolder width={80} height={12}>
-        {props.updated_at}
+        Updated {moment(props.updated_at).fromNow()}
       </TextHolder>
     </div>
     <div className="repo-info">
