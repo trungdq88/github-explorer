@@ -13,9 +13,11 @@ export default class Image extends React.Component {
   }
 
   componentDidMount() {
-    this.img = new window.Image();
-    this.img.onload = this.onImageLoad;
-    this.img.src = this.props.src;
+    if (this.props.src) {
+      this.img = new window.Image();
+      this.img.onload = this.onImageLoad;
+      this.img.src = this.props.src;
+    }
   }
 
   componentWillReceiveProps(nextProps) {

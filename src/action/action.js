@@ -1,8 +1,10 @@
 import Rx from 'rx';
+import cache from 'memory-cache';
 import 'whatwg-fetch';
 
 const TOKEN = '48d499e1bbc2e206d1e4f720f101af12a5918806';
 const REPO_PER_PAGE = 10;
+const CACHE_TIMEOUT = 1000 * 60 * 5; // 5 minutes
 
 const action = new Rx.Subject();
 
@@ -30,20 +32,29 @@ action.subscribe(console.log.bind(console, '[ACTION]'));
 
 export default action;
 
-const api = (url) => fetch(url, {
-  headers: {
-    Authorization: `token ${TOKEN}`,
-  },
-});
+const api = (url) => {
+  const dataFromCache = cache.get(url);
+  if (dataFromCache) {
+    return new Promise(resolve => resolve(dataFromCache));
+  }
+  return fetch(url, {
+    headers: {
+      Authorization: `token ${TOKEN}`,
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    cache.put(url, data, CACHE_TIMEOUT);
+    return data;
+  });
+};
 
 export const actionFactory = {
   getRandomUser: () =>
     api('https://api.github.com/search/users?q=type:user&page=1&per_page=1')
-    .then(response => response.json())
     .then(data => data.items[0]),
   getUsers: (keyword) =>
     api(`https://api.github.com/legacy/user/search/${keyword || 't'}%20sort:followers`)
-    .then(response => response.json())
     .then(data => data.users.slice(0, 15))
     .then(users => {
       action.onNext({
@@ -53,7 +64,6 @@ export const actionFactory = {
     }),
   getUserProfile: (username) =>
     api(`https://api.github.com/users/${username}`)
-    .then(response => response.json())
     .then(profile => {
       action.onNext({
         name: ACTION_TYPES.USER_PROFILE_RECEIVED,
@@ -62,7 +72,6 @@ export const actionFactory = {
     }),
   getUserRepos: (username) =>
     api(`https://api.github.com/search/repositories?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
-    .then(response => response.json())
     .then(data => {
       action.onNext({
         name: ACTION_TYPES.USER_REPOS_RECEIVED,
@@ -76,7 +85,6 @@ export const actionFactory = {
     }),
   searchUserRepos: (user, keyword, page) =>
     api(`https://api.github.com/search/repositories?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
-    .then(response => response.json())
     .then(data => {
       if (+page > 1) {
         action.onNext({
@@ -97,7 +105,6 @@ export const actionFactory = {
     }),
   getRepoDetail: (username, repoName) =>
     api(`https://api.github.com/repos/${username}/${repoName}`)
-    .then(response => response.json())
     .then(repo => {
       action.onNext({
         name: ACTION_TYPES.REPO_DETAIL_RECEIVED,
@@ -106,7 +113,6 @@ export const actionFactory = {
     }),
   getRepoReadme: (username, repoName) =>
     api(`https://api.github.com/repos/${username}/${repoName}/readme`)
-    .then(response => response.json())
     .then(readme => {
       action.onNext({
         name: ACTION_TYPES.REPO_README_RECEIVED,
@@ -115,7 +121,6 @@ export const actionFactory = {
     }),
   getRepoContents: (username, repoName) =>
     api(`https://api.github.com/repos/${username}/${repoName}/contents`)
-    .then(response => response.json())
     .then(contents => {
       action.onNext({
         name: ACTION_TYPES.REPO_CONTENTS_RECEIVED,
@@ -124,7 +129,6 @@ export const actionFactory = {
     }),
   getRepoContribs: (username, repoName) =>
     api(`https://api.github.com/repos/${username}/${repoName}/contributors`)
-    .then(response => response.json())
     .then(contris => {
       action.onNext({
         name: ACTION_TYPES.REPO_CONTRIS_RECEIVED,
@@ -133,7 +137,6 @@ export const actionFactory = {
     }),
   getRepoLanguages: (username, repoName) =>
     api(`https://api.github.com/repos/${username}/${repoName}/languages`)
-    .then(response => response.json())
     .then(languages => {
       action.onNext({
         name: ACTION_TYPES.REPO_LANGUAGES_RECEIVED,
