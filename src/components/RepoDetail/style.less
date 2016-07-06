@@ -43,10 +43,22 @@
     text-align: center;
     color: #8f9aa8;
     display: inline-block;
-    padding: 0 15px;
+    padding: 0 10px;
     position: relative;
+    margin: 0 5px;
 
-    &.selected:after {
+    &:first-child {
+      margin-left: 15px;
+    }
+
+    &:last-child {
+      margin-right: 15px;
+    }
+
+    &:after {
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left center;
       content: '';
       display: block;
       position: absolute;
@@ -55,6 +67,10 @@
       width: 100%;
       height: 3px;
       background-color: #8f9aa8;
+    }
+
+    &.selected:after {
+      transform: scaleX(1);
     }
   }
 }

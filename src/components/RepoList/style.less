@@ -14,10 +14,11 @@
     z-index: 2;
     border-radius: 8px;
     transform: translate3d(0, 0, 0);
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s, transform 0.3s;
 
     &.shadow {
       box-shadow: 0 0px 20px rgba(0, 0, 0, 0.3);
+      transform: translate3d(0, -10px, 0);
     }
   }
 

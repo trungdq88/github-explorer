@@ -74,7 +74,8 @@ export default class MainContent extends React.Component {
           full: this.props.full,
         })}
       >
-        <Header open={this.props.open} />
+        {/* <Header open={this.props.open} /> */}
+        <Header />
         <div
           id="scroll-section"
           ref="scrollSection"
