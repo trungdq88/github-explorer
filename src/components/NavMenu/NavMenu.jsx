@@ -121,7 +121,7 @@ export default class NavMenu extends React.Component {
               transitionEnterTimeout={500}
               transitionLeaveTimeout={500}
             >
-              {this.state.users.map(user =>
+              {this.state.users.length ? this.state.users.map(user =>
                 <Link
                   key={user.id}
                   className="user-item"
@@ -137,7 +137,9 @@ export default class NavMenu extends React.Component {
                     <div className="username">{user.login || user.fullname}</div>
                   </div>
                 </Link>
-              )}
+                ) : <div className="empty-data">
+                  Hmm.. that user cannot be found on GitHub.
+                </div>}
             </ReactCSSTransitionGroup>
           }
 
