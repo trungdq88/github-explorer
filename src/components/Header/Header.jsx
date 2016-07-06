@@ -1,13 +1,12 @@
 import React from 'react';
 import './style.less';
-import './img/hamberger-menu.png';
 import './img/github-logo.png';
 import './img/notification-icon.png';
 
 import action, { ACTIONS } from '../../action/action.js';
 import { Link } from 'react-router';
 import LoadingBlock from '../LoadingBlock/LoadingBlock.jsx';
-import classNames from 'classnames';
+import HamburgerIcon from '../HamburgerIcon/HamburgerIcon.jsx';
 
 export default class Header extends React.Component {
 
@@ -44,18 +43,12 @@ export default class Header extends React.Component {
   render() {
     return (
       <div>
-        <div
-          className={
-            classNames('header', {
-              fixed: this.props.fixed,
-              hidden: this.props.open,
-            })
-          }
-        >
-          <div
+        <div className="header">
+          <HamburgerIcon
+            open={this.props.open}
             id="hamberger-menu"
             onClick={() => action.onNext({ name: ACTIONS.TOGGLE_NAV_MENU })}
-          ></div>
+          />
           <Link to="/">
             <div id="brand-logo"></div>
           </Link>
