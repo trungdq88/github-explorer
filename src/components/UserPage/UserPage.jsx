@@ -19,7 +19,7 @@ export default class UserPage extends React.Component {
 
   componentDidMount() {
     const userProfile = action.filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED);
-    const userRepos = action.filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED);
+    const userRepos = action.filter(a => a.name === ACTIONS.USER_PROFILE_REPOS_RECEIVED);
 
     this.obsReceivedUserProfile = userProfile.map(a => a.data)
     .subscribe(profile => this.setState({ profile }));
@@ -50,12 +50,12 @@ export default class UserPage extends React.Component {
   loadUser(username) {
     if (username) {
       actionFactory.getUserProfile(username);
-      actionFactory.getUserRepos(username);
+      actionFactory.getUserProfileRepos(username);
     } else {
       actionFactory.getRandomUser()
       .then(user => {
         actionFactory.getUserProfile(user.login);
-        actionFactory.getUserRepos(user.login);
+        actionFactory.getUserProfileRepos(user.login);
       });
     }
 

@@ -16,6 +16,7 @@ const ACTION_TYPES = {
   USERS_RECEIVED: 'USERS_RECEIVED',
   USER_PROFILE_RECEIVED: 'USER_PROFILE_RECEIVED',
   USER_REPOS_RECEIVED: 'USER_REPOS_RECEIVED',
+  USER_PROFILE_REPOS_RECEIVED: 'USER_PROFILE_REPOS_RECEIVED',
   USER_REPOS_NEXT_PAGE_RECEIVED: 'USER_REPOS_NEXT_PAGE_RECEIVED',
   USER_REPOS_COMPLETE: 'USER_REPOS_COMPLETE',
   REPO_DETAIL_RECEIVED: 'REPO_DETAIL_RECEIVED',
@@ -71,18 +72,13 @@ export const actionFactory = {
         data: profile,
       });
     }),
-  getUserRepos: (username) =>
+  getUserProfileRepos: (username) =>
     api(`https://api.github.com/search/repositories?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
     .then(data => {
       action.onNext({
-        name: ACTION_TYPES.USER_REPOS_RECEIVED,
+        name: ACTION_TYPES.USER_PROFILE_REPOS_RECEIVED,
         data: data.items,
       });
-      if (data.items.length < REPO_PER_PAGE) {
-        action.onNext({
-          name: ACTION_TYPES.USER_REPOS_COMPLETE,
-        });
-      }
     }),
   searchUserRepos: (user, keyword, page) =>
     api(`https://api.github.com/search/repositories?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
