@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Image from '../Image/Image.jsx';
 import './style.less';
-import './svg/loading.svg';
 
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
 
@@ -113,7 +112,7 @@ export default class NavMenu extends React.Component {
 
           {this.state.searching ?
             <div id="loading">
-              <img role="presentation" src="/assets/loading.svg" />
+              <div className="loading"></div>
             </div> :
             <ReactCSSTransitionGroup
               transitionName="list"

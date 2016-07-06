@@ -90,3 +90,22 @@
     }
   }
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border: .25rem solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  animation: spin 1s infinite linear;
+  margin: 0 auto;
+}
