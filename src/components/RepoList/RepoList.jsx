@@ -33,7 +33,6 @@ export default class RepoList extends React.Component {
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
     .map(a => a.data)
     .subscribe(repos => {
-      console.log(repos);
       this.setState({
         repos,
         isSearching: false,

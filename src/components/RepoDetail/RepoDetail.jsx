@@ -135,6 +135,7 @@ export default class RepoDetail extends React.Component {
     this.obsRepoContentsReceived.dispose();
     this.obsRepoLanguagesReceived.dispose();
     this.obsLoadDone.dispose();
+    this.obsTabWrapper.dispose();
   }
 
   onTransitionWillStart(data) {
