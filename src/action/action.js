@@ -57,28 +57,35 @@ export const actionFactory = {
       });
     }),
   getUserRepos: (username) =>
-    api(`https://api.github.com/users/${username}/repos?sort=updated&page=1&per_page=${REPO_PER_PAGE}`)
+    api(`https://api.github.com/search/repositories?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
-    .then(repos => {
+    .then(data => {
       action.onNext({
         name: ACTION_TYPES.USER_REPOS_RECEIVED,
-        data: repos,
+        data: data.items,
       });
-      if (repos.length < REPO_PER_PAGE) {
+      if (data.items.length < REPO_PER_PAGE) {
         action.onNext({
           name: ACTION_TYPES.USER_REPOS_COMPLETE,
         });
       }
     }),
-  getUserReposNextPage: (username, page) =>
-    api(`https://api.github.com/users/${username}/repos?sort=updated&page=${page + 1}&per_page=${REPO_PER_PAGE}`)
+  searchUserRepos: (user, keyword, page) =>
+    api(`https://api.github.com/search/repositories?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
     .then(response => response.json())
-    .then(repos => {
-      action.onNext({
-        name: ACTION_TYPES.USER_REPOS_NEXT_PAGE_RECEIVED,
-        data: { page: page + 1, repos },
-      });
-      if (repos.length < REPO_PER_PAGE) {
+    .then(data => {
+      if (+page > 1) {
+        action.onNext({
+          name: ACTION_TYPES.USER_REPOS_NEXT_PAGE_RECEIVED,
+          data: { page, repos: data.items },
+        });
+      } else {
+        action.onNext({
+          name: ACTION_TYPES.USER_REPOS_RECEIVED,
+          data: data.items,
+        });
+      }
+      if (data.items.length < REPO_PER_PAGE) {
         action.onNext({
           name: ACTION_TYPES.USER_REPOS_COMPLETE,
         });

@@ -13,11 +13,15 @@ export default class RepoList extends React.Component {
     this.state = {
       page: 1,
       repos: [],
+      searchText: '',
+      isSearching: false,
       complete: false,
       showSearch: false,
       offsetTop: 0,
     };
     this.wait = false;
+    this.search = this.search.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +33,10 @@ export default class RepoList extends React.Component {
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
     .map(a => a.data)
     .subscribe(repos => {
-      this.setState({ repos });
+      this.setState({
+        repos,
+        isSearching: false,
+      });
       action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
     });
 
@@ -40,7 +47,9 @@ export default class RepoList extends React.Component {
       this.setState({
         page: paging.page,
         repos: this.state.repos.concat(paging.repos),
+        isSearching: false,
       });
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
     });
 
     // Track the search box
@@ -69,7 +78,8 @@ export default class RepoList extends React.Component {
       this.setState({
         repos: [],
       });
-      actionFactory.getUserRepos(nextProps.params.username);
+      actionFactory.searchUserRepos(
+        this.props.params.username, this.state.searchText, this.state.page);
     }
   }
 
@@ -78,8 +88,6 @@ export default class RepoList extends React.Component {
     this.obsReceiveUserReposNextPage.dispose();
     this.obsUserReposComplete.dispose();
     this.obsHighlightSearchbox.dispose();
-
-    console.log('unmount');
 
     // Undo the footer hack in RepoList
     document.querySelector('.footer.original').style.display = 'flex';
@@ -93,7 +101,8 @@ export default class RepoList extends React.Component {
 
   onTransitionDidEnd() {
     // Get user profile
-    actionFactory.getUserRepos(this.props.params.username);
+    actionFactory.searchUserRepos(
+      this.props.params.username, this.state.searchText, this.state.page);
 
     this.setState({ offsetTop: 0 });
 
@@ -105,12 +114,35 @@ export default class RepoList extends React.Component {
   }
 
   hackTheFooter() {
-    console.log('hack!');
     const oldFooter = document.querySelector('.footer');
     const newFooter = oldFooter.cloneNode(true);
     oldFooter.style.display = 'none';
     newFooter.classList.remove('original');
     document.querySelector('#repo-list-page #scroll-wrapper').appendChild(newFooter);
+  }
+
+  loadMore() {
+    if (this.state.isSearching) return;
+    this.setState({
+      isSearching: true,
+    }, () => {
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
+      actionFactory.searchUserRepos(
+        this.props.params.username, this.state.searchText, this.state.page + 1);
+    });
+  }
+
+  search() {
+    if (this.state.isSearching) return;
+    this.setState({
+      page: 1,
+      complete: false,
+      isSearching: true,
+    }, () => {
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
+      actionFactory.searchUserRepos(
+        this.props.params.username, this.state.searchText, this.state.page);
+    });
   }
 
   render() {
@@ -136,6 +168,8 @@ export default class RepoList extends React.Component {
               <SearchInput
                 placeholder="Find a repository..."
                 buttonText="SEARCH"
+                onChange={e => this.setState({ searchText: e.target.value })}
+                onSearch={this.search}
               /> : null}
           </ReactCSSTransitionGroup>
         </div>
@@ -160,9 +194,10 @@ export default class RepoList extends React.Component {
           {!this.state.complete ?
             <div
               id="load-more"
-              onClick={() => actionFactory
-                .getUserReposNextPage(this.props.params.username, this.state.page)}
-            >LOAD MORE</div>
+              onClick={this.loadMore}
+            >
+              {this.state.isSearching ? 'LOADING...' : 'LOAD MORE'}
+            </div>
           : null}
         </div>
       </div>

@@ -5,6 +5,7 @@ import RepoItem from '../RepoItem/RepoItem.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './style.less';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
+import { Link } from 'react-router';
 
 export default class UserPage extends React.Component {
 
@@ -73,6 +74,12 @@ export default class UserPage extends React.Component {
             </ReactCSSTransitionGroup>
           </div>
         </div>
+        <Link
+          to={`/user/${this.props.params.username}/repos`}
+          className="view-all-btn"
+        >
+          VIEW ALL REPOS
+        </Link>
       </div>
     );
   }
