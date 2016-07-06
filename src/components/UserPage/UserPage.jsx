@@ -18,7 +18,6 @@ export default class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mount');
     const userProfile = action.filter(a => a.name === ACTIONS.USER_PROFILE_RECEIVED);
     const userRepos = action.filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED);
 
