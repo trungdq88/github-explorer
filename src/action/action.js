@@ -37,6 +37,10 @@ const api = (url) => fetch(url, {
 });
 
 export const actionFactory = {
+  getRandomUser: () =>
+    api('https://api.github.com/search/users?q=type:user&page=1&per_page=1')
+    .then(response => response.json())
+    .then(data => data.items[0]),
   getUsers: (keyword) =>
     api(`https://api.github.com/legacy/user/search/${keyword || 't'}%20sort:followers`)
     .then(response => response.json())

@@ -28,11 +28,7 @@ export default class UserPage extends React.Component {
     this.obsLoadDone = Rx.Observable.zip(userProfile, userRepos)
     .subscribe(() => action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE }));
 
-    // Get user profile
-    actionFactory.getUserProfile(this.props.params.username);
-    actionFactory.getUserRepos(this.props.params.username);
-
-    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
+    this.loadUser(this.props.params.username);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,10 +37,7 @@ export default class UserPage extends React.Component {
         profile: {},
         repos: [],
       });
-      actionFactory.getUserProfile(nextProps.params.username);
-      actionFactory.getUserRepos(nextProps.params.username);
-
-      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
+      this.loadUser(nextProps.params.username);
     }
   }
 
@@ -52,6 +45,21 @@ export default class UserPage extends React.Component {
     this.obsReceivedUserProfile.dispose();
     this.obsReceiveUserRepos.dispose();
     this.obsLoadDone.dispose();
+  }
+
+  loadUser(username) {
+    if (username) {
+      actionFactory.getUserProfile(username);
+      actionFactory.getUserRepos(username);
+    } else {
+      actionFactory.getRandomUser()
+      .then(user => {
+        actionFactory.getUserProfile(user.login);
+        actionFactory.getUserRepos(user.login);
+      });
+    }
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   render() {
