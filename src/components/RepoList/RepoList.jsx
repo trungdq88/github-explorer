@@ -33,9 +33,11 @@ export default class RepoList extends React.Component {
     .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
     .map(a => a.data)
     .subscribe(repos => {
+      console.log(repos);
       this.setState({
         repos,
         isSearching: false,
+        emptyData: repos.length === 0 && this.state.page === 1,
       });
       action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
     });
@@ -138,7 +140,9 @@ export default class RepoList extends React.Component {
       page: 1,
       complete: false,
       isSearching: true,
+      repos: [],
     }, () => {
+      this.refs.scrollWrapper.scrollTop = 0;
       action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
       actionFactory.searchUserRepos(
         this.props.params.username, this.state.searchText, this.state.page);
@@ -178,27 +182,34 @@ export default class RepoList extends React.Component {
           id="scroll-wrapper"
         >
           <div id="repo-list">
-            <ReactCSSTransitionGroup
-              transitionName="list"
-              transitionAppear
-              transitionAppearTimeout={500}
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-            >
-              {this.state.repos.map(repo =>
-                <RepoItem key={repo.id} {...repo} />
-              )}
-            </ReactCSSTransitionGroup>
-          </div>
+            {this.state.emptyData ?
+              <div className="empty-data">:-( Sad... No result found!</div> :
+              <div>
+                <div>
+                  <ReactCSSTransitionGroup
+                    transitionName="list"
+                    transitionAppear
+                    transitionAppearTimeout={500}
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}
+                  >
+                    {this.state.repos.map(repo =>
+                      <RepoItem key={repo.id} {...repo} />
+                    )}
+                  </ReactCSSTransitionGroup>
+                </div>
 
-          {!this.state.complete ?
-            <div
-              id="load-more"
-              onClick={this.loadMore}
-            >
-              {this.state.isSearching ? 'LOADING...' : 'LOAD MORE'}
-            </div>
-          : null}
+                {!this.state.complete && this.state.repos.length > 0 ?
+                  <div
+                    id="load-more"
+                    onClick={this.loadMore}
+                  >
+                    {this.state.isSearching ? 'LOADING...' : 'LOAD MORE'}
+                  </div>
+                : null}
+              </div>
+            }
+          </div>
         </div>
       </div>
     );
