@@ -8,6 +8,7 @@ export default (props) => (
     onClick={props.onClick}
     className={classNames('nav-icon', {
       open: props.open,
+      back: props.back,
     })}
   >
     <div className="nav-icon-bars">

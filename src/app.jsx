@@ -12,14 +12,15 @@ import RepoList from './components/RepoList/RepoList.jsx';
 import RepoDetail from './components/RepoDetail/RepoDetail.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { ROUTES } from './utils/routes.js';
 
 ReactDOM.render(
   <Router history={hashHistory}>
-    <Route path="/" component={App}>
+    <Route path={ROUTES.HOME} component={App}>
       <IndexRoute component={UserPage} />
-      <Route path="user/:username" component={UserPage} />
-      <Route path="user/:username/repos" component={RepoList} />
-      <Route path="user/:username/repos/:repoName" component={RepoDetail} />
+      <Route path={ROUTES.USER_DETAIL} component={UserPage} />
+      <Route path={ROUTES.USER_REPO_LIST} component={RepoList} />
+      <Route path={ROUTES.REPO_DETAIL} component={RepoDetail} />
       <Route path="*" component={NotFound} />
     </Route>
   </Router>, document.getElementById('root'));

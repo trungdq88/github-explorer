@@ -3,8 +3,9 @@ import './App.less';
 import MainContent from './MainContent/MainContent.jsx';
 import NavMenu from './NavMenu/NavMenu.jsx';
 import action, { ACTIONS } from '../action/action.js';
+import { matchParams } from '../utils/routes.js';
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   constructor() {
     super();
@@ -35,6 +36,12 @@ export default class App extends React.Component {
     .subscribe(() => {
       this.setState({ open: false, full: false });
     });
+    this.obsBackButton = action
+    .filter(a => a.name === ACTIONS.BACK_BUTTON)
+    .subscribe(a => {
+      const path = matchParams(a.data, this.props.params);
+      this.context.router.push(path);
+    });
   }
 
   componentWillUnmount() {
@@ -42,6 +49,7 @@ export default class App extends React.Component {
     this.obsFullNavMenu.dispose();
     this.obsCloseNavMenu.dispose();
     this.obsToggleNavMenu.dispose();
+    this.obsBackButton.dispose();
   }
 
   render() {
@@ -57,6 +65,7 @@ export default class App extends React.Component {
           full={this.state.full}
         />
         <MainContent
+          route={this.props.routes[this.props.routes.length - 1].path}
           location={this.props.location}
           open={this.state.open}
           full={this.state.full}
@@ -67,3 +76,7 @@ export default class App extends React.Component {
     );
   }
 }
+App.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};
+export default App;

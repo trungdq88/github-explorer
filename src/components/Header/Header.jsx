@@ -7,6 +7,7 @@ import action, { ACTIONS } from '../../action/action.js';
 import { Link } from 'react-router';
 import LoadingBlock from '../LoadingBlock/LoadingBlock.jsx';
 import HamburgerIcon from '../HamburgerIcon/HamburgerIcon.jsx';
+import { ROUTES } from '../../utils/routes.js';
 
 export default class Header extends React.Component {
 
@@ -16,6 +17,8 @@ export default class Header extends React.Component {
       showLoading: false,
       doneLoading: false,
     };
+    this.shouldShowBackBtn = this.shouldShowBackBtn.bind(this);
+    this.click = this.click.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +43,34 @@ export default class Header extends React.Component {
     this.obsTriggerLoadAnimationDone.dispose();
   }
 
+  shouldShowBackBtn(route) {
+    switch (route) {
+      case ROUTES.HOME: return false;
+      case ROUTES.USER_DETAIL: return false;
+      case ROUTES.USER_REPO_LIST: return ROUTES.USER_DETAIL;
+      case ROUTES.REPO_DETAIL: return ROUTES.USER_REPO_LIST;
+      default: return false;
+    }
+  }
+
+  click() {
+    const backRoute = this.shouldShowBackBtn(this.props.route);
+    if (backRoute) {
+      action.onNext({ name: ACTIONS.BACK_BUTTON, data: backRoute });
+    } else {
+      action.onNext({ name: ACTIONS.TOGGLE_NAV_MENU });
+    }
+  }
+
   render() {
     return (
       <div>
         <div className="header">
           <HamburgerIcon
             open={this.props.open}
+            back={this.shouldShowBackBtn(this.props.route)}
             id="hamberger-menu"
-            onClick={() => action.onNext({ name: ACTIONS.TOGGLE_NAV_MENU })}
+            onClick={this.click}
           />
           <Link to="/">
             <div id="brand-logo"></div>

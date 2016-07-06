@@ -94,7 +94,7 @@ export default (props) => (
 
     <div id="view-repos">
       <Link
-        to={`/user/${props.username}/repos`}
+        to={`/user/${props.username || props.profile.login}/repos`}
         className="green-btn"
       >VIEW REPOSITORIES</Link>
     </div>
