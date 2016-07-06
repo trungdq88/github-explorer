@@ -30,7 +30,9 @@ export default class Image extends React.Component {
   }
 
   componentWillUnmount() {
-    this.img.onload = () => {};
+    if (this.img) {
+      this.img.onload = () => {};
+    }
   }
 
   onImageLoad() {
