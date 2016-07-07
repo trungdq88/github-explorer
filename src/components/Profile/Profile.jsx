@@ -3,7 +3,6 @@ import Image from '../Image/Image.jsx';
 import TextHolder from '../TextHolder/TextHolder.jsx';
 import { Link } from 'react-router';
 import './style.less';
-import './img/user-photo.png';
 
 export default (props) => (
   <div id="profile">
