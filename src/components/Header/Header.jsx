@@ -16,6 +16,7 @@ export default class Header extends React.Component {
     this.state = {
       showLoading: false,
       doneLoading: false,
+      loadFailed: false,
     };
     this.shouldShowBackBtn = this.shouldShowBackBtn.bind(this);
     this.click = this.click.bind(this);
@@ -36,11 +37,17 @@ export default class Header extends React.Component {
         doneLoading: false,
       }), 600);
     });
+    this.obsRequestFailed = action
+    .filter(a => a.name === ACTIONS.REQUEST_FAILED)
+    .subscribe(() => {
+      this.setState({ loadFailed: true });
+    });
   }
 
   componentWillUnmount() {
     this.obsTriggerLoadAnimation.dispose();
     this.obsTriggerLoadAnimationDone.dispose();
+    this.obsRequestFailed.dispose();
   }
 
   shouldShowBackBtn(route) {
@@ -78,7 +85,10 @@ export default class Header extends React.Component {
           <div id="notification-icon"></div>
         </div>
         {this.state.showLoading ?
-          <LoadingBlock done={this.state.doneLoading} /> : null}
+          <LoadingBlock
+            done={this.state.doneLoading}
+            failed={this.state.loadFailed}
+          /> : null}
       </div>
     );
   }

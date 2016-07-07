@@ -28,6 +28,7 @@ const ACTION_TYPES = {
   TRIGGER_LOAD_ANIMATION: 'TRIGGER_LOAD_ANIMATION',
   TRIGGER_LOAD_ANIMATION_DONE: 'TRIGGER_LOAD_ANIMATION_DONE',
   BACK_BUTTON: 'BACK_BUTTON',
+  REQUEST_FAILED: 'REQUEST_FAILED',
 };
 
 action.subscribe(console.log.bind(console, '[ACTION]'));
@@ -48,6 +49,9 @@ const api = (url) => {
   .then(data => {
     cache.put(url, data, CACHE_TIMEOUT);
     return data;
+  })
+  .catch(() => {
+    action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
   });
 };
 

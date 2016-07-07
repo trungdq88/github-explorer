@@ -9,6 +9,7 @@ export default class LoadingBlock extends React.Component {
     this.state = {
       one: false,
       two: false,
+      three: false,
     };
   }
 
@@ -20,6 +21,9 @@ export default class LoadingBlock extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.done) {
       this.setState({ three: true });
+    }
+    if (nextProps.failed) {
+      this.setState({ failed: true });
     }
   }
 
@@ -35,6 +39,7 @@ export default class LoadingBlock extends React.Component {
           one: this.state.one,
           two: this.state.two,
           three: this.state.three,
+          failed: this.state.failed,
         })}
       >
       </div>

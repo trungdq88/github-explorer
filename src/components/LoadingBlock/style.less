@@ -7,6 +7,12 @@
   position: absolute;
   transform-origin: 0 0;
 
+  &.failed {
+    background-color: #f44336;
+    transform: scaleX(1) !important;
+    transition: transform 0.3s !important;
+  }
+
   &.one {
     transform: scaleX(0.2);
     transition: transform 0.5s;
