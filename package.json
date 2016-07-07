@@ -4,7 +4,7 @@
   "description": "Boilerplate for Admin UI application built on React and Flux",
   "main": "src/app.jsx",
   "scripts": {
-    "build": "NODE_ENV=production npm run webpack",
+    "build": "NODE_ENV=production npm run webpack && npm run service-worker",
     "clean": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
     "env": "env",
     "lint": "eslint --ext .jsx ./src && echo No linting errors.",
@@ -15,7 +15,8 @@
     "test": "NODE_ENV=test karma start",
     "test-travis": "NODE_ENV=test karma start --single-run",
     "webpack": "webpack --colors --progress --config ./webpack/config",
-    "publish": "npm version patch && npm run build && firebase deploy"
+    "publish": "npm version patch && npm run build && firebase deploy",
+    "service-worker": "sw-precache --config=sw-precache-config.json --verbose --sw-file=build/sw.js"
   },
   "repository": {
     "type": "git+git@github.com:trungdq88/github-explorer.git",
@@ -91,6 +92,7 @@
     "script-loader": "^0.7.0",
     "sinon": "^1.15.4",
     "style-loader": "^0.13.0",
+    "sw-precache": "^3.2.0",
     "template-html-loader": "0.0.3",
     "url-loader": "^0.5.6",
     "webpack": "^1.13.1",
