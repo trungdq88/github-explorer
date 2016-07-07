@@ -38,7 +38,7 @@ export default action;
 const api = (url) => {
   const dataFromCache = cache.get(url);
   if (dataFromCache) {
-    return new Promise(resolve => resolve(dataFromCache));
+    return Promise.resolve(dataFromCache);
   }
   return fetch(url, {
     headers: {
@@ -50,8 +50,9 @@ const api = (url) => {
     cache.put(url, data, CACHE_TIMEOUT);
     return data;
   })
-  .catch(() => {
+  .catch((...args) => {
     action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
+    return Promise.reject(...args);
   });
 };
 
@@ -71,6 +72,7 @@ export const actionFactory = {
   getUserProfile: (username) =>
     api(`https://api.github.com/users/${username}`)
     .then(profile => {
+      console.log('[TRIGGER]', profile);
       action.onNext({
         name: ACTION_TYPES.USER_PROFILE_RECEIVED,
         data: profile,

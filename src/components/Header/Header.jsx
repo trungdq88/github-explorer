@@ -26,15 +26,16 @@ export default class Header extends React.Component {
     this.obsTriggerLoadAnimation = action
     .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION)
     .subscribe(() => {
-      this.setState({ showLoading: true });
+      this.setState({ loadFailed: false, showLoading: true });
     });
     this.obsTriggerLoadAnimationDone = action
     .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION_DONE)
     .subscribe(() => {
-      this.setState({ doneLoading: true });
+      this.setState({ loadFailed: false, doneLoading: true });
       setTimeout(() => this.setState({
         showLoading: false,
         doneLoading: false,
+        loadFailed: false,
       }), 600);
     });
     this.obsRequestFailed = action

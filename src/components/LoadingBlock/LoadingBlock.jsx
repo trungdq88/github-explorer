@@ -10,6 +10,7 @@ export default class LoadingBlock extends React.Component {
       one: false,
       two: false,
       three: false,
+      failed: false,
     };
   }
 

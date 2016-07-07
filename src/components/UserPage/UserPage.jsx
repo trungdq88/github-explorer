@@ -67,7 +67,7 @@ export default class UserPage extends React.Component {
       <div id="user-page">
         <Profile
           username={this.props.params.username}
-          profile={this.state.profile}
+          profile={this.state.profile || {}}
         />
         <div className="repo-list">
           <div className="repo-list-header">POPULAR REPOSITORIES</div>
