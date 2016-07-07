@@ -98,6 +98,7 @@ export default class NavMenu extends React.Component {
             onChange={this.onSearchTextChange}
             value={this.state.searchText}
             placeholder="Search by username…"
+            onSearch={() => actionFactory.getUsers(this.state.searchText)}
           />
           <div
             id="cancel-button"
