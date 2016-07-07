@@ -5,6 +5,7 @@
 import './index.html';
 import './third-party/bootstrap.js';
 import './utils/sw-registration.js';
+import './dr-octocat.png';
 import App from './components/App';
 import React from 'react';
 import ReactDOM from 'react-dom';
