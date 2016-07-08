@@ -15,7 +15,7 @@
     "test": "NODE_ENV=test karma start",
     "test-travis": "NODE_ENV=test karma start --single-run",
     "webpack": "webpack --colors --progress --config ./webpack/config",
-    "publish": "npm version patch && npm run build && git subtree push --prefix build origin gh-pages",
+    "publish": "npm version patch && npm run build && git add --all && git commit -m \"Build\" && git subtree push --prefix build origin gh-pages",
     "service-worker": "sw-precache --config=sw-precache-config.json --verbose --sw-file=build/sw.js",
     "manifest": "cp manifest.json build/manifest.json"
   },
