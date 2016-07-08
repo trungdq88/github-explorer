@@ -16,8 +16,9 @@
     <% if (environment !== 'development') { %>
     <link type="text/css" rel="stylesheet" media="all" href="css/app.<%= version %>.css" />
     <% } %>
-    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#3d536d" />
+    <link rel="manifest" href="manifest.json" />
+    <link type="text/plain" rel="author" href="humans.txt" />
     <script>
         window.VERSION = '<%= version %>';
     </script>
