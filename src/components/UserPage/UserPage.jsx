@@ -66,7 +66,7 @@ export default class UserPage extends React.Component {
     return (
       <div id="user-page">
         <Profile
-          username={this.props.params.username}
+          username={this.state.profile.login}
           profile={this.state.profile || {}}
         />
         <div className="repo-list">
@@ -86,7 +86,7 @@ export default class UserPage extends React.Component {
           </div>
         </div>
         <Link
-          to={`/user/${this.props.params.username}/repos`}
+          to={`/user/${this.state.profile.login}/repos`}
           className="view-all-btn"
         >
           VIEW ALL REPOS
