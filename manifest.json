@@ -1,14 +1,15 @@
 {
   "lang": "en",
   "background_color": "#3d536d",
+  "theme_color": "#3d536d",
   "name": "GitHub Explorer",
-  "short_name": "GitHub Explorer",
+  "short_name": "GitHub-E",
   "orientation": "portrait",
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/dr-octocat.png",
-      "sizes": "144x144",
+      "src": "assets/inspectocat.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ],
