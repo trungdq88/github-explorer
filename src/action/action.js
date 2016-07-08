@@ -35,7 +35,7 @@ if (window.ENV === 'development') {
 
 export default action;
 
-const api = (url) => {
+const api = (url) =>
   fetch(url, {
     headers: {
       Authorization: `token ${TOKEN}`,
@@ -46,7 +46,6 @@ const api = (url) => {
     action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
     return Promise.reject(...args);
   });
-};
 
 export const actionFactory = {
   getRandomUser: () =>

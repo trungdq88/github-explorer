@@ -2,9 +2,9 @@
  * Created by dinhquangtrung on 11/1/15.
  */
 
+import './utils/sw-registration.js';
 import './index.html';
 import './third-party/bootstrap.js';
-import './utils/sw-registration.js';
 import './inspectocat.png';
 import App from './components/App';
 import React from 'react';
