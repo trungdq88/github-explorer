@@ -1,7 +1,0 @@
-.DS_Store
-.idea
-*.iml
-node_modules
-bower_components
-coverage
-build
