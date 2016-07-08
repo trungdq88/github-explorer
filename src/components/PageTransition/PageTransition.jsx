@@ -15,9 +15,11 @@ export default class PageTransition extends React.Component {
 
   componentDidMount() {
     const child = this.refs.child1;
-    const dom = ReactDom.findDOMNode(child);
-    child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
-    dom.classList.remove('transition-item');
+    if (child) {
+      const dom = ReactDom.findDOMNode(child);
+      child.onTransitionDidEnd && child.onTransitionDidEnd(this.props.data);
+      dom.classList.remove('transition-item');
+    }
   }
 
   componentWillReceiveProps(nextProps) {

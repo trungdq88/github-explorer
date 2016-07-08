@@ -74,7 +74,6 @@ export default class MainContent extends React.Component {
           full: this.props.full,
         })}
       >
-        {/* <Header open={this.props.open} /> */}
         <Header route={this.props.route} />
         <div
           id="scroll-section"

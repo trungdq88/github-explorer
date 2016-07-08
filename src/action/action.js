@@ -52,7 +52,8 @@ export const actionFactory = {
     api('https://api.github.com/search/users?q=type:user&page=1&per_page=1')
     .then(data => data.items[0]),
   getUsers: (keyword) =>
-    api(`https://api.github.com/legacy/user/search/${keyword || Math.random().toString(36).split('')[2]}%20sort:followers`)
+  api('https://api.github.com/legacy/user/search/' +
+      `${keyword || Math.random().toString(36).split('')[2]}%20sort:followers`)
     .then(data => data.users.slice(0, 15))
     .then(users => {
       action.onNext({
@@ -69,7 +70,8 @@ export const actionFactory = {
       });
     }),
   getUserProfileRepos: (username) =>
-    api(`https://api.github.com/search/repositories?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
+  api('https://api.github.com/search/repositories' +
+    `?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
     .then(data => {
       action.onNext({
         name: ACTION_TYPES.USER_PROFILE_REPOS_RECEIVED,
@@ -77,7 +79,8 @@ export const actionFactory = {
       });
     }),
   searchUserRepos: (user, keyword, page) =>
-    api(`https://api.github.com/search/repositories?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
+  api('https://api.github.com/search/repositories' +
+    `?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
     .then(data => {
       if (+page > 1) {
         action.onNext({
