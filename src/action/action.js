@@ -1,11 +1,8 @@
 import Rx from 'rx';
-import cache from 'memory-cache';
 import 'whatwg-fetch';
 
 const TOKEN = '48d499e1bbc2e206d1e4f720f101af12a5918806';
 const REPO_PER_PAGE = 10;
-const ENABLE_MEM_CACHE = false;
-const CACHE_TIMEOUT = 1000 * 60 * 5; // 5 minutes
 
 const action = new Rx.Subject();
 
@@ -39,20 +36,12 @@ if (window.ENV === 'development') {
 export default action;
 
 const api = (url) => {
-  const dataFromCache = cache.get(url);
-  if (dataFromCache && ENABLE_MEM_CACHE) {
-    return Promise.resolve(dataFromCache);
-  }
-  return fetch(url, {
+  fetch(url, {
     headers: {
       Authorization: `token ${TOKEN}`,
     },
   })
   .then(response => response.json())
-  .then(data => {
-    ENABLE_MEM_CACHE && cache.put(url, data, CACHE_TIMEOUT);
-    return data;
-  })
   .catch((...args) => {
     action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
     return Promise.reject(...args);
