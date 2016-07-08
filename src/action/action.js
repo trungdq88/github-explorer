@@ -31,7 +31,9 @@ const ACTION_TYPES = {
   REQUEST_FAILED: 'REQUEST_FAILED',
 };
 
-action.subscribe(console.log.bind(console, '[ACTION]'));
+if (window.ENV === 'development') {
+  action.subscribe(console.log.bind(console, '[ACTION]'));
+}
 
 export default action;
 
@@ -72,7 +74,6 @@ export const actionFactory = {
   getUserProfile: (username) =>
     api(`https://api.github.com/users/${username}`)
     .then(profile => {
-      console.log('[TRIGGER]', profile);
       action.onNext({
         name: ACTION_TYPES.USER_PROFILE_RECEIVED,
         data: profile,
