@@ -22,12 +22,55 @@
     <script>
         window.VERSION = '<%= version %>';
     </script>
+    <style>
+      body {
+        background-color: #f5f5f5;
+        padding: 0;
+        margin: 0;
+      }
+      #header-holder {
+        height: 60px;
+        background-color: #0f2035;
+        box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
+        position: relative;
+      }
+      #profile-holder {
+        height: 363px;
+        background-image: linear-gradient(to bottom, #224365, #0a1b30);
+      }
+    </style>
 </head>
 
 <body>
 
-<div id="root"></div>
-<script src="js/app.<%= version %>.js" type="text/javascript" charset="utf-8"></script>
+<div id="root">
+  <div id="header-holder">
+  </div>
+  <div id="profile-holder">
+  </div>
+</div>
+  <script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+
+    function downloadJSAtOnload() {
+      async("/js/app.<%= version %>.js");
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener("load", downloadJSAtOnload, false);
+    } else if (window.attachEvent) {
+      window.attachEvent("onload", downloadJSAtOnload);
+    } else {
+      window.onload = downloadJSAtOnload;
+    }
+  </script>
 </body>
 
 </html>

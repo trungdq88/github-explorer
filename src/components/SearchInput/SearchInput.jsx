@@ -13,6 +13,7 @@ export default (props) => (
       }
     </button>
     <input
+      aria-label="Search"
       {...props}
       type="search"
     />
