@@ -104,7 +104,6 @@
     "classname": "0.0.0",
     "github-markdown-css": "^2.3.0",
     "json-loader": "^0.5.4",
-    "memory-cache": "^0.1.6",
     "moment": "^2.14.1",
     "react-addons-css-transition-group": "^15.1.0",
     "react-markdown": "^2.3.0",

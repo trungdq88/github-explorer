@@ -5,5 +5,9 @@
     "build/assets/**.*",
     "build/js/**.js"
   ],
-  "stripPrefix": "build"
+  "stripPrefix": "build",
+  "runtimeCaching": [{
+    "urlPattern": "/(https:\\/\\/api\\.github\\.com|https:\\/\\/avatars\\.githubusercontent\\.com)/",
+    "handler": "networkFirst"
+  }]
 }
