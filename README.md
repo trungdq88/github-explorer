@@ -13,6 +13,10 @@ Live demo: https://github-e.com
 
 ![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)
 
+Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (auditing and performance metrics for Progressive Web Apps):
+
+![image](https://cloud.githubusercontent.com/assets/4214509/16709429/efc01ee6-463a-11e6-889f-026a954bd10c.png)
+
 
 ## Goal:
  - Change people beliefs on web apps by make it as much "native" as possible with cool technologies like ReactJS and Progressive Web Apps.
