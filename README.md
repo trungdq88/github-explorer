@@ -11,7 +11,9 @@ Live demo: https://github-e.com
 
 ...or watch a GIF below:
 
-![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)
+|Overview|App Shell|Material animation|
+|--------|---------|------------------|
+|![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)|![image](https://cloud.githubusercontent.com/assets/4214509/16709479/0785ce26-463c-11e6-8376-f6734579649d.png)|![gh-e-1](https://cloud.githubusercontent.com/assets/4214509/16709494/7edb296c-463c-11e6-82a4-7e149dec6de3.gif)|
 
 Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (auditing and performance metrics for Progressive Web Apps):
 
