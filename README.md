@@ -7,10 +7,17 @@
 # About
 GitHub Explorer is a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) that helps you explore GitHub user repositories. This project is created for technology demonstration purpose, experiment how a web app "looks and behaves" like a native app.
 
-Goal:
+Live demo: https://github-e.com
+
+...or watch a GIF below:
+
+![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)
+
+
+## Goal:
  - Change people beliefs on web apps by make it as much "native" as possible with cool technologies like ReactJS and Progressive Web Apps.
 
-Tech stack:
+## Tech stack:
  - **ReactJS** for UI
  - **RxJS** for data flow and basic app architecture
  - **Web App Manifest** for add to home screen, splash screen...
@@ -24,7 +31,8 @@ Tech stack:
 
 This project is bootstraped from [plain-react](https://github.com/trungdq88/plain-react) - a simple boilerplate to start a simple ReactJS application.
 
-# Initial dev setup
+# Development
+**Initial dev setup**
 Make sure you have NodeJS v6 or above. 
 
 ```bash  
@@ -34,7 +42,7 @@ npm start
 
 `http://localhost:8763` should now be live with Hot Module Replacement.
 
-# Production build
+**Production build**
 
 ```bash
 npm install 
@@ -43,7 +51,7 @@ npm run build
 
 Production code placed at `build`
 
-# Test
+**Test**
 
 ```bash
 npm test
@@ -51,6 +59,6 @@ npm test
 
 Coverage report placed in `./coverage/` directory
 
-# Other commands
+**Other commands**
 - `npm lint`: linting.
 
