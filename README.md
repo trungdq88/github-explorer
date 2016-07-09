@@ -4,14 +4,20 @@
 [![Coverage Status](https://coveralls.io/repos/trungdq88/github-explorer/badge.svg?branch=master&service=github)](https://coveralls.io/github/trungdq88/github-explorer?branch=master)
 
 
-# About
+# Introduction
 GitHub Explorer is a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) that helps you explore GitHub user repositories. This project is created for technology demonstration purpose, experiment how a web app "looks and behaves" like a native app.
 
 Live demo: https://github-e.com
 
-...or watch a GIF below:
+...or watch the GIFs below:
 
-![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)
+|Overview|App Shell (not a GIF)|Material animation|
+|--------|---------|------------------|
+|![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)|![image](https://cloud.githubusercontent.com/assets/4214509/16709479/0785ce26-463c-11e6-8376-f6734579649d.png)|![gh-e-1](https://cloud.githubusercontent.com/assets/4214509/16709494/7edb296c-463c-11e6-82a4-7e149dec6de3.gif)|
+
+Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (auditing and performance metrics for Progressive Web Apps):
+
+![image](https://cloud.githubusercontent.com/assets/4214509/16709429/efc01ee6-463a-11e6-889f-026a954bd10c.png)
 
 
 ## Goal:
@@ -22,7 +28,7 @@ Live demo: https://github-e.com
  - **RxJS** for data flow and basic app architecture
  - **Web App Manifest** for add to home screen, splash screen...
  - **Service Worker** for offline usage (sw-precache)
- - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practice from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+ - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practices from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
  - **Application Shell Architecture** for better user experience
  - **Babel** forr ES6 syntax
  - **Webpack** for bundle
@@ -30,6 +36,8 @@ Live demo: https://github-e.com
  - ...and more, please check `package.json`
 
 This project is bootstraped from [plain-react](https://github.com/trungdq88/plain-react) - a simple boilerplate to start a simple ReactJS application.
+
+**TODOs:** a potentially technical blog post about this coming soon.
 
 # Development
 **Initial dev setup**
