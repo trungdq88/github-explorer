@@ -53,7 +53,6 @@ export default class Header extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.isUserPage(nextProps.route)) {
-      console.log('unmount');
       this.obsChangeHeaderColor.dispose();
       this.refs.header.classList.remove('transparent');
     } else {
@@ -68,7 +67,6 @@ export default class Header extends React.Component {
   }
 
   mountHeaderChange() {
-    console.log('mount');
     this.refs.header.classList.add('transparent');
     this.scrollSection = document.getElementById('scroll-section');
     this.wait = false;
