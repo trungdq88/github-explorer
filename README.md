@@ -11,7 +11,7 @@ Live demo: https://github-e.com
 
 ...or watch the GIFs below:
 
-|Overview|App Shell|Material animation|
+|Overview|App Shell (not a GIF)|Material animation|
 |--------|---------|------------------|
 |![gh-e](https://cloud.githubusercontent.com/assets/4214509/16709365/18c51ef6-4639-11e6-8d51-94386c8b8983.gif)|![image](https://cloud.githubusercontent.com/assets/4214509/16709479/0785ce26-463c-11e6-8376-f6734579649d.png)|![gh-e-1](https://cloud.githubusercontent.com/assets/4214509/16709494/7edb296c-463c-11e6-82a4-7e149dec6de3.gif)|
 
@@ -28,7 +28,7 @@ Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (a
  - **RxJS** for data flow and basic app architecture
  - **Web App Manifest** for add to home screen, splash screen...
  - **Service Worker** for offline usage (sw-precache)
- - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practice from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+ - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practices from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
  - **Application Shell Architecture** for better user experience
  - **Babel** forr ES6 syntax
  - **Webpack** for bundle
@@ -36,6 +36,8 @@ Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (a
  - ...and more, please check `package.json`
 
 This project is bootstraped from [plain-react](https://github.com/trungdq88/plain-react) - a simple boilerplate to start a simple ReactJS application.
+
+**TODOs:** a potentially technical blog post about this coming soon.
 
 # Development
 **Initial dev setup**
