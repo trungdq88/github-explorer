@@ -11,14 +11,15 @@ Goal:
  - Change people beliefs on web apps by make it as much "native" as possible with cool technologies like ReactJS and Progressive Web Apps.
 
 Tech stack:
- - *ReactJS* for UI
- - *RxJS* for data flow and basic app architecture
- - *Web App Manifest* for add to home screen, splash screen...
- - *Service Worker* for offline usage (sw-precache)
- - *Animation Performance* with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practice from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
- - *Babel* forr ES6 syntax
- - *Webpack* for bundle
- - *Karma* for testing (no test case yet)
+ - **ReactJS** for UI
+ - **RxJS** for data flow and basic app architecture
+ - **Web App Manifest** for add to home screen, splash screen...
+ - **Service Worker** for offline usage (sw-precache)
+ - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practice from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+ - **Application Shell Architecture** for better user experience
+ - **Babel** forr ES6 syntax
+ - **Webpack** for bundle
+ - **Karma** for testing (no test case yet)
  - ...and more, please check `package.json`
 
 This project is bootstraped from [plain-react](https://github.com/trungdq88/plain-react) - a simple boilerplate to start a simple ReactJS application.
