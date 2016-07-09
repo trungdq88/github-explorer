@@ -7,7 +7,9 @@
 # Introduction
 GitHub Explorer is a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) that helps you explore GitHub user repositories. This project is created for technology demonstration purpose, experiment how a web app "looks and behaves" like a native app.
 
-**Live demo**: https://github-e.com (currently no desktop layout available yet :-(, so please view this on mobile for better experience)
+**Live demo**: https://github-e.com
+
+*(currently no desktop layout available yet :-(, so please view this on mobile for better experience)*
 
 ...or watch the GIFs below:
 
