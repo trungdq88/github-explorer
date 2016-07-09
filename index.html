@@ -17,7 +17,7 @@
     <link rel="manifest" href="manifest.json" />
     <link type="text/plain" rel="author" href="humans.txt" />
     <script>
-        window.VERSION = '0.1.12';
+        window.VERSION = '0.1.13';
         window.ENV = 'production';
     </script>
     <style>
@@ -28,8 +28,7 @@
       }
       #header-holder {
         height: 60px;
-        background-color: #0f2035;
-        box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
+        background-color: #224365;
         position: relative;
       }
       #profile-holder {
@@ -70,10 +69,9 @@
     }
 
     function loadAssets() {
-      asyncScript("/js/app.0.1.12.js");
-
       
-      asyncCss("/css/app.0.1.12.css");
+      asyncScript("/js/app.0.1.13.js");
+      asyncCss("/css/app.0.1.13.css");
       
     }
 
@@ -85,6 +83,7 @@
       window.onload = loadAssets;
     }
   </script>
+  
 </body>
 
 </html>
