@@ -4,12 +4,12 @@
 [![Coverage Status](https://coveralls.io/repos/trungdq88/github-explorer/badge.svg?branch=master&service=github)](https://coveralls.io/github/trungdq88/github-explorer?branch=master)
 
 
-# About
+# Introduction
 GitHub Explorer is a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) that helps you explore GitHub user repositories. This project is created for technology demonstration purpose, experiment how a web app "looks and behaves" like a native app.
 
 Live demo: https://github-e.com
 
-...or watch a GIF below:
+...or watch the GIFs below:
 
 |Overview|App Shell|Material animation|
 |--------|---------|------------------|
