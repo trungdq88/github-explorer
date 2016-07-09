@@ -42,6 +42,13 @@ const api = (url) =>
     },
   })
   .then(response => response.json())
+  .then(data => {
+    if (data.errors) {
+      action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
+      return Promise.reject(data);
+    }
+    return data;
+  })
   .catch((...args) => {
     action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
     return Promise.reject(...args);
