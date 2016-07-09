@@ -46,15 +46,14 @@ export default class Header extends React.Component {
       this.setState({ loadFailed: true });
     });
 
-    if (this.isUserPage()) {
+    if (this.isUserPage(this.props.route)) {
       this.mountHeaderChange();
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.isUserPage(nextProps.route)) {
-      this.obsChangeHeaderColor.dispose();
-      this.refs.header.classList.remove('transparent');
+      this.unmountHeaderChange();
     } else {
       this.mountHeaderChange();
     }
@@ -64,9 +63,16 @@ export default class Header extends React.Component {
     this.obsTriggerLoadAnimation.dispose();
     this.obsTriggerLoadAnimationDone.dispose();
     this.obsRequestFailed.dispose();
+    this.unmountHeaderChange();
+  }
+
+  unmountHeaderChange() {
+    this.refs.header.classList.remove('transparent');
+    this.obsChangeHeaderColor && this.obsChangeHeaderColor.dispose();
   }
 
   mountHeaderChange() {
+    this.unmountHeaderChange(); // Make sure there is no multiple mount
     this.refs.header.classList.add('transparent');
     this.scrollSection = document.getElementById('scroll-section');
     this.wait = false;
