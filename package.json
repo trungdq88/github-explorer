@@ -1,6 +1,6 @@
 {
   "name": "github-explorer",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Boilerplate for Admin UI application built on React and Flux",
   "main": "src/app.jsx",
   "scripts": {
