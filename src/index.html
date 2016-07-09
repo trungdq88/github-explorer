@@ -28,8 +28,7 @@
       }
       #header-holder {
         height: 60px;
-        background-color: #0f2035;
-        box-shadow: 0 3px 5px 0 rgba(15, 31, 52, 0.4);
+        background-color: #224365;
         position: relative;
       }
       #profile-holder {
@@ -70,9 +69,8 @@
     }
 
     function loadAssets() {
-      asyncScript("/js/app.<%= version %>.js");
-
       <% if (environment !== 'development') { %>
+      asyncScript("/js/app.<%= version %>.js");
       asyncCss("/css/app.<%= version %>.css");
       <% } %>
     }
@@ -85,6 +83,9 @@
       window.onload = loadAssets;
     }
   </script>
+  <% if (environment === 'development') { %>
+  <script src="/js/app.<%= version %>.js"></script>
+  <% } %>
 </body>
 
 </html>

@@ -3,11 +3,13 @@ import './style.less';
 import './img/github-logo.png';
 import './img/notification-icon.png';
 
+import Rx from 'rx';
 import action, { ACTIONS } from '../../action/action.js';
 import { Link } from 'react-router';
 import LoadingBlock from '../LoadingBlock/LoadingBlock.jsx';
 import HamburgerIcon from '../HamburgerIcon/HamburgerIcon.jsx';
 import { ROUTES } from '../../utils/routes.js';
+import classNames from 'classnames';
 
 export default class Header extends React.Component {
 
@@ -43,12 +45,56 @@ export default class Header extends React.Component {
     .subscribe(() => {
       this.setState({ loadFailed: true });
     });
+
+    if (this.isUserPage()) {
+      this.mountHeaderChange();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.isUserPage(nextProps.route)) {
+      console.log('unmount');
+      this.obsChangeHeaderColor.dispose();
+      this.refs.header.classList.remove('transparent');
+    } else {
+      this.mountHeaderChange();
+    }
   }
 
   componentWillUnmount() {
     this.obsTriggerLoadAnimation.dispose();
     this.obsTriggerLoadAnimationDone.dispose();
     this.obsRequestFailed.dispose();
+  }
+
+  mountHeaderChange() {
+    console.log('mount');
+    this.refs.header.classList.add('transparent');
+    this.scrollSection = document.getElementById('scroll-section');
+    this.wait = false;
+    this.obsChangeHeaderColor = Rx.Observable
+    .fromEvent(this.scrollSection, 'scroll')
+    .subscribe(() => {
+      this.lastScrollTop = this.scrollSection.scrollTop;
+      if (this.wait === false) {
+        window.requestAnimationFrame(() => {
+          // Access direct to the DOM for better scrolling performance
+          if (this.lastScrollTop === 0) {
+            this.refs.header.classList.add('transparent');
+          } else {
+            this.refs.header.classList.remove('transparent');
+          }
+          this.wait = false;
+        });
+        this.wait = true;
+      }
+    });
+  }
+
+  isUserPage(route) {
+    return route === undefined || // React Router returns undefined on root?
+      route === ROUTES.USER_DETAIL ||
+        route === ROUTES.HOME;
   }
 
   shouldShowBackBtn(route) {
@@ -73,7 +119,13 @@ export default class Header extends React.Component {
   render() {
     return (
       <div>
-        <div className="header">
+        <div
+          ref="header"
+          className={classNames('header', {
+            transparent: this.state.transparen &&
+              this.isUserPage(this.props.route),
+          })}
+        >
           <HamburgerIcon
             open={this.props.open}
             back={this.shouldShowBackBtn(this.props.route)}

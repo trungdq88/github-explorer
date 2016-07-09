@@ -24,31 +24,6 @@ export default class MainContent extends React.Component {
     .filter(a => a.name === ACTIONS.DETAIL_TRANSITION_DATA)
     .map(a => a.data)
     .subscribe(data => this.setState({ detailPageData: data }));
-
-    // this.headerDOM = document.querySelector('.header.fixed');
-    // this.headerDOM.classList.remove('user-page');
-    //
-    // if (this.refs.mainContent.classList.contains('user-page')) {
-    //   this.obsMoveHeader = Rx.Observable
-    //   .fromEvent(this.refs.mainContent, 'scroll')
-    //   .subscribe(() => {
-    //     this.lastScrollTop = this.refs.mainContent.scrollTop;
-    //     if (this.wait === false) {
-    //       window.requestAnimationFrame(() => {
-    //         // Access direct to the DOM for better scrolling performance
-    //         if (this.lastScrollTop === 0) {
-    //           this.headerDOM.classList.add('transparent');
-    //         } else {
-    //           this.headerDOM.classList.remove('transparent');
-    //         }
-    //         this.wait = false;
-    //       });
-    //       this.wait = true;
-    //     }
-    //   });
-    // } else {
-    //   this.headerDOM.classList.remove('transparent');
-    // }
   }
 
   componentWillReceiveProps() {
