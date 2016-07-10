@@ -7,7 +7,9 @@
 # Introduction
 GitHub Explorer is a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) that helps you explore GitHub user repositories. This project is created for technology demonstration purpose, experiment how a web app "looks and behaves" like a native app.
 
-Live demo: https://github-e.com
+**Live demo**: https://github-e.com
+
+*(currently no desktop layout available yet :-(, so please view this on mobile for better experience)*
 
 ...or watch the GIFs below:
 
@@ -27,10 +29,10 @@ Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (a
  - **ReactJS** for UI
  - **RxJS** for data flow and basic app architecture
  - **Web App Manifest** for add to home screen, splash screen...
- - **Service Worker** for offline usage (sw-precache)
+ - **Service Worker** for offline usage ([sw-precache](https://github.com/GoogleChrome/sw-precache))
  - **Animation Performance** with [FLIP](https://aerotwist.com/blog/flip-your-animations/) and best practices from this [High Performance Animations Blog Post](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
  - **Application Shell Architecture** for better user experience
- - **Babel** forr ES6 syntax
+ - **Babel** for ES6 syntax
  - **Webpack** for bundle
  - **Karma** for testing (no test case yet)
  - ...and more, please check `package.json`
