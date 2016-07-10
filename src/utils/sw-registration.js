@@ -1,3 +1,6 @@
+import React from 'react';
+import action, { ACTIONS } from '../action/action.js';
+
 if ('serviceWorker' in navigator) {
   // Your service-worker.js *must* be located at the top-level directory relative to your site.
   // It won't be able to control pages unless it's located at the same level or higher than them.
@@ -19,18 +22,36 @@ if ('serviceWorker' in navigator) {
               // have been added to the cache.
               // It's the perfect time to display a "New content is available; please refresh."
               // message in the page's interface.
-              console.log('New or updated content is available.');
+              action.onNext({
+                name: ACTIONS.SHOW_TOAST,
+                data: {
+                  message: 'New version is available!',
+                  button: (
+                    <a
+                      onClick={() => location.reload()}
+                      className="toast-button"
+                    >UPDATE
+                    </a>),
+                  timeout: 0,
+                },
+              });
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a "Content is cached for offline use." message.
-              console.log('Content is now available offline!');
+              action.onNext({
+                name: ACTIONS.SHOW_TOAST,
+                data: {
+                  message: 'Content is now available offline!',
+                  timeout: 5000,
+                },
+              });
             }
             break;
 
           case 'redundant':
             console.error('The installing service worker became redundant.');
             break;
-          default: console.log('ServiceWorker State:', installingWorker.state);
+          default:
         }
       };
     };

@@ -27,10 +27,12 @@ const ACTION_TYPES = {
   TRIGGER_LOAD_ANIMATION_DONE: 'TRIGGER_LOAD_ANIMATION_DONE',
   BACK_BUTTON: 'BACK_BUTTON',
   REQUEST_FAILED: 'REQUEST_FAILED',
+  SHOW_TOAST: 'SHOW_TOAST',
 };
 
 if (window.ENV === 'development') {
   action.subscribe(console.log.bind(console, '[ACTION]'));
+  window.action = action;
 }
 
 export default action;
@@ -44,13 +46,13 @@ const api = (url) =>
   .then(response => response.json())
   .then(data => {
     if (data.errors) {
-      action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
+      action.onNext({ name: ACTION_TYPES.REQUEST_FAILED, data });
       return Promise.reject(data);
     }
     return data;
   })
   .catch((...args) => {
-    action.onNext({ name: ACTION_TYPES.REQUEST_FAILED });
+    action.onNext({ name: ACTION_TYPES.REQUEST_FAILED, data: [...args] });
     return Promise.reject(...args);
   });
 
