@@ -5,7 +5,7 @@
   "main": "src/app.jsx",
   "scripts": {
     "build": "NODE_ENV=production npm run webpack && npm run service-worker && npm run root-assets",
-    "clean": "rimraf $npm_package_config_buildDir && mkdir $npm_package_config_buildDir",
+    "clean": "rimraf $npm_package_config_buildDir/*",
     "env": "env",
     "lint": "eslint --ext .jsx ./src && echo No linting errors.",
     "prebuild": "npm run clean",
@@ -15,7 +15,7 @@
     "test": "NODE_ENV=test karma start",
     "test-travis": "NODE_ENV=test karma start --single-run",
     "webpack": "webpack --colors --progress --config ./webpack/config",
-    "publish": "npm version patch && npm run build && git add --all && git commit -m \"Build\" && git subtree push --prefix build origin gh-pages",
+    "publish": "npm version patch && npm run build && cd build && git add --all && git commit -m \"Release at $(date)\" && git push",
     "service-worker": "sw-precache --config=sw-precache-config.json --verbose --sw-file=build/sw.js",
     "root-assets": "cp root-assets/* build/"
   },
