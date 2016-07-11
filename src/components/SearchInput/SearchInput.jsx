@@ -14,7 +14,10 @@ export default (props) => (
     </button>
     <input
       aria-label="Search"
-      {...props}
+      onFocus={props.onFocus}
+      onChange={props.onChange}
+      value={props.value}
+      placeholder={props.placeholder}
       type="search"
     />
   </div>
