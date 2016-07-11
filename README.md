@@ -88,7 +88,7 @@ Coverage report placed in `./coverage/` directory
     Contact anhquan [at] siliconstraits.com
     From: Ho Chi Minh City, Vietnam
 
-    Amimation Designer: Van Cong Bang
+    Animation Designer: Van Cong Bang
     Contact congbang [at] siliconstraits.com
     From: Ho Chi Minh City, Vietnam
 
