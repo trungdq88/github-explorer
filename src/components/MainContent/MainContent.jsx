@@ -4,7 +4,7 @@ import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 import './style.less';
 import classNames from 'classnames';
-import PageTransition from '../PageTransition/PageTransition.jsx';
+import PageTransition from 'react-router-page-transition';
 import Toast from '../Toast/Toast.jsx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 

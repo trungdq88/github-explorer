@@ -81,40 +81,15 @@ a {
   opacity: 0;
 }
 
-.fade-appear, .fade-enter {
-  opacity: 0.01;
-  transition: opacity 1s;
-}
-
-.fade-appear.fade-appear-active, .fade-enter.fade-enter-active {
-  opacity: 1;
-}
-
-.zoom-appear, .zoom-enter {
-  transform: scale(0);
-  transition: transform 0.5s;
-}
-
-.zoom-appear.zoom-appear-active, .zoom-enter.zoom-enter-active {
-  transform: scale(1);
-}
-
-.cross-fade-leave {
-  opacity: 1;
-}
-.cross-fade-leave.cross-fade-leave-active {
-  opacity: 0;
-  transition: opacity 1s ease-in;
-}
- 
-.cross-fade-enter {
-  opacity: 0;
-}
-.cross-fade-enter.cross-fade-enter-active {
-  opacity: 1;
-  transition: opacity 1s ease-in;
-}
- 
-.cross-fade-height {
-  transition: height .5s ease-in-out;
+.trasition-wrapper {
+  position: relative;
+  min-height: 100%;
+  z-index: 1;
+  .transition-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
 }
