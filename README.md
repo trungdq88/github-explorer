@@ -72,3 +72,29 @@ Coverage report placed in `./coverage/` directory
 **Other commands**
 - `npm lint`: linting.
 
+# [Team](https://github-e.com/humans.txt)
+
+```
+/* TEAM */
+
+    Company: Silicon Straits Saigon
+    www.siliconstraits.vn
+
+    Developer: Trung Dinh Quang
+    Contact: trungdq88 [at] gmail.com, quangtrung [at] siliconstraits.com
+    From: Ho Chi Minh City, Vietnam
+
+    UX/UI Designer: Huynh Anh Quan
+    Contact anhquan [at] siliconstraits.com
+    From: Ho Chi Minh City, Vietnam
+
+    Amimation Designer: Van Cong Bang
+    Contact congbang [at] siliconstraits.com
+    From: Ho Chi Minh City, Vietnam
+
+/* THANKS */
+
+    The Inspectocat Icon: Jason Costello 
+    Contact: https://octodex.github.com/inspectocat
+    From: San Francisco, CA
+```
