@@ -103,6 +103,7 @@
   "dependencies": {
     "atob": "^2.0.3",
     "classname": "0.0.0",
+    "filesize": "^3.3.0",
     "github-markdown-css": "^2.3.0",
     "json-loader": "^0.5.4",
     "moment": "^2.14.1",

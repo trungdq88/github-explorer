@@ -1,6 +1,7 @@
 import React from 'react';
 import Rx from 'rx';
 import atob from 'atob';
+import filesize from 'filesize';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
@@ -245,7 +246,10 @@ export default class RepoDetail extends React.Component {
                 </div>
                 <div className="file-info">
                   <div className="file-name">{content.name}</div>
-                  <div className="file-date">{content.size}</div>
+                  <div className="file-date">
+                    {content.type === 'file' ?
+                      filesize(content.size) : null}
+                  </div>
                 </div>
               </div>
             ) : <div className="empty-data">No data</div>}
