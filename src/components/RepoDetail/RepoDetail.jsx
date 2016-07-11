@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RepoContent from '../RepoContent/RepoContent.jsx';
 import action, { ACTIONS, actionFactory } from '../../action/action.js';
-import languageColor from '../../utils/lanugage-color.js';
+import languageColor from '../../utils/language-color.js';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './style.less';
 
@@ -280,7 +280,7 @@ export default class RepoDetail extends React.Component {
               <div key={language.name} className="lang-item">
                 <div
                   className="lang-color"
-                  style={{ backgroundColor: languageColor[language.name] }}
+                  style={{ backgroundColor: languageColor(language.name) }}
                 ></div>
                 <div className="lang-info">
                   <div className="lang-name">{language.name}</div>
