@@ -30,13 +30,6 @@ const ACTION_TYPES = {
   SHOW_TOAST: 'SHOW_TOAST',
 };
 
-if (window.ENV === 'development') {
-  action.subscribe(console.log.bind(console, '[ACTION]'));
-  window.action = action;
-}
-
-export default action;
-
 const api = (url) =>
   fetch(url, {
     headers: {
@@ -61,7 +54,7 @@ export const actionFactory = {
     api('https://api.github.com/search/users?q=type:user&page=1&per_page=1')
     .then(data => data.items[0]),
   getUsers: (keyword) =>
-  api('https://api.github.com/legacy/user/search/' +
+    api('https://api.github.com/legacy/user/search/' +
       `${keyword || Math.random().toString(36).split('')[2]}%20sort:followers`)
     .then(data => data.users.slice(0, 15))
     .then(users => {
@@ -79,7 +72,7 @@ export const actionFactory = {
       });
     }),
   getUserProfileRepos: (username) =>
-  api('https://api.github.com/search/repositories' +
+    api('https://api.github.com/search/repositories' +
     `?q=user:${username}&sort=stars&page=1&per_page=${REPO_PER_PAGE}`)
     .then(data => {
       action.onNext({
@@ -88,7 +81,7 @@ export const actionFactory = {
       });
     }),
   searchUserRepos: (user, keyword, page) =>
-  api('https://api.github.com/search/repositories' +
+    api('https://api.github.com/search/repositories' +
     `?q=${keyword}%20user:${user}&sort=updated&page=${page}&per_page=${REPO_PER_PAGE}`)
     .then(data => {
       if (+page > 1) {
@@ -150,4 +143,10 @@ export const actionFactory = {
     }),
 };
 
+if (window.ENV === 'development') {
+  action.subscribe(console.log.bind(console, '[ACTION]'));
+  window.action = action;
+}
+
 export const ACTIONS = ACTION_TYPES;
+export default action;
