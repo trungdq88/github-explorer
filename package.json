@@ -1,7 +1,7 @@
 {
   "name": "github-explorer",
   "version": "0.1.19",
-  "description": "Boilerplate for Admin UI application built on React and Flux",
+  "description": "Progressive Web Apps experiment",
   "main": "src/app.jsx",
   "scripts": {
     "build": "NODE_ENV=production npm run webpack && npm run service-worker && npm run root-assets",
