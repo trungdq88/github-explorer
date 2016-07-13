@@ -30,6 +30,7 @@ export default class RepoDetail extends React.Component {
       languages: [],
       doTransform: false,
       offsetTop: 0,
+      loadFailed: false,
       startPosition: {
         top: 0,
         left: 0,
@@ -38,6 +39,7 @@ export default class RepoDetail extends React.Component {
     };
     this.wait = false;
 
+    this.getProfile = this.getProfile.bind(this);
     this.switchTab = this.switchTab.bind(this);
     this.refreshContentHeight = this.refreshContentHeight.bind(this);
   }
@@ -99,13 +101,23 @@ export default class RepoDetail extends React.Component {
     })
     .subscribe(languages => this.setState({ languages }));
 
+    // Track request failed
+    this.obsRequestFailed = action
+    .filter(a => a.name === ACTIONS.REQUEST_FAILED)
+    .subscribe(() => {
+      this.setState({ loadFailed: true });
+    });
+
     this.obsLoadDone = Rx.Observable.zip(
       repoDetail,
       repoReadme,
       repoContribs,
       repoContents,
       repoLanguages
-    ).subscribe(() => action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE }));
+    ).subscribe(() => {
+      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
+      this.setState({ loadFailed: false });
+    });
 
     // Track the tab wrapper
     this.obsTabWrapper = Rx.Observable
@@ -124,9 +136,6 @@ export default class RepoDetail extends React.Component {
         this.wait = true;
       }
     });
-
-
-    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   componentWillUnmount() {
@@ -149,12 +158,17 @@ export default class RepoDetail extends React.Component {
   }
 
   onTransitionDidEnd() {
-    // Get user profile
+    this.getProfile();
+  }
+
+  getProfile() {
     actionFactory.getRepoDetail(this.props.params.username, this.props.params.repoName);
     actionFactory.getRepoReadme(this.props.params.username, this.props.params.repoName);
     actionFactory.getRepoContents(this.props.params.username, this.props.params.repoName);
     actionFactory.getRepoContribs(this.props.params.username, this.props.params.repoName);
     actionFactory.getRepoLanguages(this.props.params.username, this.props.params.repoName);
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   transitionManuallyStart() {
@@ -223,6 +237,13 @@ export default class RepoDetail extends React.Component {
             </div>
           </div>
         </ReactCSSTransitionGroup>
+
+        {this.state.loadFailed ?
+          <div className="offline-msg">
+            You are offline!
+            <div onClick={this.getProfile} className="blue-link">Try again</div>
+          </div> : null}
+
         <div ref="tabContent" id="repo-tab-content">
           <div
             className={classNames('repo-content-item', 'markdown-body',

@@ -28,7 +28,14 @@ export default class Header extends React.Component {
     this.obsTriggerLoadAnimation = action
     .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION)
     .subscribe(() => {
-      this.setState({ loadFailed: false, showLoading: true });
+      const load = () => {
+        this.setState({ loadFailed: false, showLoading: true });
+      };
+      if (this.state.loadFailed) {
+        this.setState({ showLoading: false }, () => load());
+      } else {
+        load();
+      }
     });
     this.obsTriggerLoadAnimationDone = action
     .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION_DONE)
@@ -125,10 +132,7 @@ export default class Header extends React.Component {
       <div>
         <div
           ref="header"
-          className={classNames('header', {
-            transparent: this.state.transparen &&
-              this.isUserPage(this.props.route),
-          })}
+          className={classNames('header')}
         >
           <HamburgerIcon
             open={this.props.open}
