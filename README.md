@@ -35,6 +35,7 @@ Scored **88/100** in [Lighthouse](https://github.com/GoogleChrome/lighthouse) (a
  - **Babel** for ES6 syntax
  - **Webpack** for bundle
  - **Karma** for testing (no test case yet)
+ - [React Router Page Transition](https://github.com/trungdq88/react-router-page-transition) to make material transition effect possible.
  - ...and more, please check `package.json`
 
 This project is bootstraped from [plain-react](https://github.com/trungdq88/plain-react) - a simple boilerplate to start a simple ReactJS application.
