@@ -1,6 +1,6 @@
 import React from 'react';
 import Rx from 'rx';
-import atob from 'atob';
+import { Base64 } from 'js-base64';
 import filesize from 'filesize';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
@@ -149,6 +149,7 @@ export default class RepoDetail extends React.Component {
   }
 
   onTransitionWillStart(data) {
+    if (!data || !data.detailPageData) return;
     this.setState({
       startPosition: data.detailPageData.startPosition,
       repoDetailData: data.detailPageData.repoData,
@@ -200,7 +201,7 @@ export default class RepoDetail extends React.Component {
   }
 
   render() {
-    const input = this.state.readme ? atob(this.state.readme.replace(/\s/g, '')) : null;
+    const input = this.state.readme ? Base64.decode(this.state.readme.replace(/\s/g, '')) : null;
     return (
       <div
         id="repo-detail"
