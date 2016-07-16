@@ -2,7 +2,6 @@ import React from 'react';
 import Rx from 'rx';
 import classNames from 'classnames';
 import SearchInput from '../SearchInput/SearchInput.jsx';
-import { Link } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Image from '../Image/Image.jsx';
 import './style.less';
@@ -83,6 +82,14 @@ export default class NavMenu extends React.Component {
     this.obsSearchTextChange.onNext(e.target.value);
   }
 
+  userClick(path) {
+    action.onNext({ name: ACTIONS.CLOSE_NAV_MENU });
+    // Wait for animation done, we don't want to overheat the CPU
+    setTimeout(() => {
+      this.context.router.push(path);
+    }, 300);
+  }
+
   render() {
     return (
       <div
@@ -123,11 +130,10 @@ export default class NavMenu extends React.Component {
               transitionLeaveTimeout={500}
             >
               {this.state.users.length ? this.state.users.map(user =>
-                <Link
+                <a
                   key={user.id}
                   className="user-item"
-                  to={`/user/${user.login}`}
-                  onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
+                  onClick={() => this.userClick(`/user/${user.login}`)}
                 >
                   <Image
                     className="user-avatar"
@@ -137,7 +143,7 @@ export default class NavMenu extends React.Component {
                     <div className="fullname">{user.fullname || user.login}</div>
                     <div className="username">{user.login || user.fullname}</div>
                   </div>
-                </Link>
+                </a>
                 ) : <div className="empty-data">
                   Hmm.. that user cannot be found on GitHub.
                 </div>}
@@ -149,3 +155,7 @@ export default class NavMenu extends React.Component {
     );
   }
 }
+
+NavMenu.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+};
