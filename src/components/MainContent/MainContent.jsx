@@ -51,6 +51,7 @@ export default class MainContent extends React.Component {
   }
 
   onPageLoad() {
+    // Caution: this force reflow
     this.refs.scrollSection.scrollTop = 0;
   }
 

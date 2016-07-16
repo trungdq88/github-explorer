@@ -155,7 +155,6 @@ export default class RepoList extends React.Component {
       <div
         id="repo-list-page"
         className="transition-item"
-        data-from-path={`/user/${this.props.params.username}`}
         style={{ top: this.state.offsetTop }}
       >
         <div
