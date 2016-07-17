@@ -24,20 +24,20 @@ export default class MainContent extends React.Component {
 
   componentDidMount() {
     this.obsReceivedUserProfile = action
-    .filter(a => a.name === ACTIONS.DETAIL_TRANSITION_DATA)
-    .map(a => a.data)
-    .subscribe(data => this.setState({ detailPageData: data }));
+      .filter(a => a.name === ACTIONS.DETAIL_TRANSITION_DATA)
+      .map(a => a.data)
+      .subscribe(data => this.setState({ detailPageData: data }));
     this.obsShowToast = action
-    .filter(a => a.name === ACTIONS.SHOW_TOAST)
-    .map(a => a.data)
-    .subscribe(data => {
-      this.setState({ toast: data });
-      if (+this.state.toast.timeout > 0) {
-        setTimeout(() => {
-          this.setState({ toast: null });
-        }, this.state.toast.timeout);
-      }
-    });
+      .filter(a => a.name === ACTIONS.SHOW_TOAST)
+      .map(a => a.data)
+      .subscribe(data => {
+        this.setState({ toast: data });
+        if (+this.state.toast.timeout > 0) {
+          setTimeout(() => {
+            this.setState({ toast: null });
+          }, this.state.toast.timeout);
+        }
+      });
   }
 
   componentWillReceiveProps() {

@@ -27,46 +27,46 @@ export default class NavMenu extends React.Component {
 
   componentDidMount() {
     this.obsCancelSearch = action
-    .filter(a => a.name === ACTIONS.OPEN_NAV_MENU)
-    .subscribe(() => {
-      this.setState({ searchText: '' });
-    });
+      .filter(a => a.name === ACTIONS.OPEN_NAV_MENU)
+      .subscribe(() => {
+        this.setState({ searchText: '' });
+      });
     this.obsReceiveUsers = action
-    .filter(a => a.name === ACTIONS.USERS_RECEIVED)
-    .map(a => a.data)
-    .subscribe(users => {
-      this.setState({ users, searching: false });
-    });
+      .filter(a => a.name === ACTIONS.USERS_RECEIVED)
+      .map(a => a.data)
+      .subscribe(users => {
+        this.setState({ users, searching: false });
+      });
     this.obsTriggerTextChange = this.obsSearchTextChange
-    .debounce(1000)
-    .distinctUntilChanged()
-    .flatMap(text => {
-      this.setState({ searching: true });
-      return Rx.Observable.fromPromise(actionFactory.getUsers(text))
-      .takeUntil(this.obsSearchTextChange);
-    })
-    .subscribe(() => this.setState({ searching: false }));
+      .debounce(1000)
+      .distinctUntilChanged()
+      .flatMap(text => {
+        this.setState({ searching: true });
+        return Rx.Observable.fromPromise(actionFactory.getUsers(text))
+          .takeUntil(this.obsSearchTextChange);
+      })
+      .subscribe(() => this.setState({ searching: false }));
 
     // Send get users request
     actionFactory.getUsers();
 
     // Highlight search bar
     this.obsHighlightSearchbar = Rx.Observable
-    .fromEvent(this.refs.userList, 'scroll')
-    .subscribe(() => {
-      this.lastScrollTop = this.refs.userList.scrollTop;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          if (this.lastScrollTop > 0) {
-            this.refs.searchBar.classList.add('dark-bg');
-          } else {
-            this.refs.searchBar.classList.remove('dark-bg');
-          }
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+      .fromEvent(this.refs.userList, 'scroll')
+      .subscribe(() => {
+        this.lastScrollTop = this.refs.userList.scrollTop;
+        if (this.wait === false) {
+          window.requestAnimationFrame(() => {
+            if (this.lastScrollTop > 0) {
+              this.refs.searchBar.classList.add('dark-bg');
+            } else {
+              this.refs.searchBar.classList.remove('dark-bg');
+            }
+            this.wait = false;
+          });
+          this.wait = true;
+        }
+      });
   }
 
   componentWillUnmount() {

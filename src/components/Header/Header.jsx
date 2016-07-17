@@ -26,32 +26,32 @@ export default class Header extends React.Component {
 
   componentDidMount() {
     this.obsTriggerLoadAnimation = action
-    .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION)
-    .subscribe(() => {
-      const load = () => {
-        this.setState({ loadFailed: false, showLoading: true });
-      };
-      if (this.state.loadFailed) {
-        this.setState({ showLoading: false }, () => load());
-      } else {
-        load();
-      }
-    });
+      .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION)
+      .subscribe(() => {
+        const load = () => {
+          this.setState({ loadFailed: false, showLoading: true });
+        };
+        if (this.state.loadFailed) {
+          this.setState({ showLoading: false }, () => load());
+        } else {
+          load();
+        }
+      });
     this.obsTriggerLoadAnimationDone = action
-    .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION_DONE)
-    .subscribe(() => {
-      this.setState({ loadFailed: false, doneLoading: true });
-      setTimeout(() => this.setState({
-        showLoading: false,
-        doneLoading: false,
-        loadFailed: false,
-      }), 600);
-    });
+      .filter(a => a.name === ACTIONS.TRIGGER_LOAD_ANIMATION_DONE)
+      .subscribe(() => {
+        this.setState({ loadFailed: false, doneLoading: true });
+        setTimeout(() => this.setState({
+          showLoading: false,
+          doneLoading: false,
+          loadFailed: false,
+        }), 600);
+      });
     this.obsRequestFailed = action
-    .filter(a => a.name === ACTIONS.REQUEST_FAILED)
-    .subscribe(() => {
-      this.setState({ loadFailed: true });
-    });
+      .filter(a => a.name === ACTIONS.REQUEST_FAILED)
+      .subscribe(() => {
+        this.setState({ loadFailed: true });
+      });
 
     if (this.isUserPage(this.props.route)) {
       this.mountHeaderChange();

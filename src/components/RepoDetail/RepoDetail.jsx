@@ -54,59 +54,59 @@ export default class RepoDetail extends React.Component {
     const repoLanguages = action.filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED);
 
     this.obsRepoDetailReceived = repoDetail.map(a => a.data)
-    .subscribe(repo => this.setState({ repo }));
+      .subscribe(repo => this.setState({ repo }));
 
     this.obsRepoReadmeReceived = repoReadme
-    .map(a => a.data.content)
-    .subscribe(readme => {
-      this.setState({
-        readme,
-        activeTab: 'readme',
-      }, () => {
-        this.refreshContentHeight(TABS[0]);
+      .map(a => a.data.content)
+      .subscribe(readme => {
+        this.setState({
+          readme,
+          activeTab: 'readme',
+        }, () => {
+          this.refreshContentHeight(TABS[0]);
+        });
       });
-    });
 
     this.obsRepoContribsReceived = repoContribs
-    .map(a => a.data)
-    .subscribe(contribs => this.setState({ contribs }));
+      .map(a => a.data)
+      .subscribe(contribs => this.setState({ contribs }));
 
     this.obsRepoContentsReceived = repoContents
-    .map(a => a.data)
-    .map(contents => {
-      contents.sort((a, b) => a.type.localeCompare(b.type));
-      return contents;
-    })
-    .subscribe(contents => this.setState({ contents }));
+      .map(a => a.data)
+      .map(contents => {
+        contents.sort((a, b) => a.type.localeCompare(b.type));
+        return contents;
+      })
+      .subscribe(contents => this.setState({ contents }));
 
     this.obsRepoLanguagesReceived = repoLanguages
-    .map(a => a.data)
-    .map(languages => {
-      const newLanguages = Object.keys(languages)
-      .map(key => ({ name: key, value: languages[key] }));
+      .map(a => a.data)
+      .map(languages => {
+        const newLanguages = Object.keys(languages)
+          .map(key => ({ name: key, value: languages[key] }));
 
-      let total = 0;
-      if (newLanguages.length === 0) {
-        total = 0;
-      } else if (newLanguages.length === 1) {
-        total = newLanguages[0].value;
-      } else {
-        total = newLanguages.reduce((a, b) => ({ value: a.value + b.value })).value;
-      }
+        let total = 0;
+        if (newLanguages.length === 0) {
+          total = 0;
+        } else if (newLanguages.length === 1) {
+          total = newLanguages[0].value;
+        } else {
+          total = newLanguages.reduce((a, b) => ({ value: a.value + b.value })).value;
+        }
 
-      return newLanguages.map(a => ({
-        name: a.name,
-        value: Math.round(1000 * a.value / total) / 10,
-      }));
-    })
-    .subscribe(languages => this.setState({ languages }));
+        return newLanguages.map(a => ({
+          name: a.name,
+          value: Math.round(1000 * a.value / total) / 10,
+        }));
+      })
+      .subscribe(languages => this.setState({ languages }));
 
     // Track request failed
     this.obsRequestFailed = action
-    .filter(a => a.name === ACTIONS.REQUEST_FAILED)
-    .subscribe(() => {
-      this.setState({ loadFailed: true });
-    });
+      .filter(a => a.name === ACTIONS.REQUEST_FAILED)
+      .subscribe(() => {
+        this.setState({ loadFailed: true });
+      });
 
     this.obsLoadDone = Rx.Observable.zip(
       repoDetail,
@@ -121,21 +121,21 @@ export default class RepoDetail extends React.Component {
 
     // Track the tab wrapper
     this.obsTabWrapper = Rx.Observable
-    .fromEvent(this.scrollDom, 'scroll')
-    .subscribe(() => {
-      this.lastOffsetTop = this.refs.tabWrapper.parentElement.getBoundingClientRect().top;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          if (this.lastOffsetTop < 60) {
-            this.refs.tabWrapper.classList.add('fixed');
-          } else {
-            this.refs.tabWrapper.classList.remove('fixed');
-          }
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+      .fromEvent(this.scrollDom, 'scroll')
+      .subscribe(() => {
+        this.lastOffsetTop = this.refs.tabWrapper.parentElement.getBoundingClientRect().top;
+        if (this.wait === false) {
+          window.requestAnimationFrame(() => {
+            if (this.lastOffsetTop < 60) {
+              this.refs.tabWrapper.classList.add('fixed');
+            } else {
+              this.refs.tabWrapper.classList.remove('fixed');
+            }
+            this.wait = false;
+          });
+          this.wait = true;
+        }
+      });
   }
 
   componentWillUnmount() {

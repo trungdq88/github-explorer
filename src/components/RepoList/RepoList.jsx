@@ -26,50 +26,50 @@ export default class RepoList extends React.Component {
 
   componentDidMount() {
     this.obsUserReposComplete = action
-    .filter(a => a.name === ACTIONS.USER_REPOS_COMPLETE)
-    .subscribe(() => this.setState({ complete: true }));
+      .filter(a => a.name === ACTIONS.USER_REPOS_COMPLETE)
+      .subscribe(() => this.setState({ complete: true }));
 
     this.obsReceiveUserRepos = action
-    .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
-    .map(a => a.data)
-    .subscribe(repos => {
-      this.setState({
-        repos,
-        isSearching: false,
-        emptyData: repos.length === 0 && this.state.page === 1,
+      .filter(a => a.name === ACTIONS.USER_REPOS_RECEIVED)
+      .map(a => a.data)
+      .subscribe(repos => {
+        this.setState({
+          repos,
+          isSearching: false,
+          emptyData: repos.length === 0 && this.state.page === 1,
+        });
+        action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
       });
-      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
-    });
 
     this.obsReceiveUserReposNextPage = action
-    .filter(a => a.name === ACTIONS.USER_REPOS_NEXT_PAGE_RECEIVED)
-    .map(a => a.data)
-    .subscribe(paging => {
-      this.setState({
-        page: paging.page,
-        repos: this.state.repos.concat(paging.repos),
-        isSearching: false,
+      .filter(a => a.name === ACTIONS.USER_REPOS_NEXT_PAGE_RECEIVED)
+      .map(a => a.data)
+      .subscribe(paging => {
+        this.setState({
+          page: paging.page,
+          repos: this.state.repos.concat(paging.repos),
+          isSearching: false,
+        });
+        action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
       });
-      action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
-    });
 
     // Track the search box
     this.obsHighlightSearchbox = Rx.Observable
-    .fromEvent(this.refs.scrollWrapper, 'scroll')
-    .subscribe(() => {
-      this.lastScrollTop = this.refs.scrollWrapper.scrollTop;
-      if (this.wait === false) {
-        window.requestAnimationFrame(() => {
-          if (this.lastScrollTop > 0) {
-            this.refs.searchWrapper.classList.add('shadow');
-          } else {
-            this.refs.searchWrapper.classList.remove('shadow');
-          }
-          this.wait = false;
-        });
-        this.wait = true;
-      }
-    });
+      .fromEvent(this.refs.scrollWrapper, 'scroll')
+      .subscribe(() => {
+        this.lastScrollTop = this.refs.scrollWrapper.scrollTop;
+        if (this.wait === false) {
+          window.requestAnimationFrame(() => {
+            if (this.lastScrollTop > 0) {
+              this.refs.searchWrapper.classList.add('shadow');
+            } else {
+              this.refs.searchWrapper.classList.remove('shadow');
+            }
+            this.wait = false;
+          });
+          this.wait = true;
+        }
+      });
 
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
