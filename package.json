@@ -103,6 +103,7 @@
   "dependencies": {
     "classname": "0.0.0",
     "filesize": "^3.3.0",
+    "github-colors": "^2.2.6",
     "github-markdown-css": "^2.3.0",
     "js-base64": "^2.1.9",
     "json-loader": "^0.5.4",
