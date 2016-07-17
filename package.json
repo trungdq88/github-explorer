@@ -1,6 +1,6 @@
 {
   "name": "github-explorer",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "Progressive Web Apps experiment",
   "main": "src/app.jsx",
   "scripts": {
