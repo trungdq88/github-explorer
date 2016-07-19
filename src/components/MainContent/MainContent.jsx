@@ -18,7 +18,6 @@ export default class MainContent extends React.Component {
       scrollTop: 0,
       toast: null, // object shape: { message: 'example', timeout: 3000, button: <Example /> }
     };
-    // this.wait = false;
     this.onPageLoad = this.onPageLoad.bind(this);
   }
 
@@ -40,18 +39,18 @@ export default class MainContent extends React.Component {
       });
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      scrollTop: this.refs.scrollSection.scrollTop,
-    });
-  }
-
-  componentWillUnmount() {
-    // this.obsMoveHeader.dispose && this.obsMoveHeader.dispose();
+  componentWillReceiveProps(next) {
+    // We only need to update the scrollTop when page change
+    if (next.open === this.props.open) {
+      this.setState({
+        // Caution: this force layout
+        scrollTop: this.refs.scrollSection.scrollTop,
+      });
+    }
   }
 
   onPageLoad() {
-    // Caution: this force reflow
+    // Caution: this force layout
     this.refs.scrollSection.scrollTop = 0;
   }
 

@@ -4,6 +4,7 @@ import MainContent from './MainContent/MainContent.jsx';
 import NavMenu from './NavMenu/NavMenu.jsx';
 import action, { ACTIONS } from '../action/action.js';
 import { matchParams } from '../utils/routes.js';
+import classNames from 'classnames';
 
 class App extends React.Component {
 
@@ -57,7 +58,7 @@ class App extends React.Component {
       <div>
         <div
           id="menu-overlay"
-          style={{ display: this.state.open && !this.state.full ? 'block' : 'none' }}
+          className={classNames({ show: this.state.open && !this.state.full })}
           onClick={() => action.onNext({ name: ACTIONS.CLOSE_NAV_MENU })}
         ></div>
         <NavMenu

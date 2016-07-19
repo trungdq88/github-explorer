@@ -48,13 +48,16 @@ a {
 }
 
 #menu-overlay {
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
   left: 84%;
   bottom: 0;
   z-index: 3;
+  transform: translate3d(-1000px, 0, 0);
+  &.show {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .list-appear, .list-enter {
