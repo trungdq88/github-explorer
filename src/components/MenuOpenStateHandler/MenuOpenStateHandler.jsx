@@ -8,7 +8,6 @@ export default class MenuOpenStateHandler extends React.Component {
     super();
     this.state = {
       open: false,
-      full: false,
     };
   }
 
@@ -16,28 +15,22 @@ export default class MenuOpenStateHandler extends React.Component {
     this.obsToggleNavMenu = action
     .filter(a => a.name === ACTIONS.TOGGLE_NAV_MENU)
     .subscribe(() => {
-      this.setState({ open: !this.state.open, full: false });
+      this.setState({ open: !this.state.open });
     });
     this.obsOpenNavMenu = action
     .filter(a => a.name === ACTIONS.OPEN_NAV_MENU)
     .subscribe(() => {
-      this.setState({ open: true, full: false });
-    });
-    this.obsFullNavMenu = action
-    .filter(a => a.name === ACTIONS.FULL_NAV_MENU)
-    .subscribe(() => {
-      this.setState({ open: true, full: true });
+      this.setState({ open: true });
     });
     this.obsCloseNavMenu = action
     .filter(a => a.name === ACTIONS.CLOSE_NAV_MENU)
     .subscribe(() => {
-      this.setState({ open: false, full: false });
+      this.setState({ open: false });
     });
   }
 
   componentWillUnmount() {
     this.obsOpenNavMenu.dispose();
-    this.obsFullNavMenu.dispose();
     this.obsCloseNavMenu.dispose();
     this.obsToggleNavMenu.dispose();
   }
