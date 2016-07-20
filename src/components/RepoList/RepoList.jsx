@@ -70,8 +70,6 @@ export default class RepoList extends React.Component {
           this.wait = true;
         }
       });
-
-    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,6 +100,8 @@ export default class RepoList extends React.Component {
 
   onTransitionDidEnd() {
     this.setState({ offsetTop: 0 });
+
+    action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
 
     // Show search, need a delay to trigger CSS animation
     setTimeout(() => this.setState({ showSearch: true }), 50);
