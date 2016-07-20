@@ -8,11 +8,6 @@
   transition: transform 0.3s cubic-bezier(0.7, 0, 0.25, 1),
               opacity 0.4s;
 
-  &.open {
-    opacity: 0.99;
-    transform: translate3d(0, 0, 0);
-  }
-
   #search-bar {
     position: relative;
     padding: 15px;
@@ -40,10 +35,6 @@
       opacity: 0;
       transition: opacity 0.3s 0.2s;
       font-size: 14px;
-
-      &.show {
-        opacity: 0.5;
-      }
     }
   }
 
