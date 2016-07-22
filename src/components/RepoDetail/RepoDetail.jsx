@@ -47,39 +47,29 @@ export default class RepoDetail extends React.Component {
   componentDidMount() {
     this.scrollDom = document.getElementById('scroll-section');
 
-    const repoDetail = action.filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED);
-    const repoReadme = action.filter(a => a.name === ACTIONS.REPO_README_RECEIVED);
-    const repoContribs = action.filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED);
-    const repoContents = action.filter(a => a.name === ACTIONS.REPO_CONTENTS_RECEIVED);
-    const repoLanguages = action.filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED);
+    this.obsRepoDetailReceived = action
+      .filter(a => a.name === ACTIONS.REPO_DETAIL_RECEIVED)
+      .map(a => a.data);
 
-    this.obsRepoDetailReceived = repoDetail.map(a => a.data)
-      .subscribe(repo => this.setState({ repo }));
-
-    this.obsRepoReadmeReceived = repoReadme
+    this.obsRepoReadmeReceived = action
+      .filter(a => a.name === ACTIONS.REPO_README_RECEIVED)
       .map(a => a.data.content)
-      .subscribe(readme => {
-        this.setState({
-          readme,
-          activeTab: 'readme',
-        }, () => {
-          this.refreshContentHeight(TABS[0]);
-        });
-      });
+      .map(readme => Base64.decode(readme.replace(/\s/g, '')));
 
-    this.obsRepoContribsReceived = repoContribs
-      .map(a => a.data)
-      .subscribe(contribs => this.setState({ contribs }));
+    this.obsRepoContribsReceived = action
+      .filter(a => a.name === ACTIONS.REPO_CONTRIS_RECEIVED)
+      .map(a => a.data);
 
-    this.obsRepoContentsReceived = repoContents
+    this.obsRepoContentsReceived = action
+      .filter(a => a.name === ACTIONS.REPO_CONTENTS_RECEIVED)
       .map(a => a.data)
       .map(contents => {
         contents.sort((a, b) => a.type.localeCompare(b.type));
         return contents;
-      })
-      .subscribe(contents => this.setState({ contents }));
+      });
 
-    this.obsRepoLanguagesReceived = repoLanguages
+    this.obsRepoLanguagesReceived = action
+      .filter(a => a.name === ACTIONS.REPO_LANGUAGES_RECEIVED)
       .map(a => a.data)
       .map(languages => {
         const newLanguages = Object.keys(languages)
@@ -98,8 +88,7 @@ export default class RepoDetail extends React.Component {
           name: a.name,
           value: Math.round(1000 * a.value / total) / 10,
         }));
-      })
-      .subscribe(languages => this.setState({ languages }));
+      });
 
     // Track request failed
     this.obsRequestFailed = action
@@ -109,14 +98,24 @@ export default class RepoDetail extends React.Component {
       });
 
     this.obsLoadDone = Rx.Observable.zip(
-      repoDetail,
-      repoReadme,
-      repoContribs,
-      repoContents,
-      repoLanguages
-    ).subscribe(() => {
+      this.obsRepoDetailReceived,
+      this.obsRepoReadmeReceived,
+      this.obsRepoContribsReceived,
+      this.obsRepoContentsReceived,
+      this.obsRepoLanguagesReceived
+    ).subscribe(([repo, readme, contribs, contents, languages]) => {
       action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION_DONE });
-      this.setState({ loadFailed: false });
+      this.setState({
+        loadFailed: false,
+        activeTab: 'readme',
+        repo,
+        readme,
+        contribs,
+        contents,
+        languages,
+      }, () => {
+        this.refreshContentHeight(TABS[0]);
+      });
     });
 
     // Track the tab wrapper
@@ -139,11 +138,6 @@ export default class RepoDetail extends React.Component {
   }
 
   componentWillUnmount() {
-    this.obsRepoDetailReceived.dispose();
-    this.obsRepoReadmeReceived.dispose();
-    this.obsRepoContribsReceived.dispose();
-    this.obsRepoContentsReceived.dispose();
-    this.obsRepoLanguagesReceived.dispose();
     this.obsLoadDone.dispose();
     this.obsTabWrapper.dispose();
   }
@@ -172,13 +166,14 @@ export default class RepoDetail extends React.Component {
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
-  transitionManuallyStart() {
+  transitionManuallyStart(data, cb) {
     this.setState({
       startPosition: {
         top: 60,
       },
       doTransform: true,
-    });
+    }, cb);
+    return true;
   }
 
   transitionManuallyStop() {
@@ -201,7 +196,6 @@ export default class RepoDetail extends React.Component {
   }
 
   render() {
-    const input = this.state.readme ? Base64.decode(this.state.readme.replace(/\s/g, '')) : null;
     return (
       <div
         id="repo-detail"
@@ -251,8 +245,9 @@ export default class RepoDetail extends React.Component {
                                   { show: this.state.activeTab === 'readme' })}
             id="readme"
           >
-            {input ?
-              <ReactMarkdown source={input} /> : <div className="empty-data">No data</div>}
+            {this.state.readme ?
+              <ReactMarkdown source={this.state.readme} /> :
+              <div className="empty-data">No data</div>}
           </div>
 
           <div
