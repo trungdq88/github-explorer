@@ -53,7 +53,7 @@ export default class RepoDetail extends React.Component {
 
     this.obsRepoReadmeReceived = action
       .filter(a => a.name === ACTIONS.REPO_README_RECEIVED)
-      .map(a => a.data.content)
+      .map(a => a.data.content || '')
       .map(readme => Base64.decode(readme.replace(/\s/g, '')));
 
     this.obsRepoContribsReceived = action
@@ -143,12 +143,14 @@ export default class RepoDetail extends React.Component {
   }
 
   onTransitionWillStart(data) {
-    if (!data || !data.detailPageData) return;
-    this.setState({
-      startPosition: data.detailPageData.startPosition,
-      repoDetailData: data.detailPageData.repoData,
-      offsetTop: data.scrollTop,
-      doTransform: true,
+    return new Promise(resolve => {
+      if (!data || !data.detailPageData) return;
+      this.setState({
+        startPosition: data.detailPageData.startPosition,
+        repoDetailData: data.detailPageData.repoData,
+        offsetTop: data.scrollTop,
+        doTransform: true,
+      }, resolve);
     });
   }
 
@@ -166,14 +168,15 @@ export default class RepoDetail extends React.Component {
     action.onNext({ name: ACTIONS.TRIGGER_LOAD_ANIMATION });
   }
 
-  transitionManuallyStart(data, cb) {
-    this.setState({
-      startPosition: {
-        top: 60,
-      },
-      doTransform: true,
-    }, cb);
-    return true;
+  transitionManuallyStart() {
+    return new Promise(resolve => {
+      this.setState({
+        startPosition: {
+          top: 60,
+        },
+        doTransform: true,
+      }, resolve);
+    });
   }
 
   transitionManuallyStop() {
