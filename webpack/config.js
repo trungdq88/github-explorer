@@ -48,11 +48,11 @@ const config = {
   plugins,
   resolve: {
     extensions: ['', '.jsx', '.json', '.js'],
-    // "alias": {
-    //   "react": "preact-compat",
-    //   "react-dom": "preact-compat",
-    //   'react-addons-css-transition-group': 'rc-css-transition-group'
-    // }
+    "alias": {
+      "react": "preact-compat",
+      "react-dom": "preact-compat",
+      'react-addons-css-transition-group': 'rc-css-transition-group'
+    }
   },
   devServer: {
     contentBase: path.resolve(pkg.config.buildDir),
