@@ -10,7 +10,7 @@ const TEST = process.env.NODE_ENV === 'test';
 const cssBundle = path.join('css', util.format('[name].%s.css', pkg.version));
 
 const plugins = [
-  new webpack.optimize.OccurenceOrderPlugin(),
+  // new webpack.optimize.OccurenceOrderPlugin(), // Not neccessary anymore in Webpack 2
 ];
 if (DEBUG) {
   plugins.push(
@@ -18,9 +18,9 @@ if (DEBUG) {
   );
 } else if (!TEST) {
   plugins.push(
-    new ExtractTextPlugin(cssBundle, {
-      allChunks: true,
-    }),
+    // new ExtractTextPlugin(cssBundle, {
+    //   allChunks: true,
+    // }),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({

@@ -3,7 +3,7 @@ const util = require('util');
 const autoprefixer = require('autoprefixer');
 const pkg = require('../package.json');
 
-const loaders = require('./loaders');
+const rules = require('./rules');
 const plugins = require('./plugins');
 
 const DEBUG = process.env.NODE_ENV === 'development';
@@ -29,7 +29,7 @@ if (DEBUG) {
 const config = {
   context: path.join(__dirname, '../src'),
   cache: DEBUG,
-  debug: DEBUG,
+  // debug: DEBUG,
   target: 'web',
   devtool: DEBUG || TEST ? 'inline-source-map' : false,
   entry,
@@ -40,14 +40,14 @@ const config = {
     pathinfo: false,
   },
   module: {
-    loaders,
+    rules,
   },
-  postcss: [
-    autoprefixer,
-  ],
+  // postcss: [
+  //   autoprefixer,
+  // ],
   plugins,
   resolve: {
-    extensions: ['', '.jsx', '.json', '.js'],
+    extensions: ['.jsx', '.json', '.js'],
   },
   devServer: {
     contentBase: path.resolve(pkg.config.buildDir),

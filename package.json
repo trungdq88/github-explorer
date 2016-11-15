@@ -37,7 +37,8 @@
   "babel": {
     "presets": [
       "es2015",
-      "react"
+      "react",
+      { "modules": false }
     ]
   },
   "devDependencies": {
@@ -58,7 +59,7 @@
     "eslint-plugin-import": "^1.9.2",
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.9.0",
     "github-colors": "^2.2.5",
     "glob": "^7.0.5",
@@ -97,8 +98,8 @@
     "sw-precache": "^3.2.0",
     "template-html-loader": "0.0.3",
     "url-loader": "^0.5.6",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.12.0"
+    "webpack": "^2.1.0-beta.26",
+    "webpack-dev-server": "^2.1.0-beta.11"
   },
   "dependencies": {
     "classname": "0.0.0",

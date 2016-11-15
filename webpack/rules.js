@@ -5,7 +5,7 @@ const ENV = process.env.NODE_ENV || 'production';
 
 const urlLoaderPrefix = 'url-loader?name=assets/[name].[ext]&limit=100000';
 const fileLoader = 'file-loader?name=assets/[name].[ext]';
-let cssLoader;
+let cssLoaders;
 let jsxLoader;
 const htmlLoader = [
   'file-loader?name=[path][name].[ext]',
@@ -24,17 +24,35 @@ if (ENV === 'development' || ENV === 'test') {
     jsxLoader.push('react-hot');
   }
   jsxLoader.push('babel');
-  cssLoader = [
-    'style-loader',
-    'css-loader?sourceMap&localIdentName=[name]__[local]___[hash:base64:5]',
-    'postcss-loader',
-  ].join('!');
+  // cssLoader = [
+  //   'style-loader',
+  //   'css-loader?sourceMap&localIdentName=[name]__[local]___[hash:base64:5]',
+  //   'postcss-loader',
+  // ].join('!');
+  //
+  cssLoaders = [
+    { loader: 'style-loader', options: { modules: true } },
+    { loader: 'css-loader?sourceMap&localIdentName=[name]__[local]___[hash:base64:5]' },
+    { loader: 'postcss-loader' }
+  ];
 } else {
   jsxLoader = ['babel'];
-  cssLoader = ExtractTextPlugin.extract('style-loader', [
-    'css-loader?localIdentName=[hash:base64:5]',
-    'postcss-loader',
-  ].join('!'));
+  // cssLoader = ExtractTextPlugin.extract('style-loader', [
+  //   'css-loader?localIdentName=[hash:base64:5]',
+  //   'postcss-loader',
+  // ].join('!'));
+
+
+  const cssLoaders = [
+    { loader: 'style-loader', options: { modules: true } },
+    { loader: 'css-loader?localIdentName=[hash:base64:5]' },
+    { loader: 'postcss-loader' }
+  ];
+
+  cssLoader = ExtractTextPlugin.extract({
+    fallbackLoader: 'style-loader',
+    loader: cssLoaders,
+  })
 }
 
 const loaders = [
@@ -43,7 +61,7 @@ const loaders = [
     exclude: /(node_modules|bower_components)/,
     loaders: jsxLoader, /* 'babel' */
   },
-  { test: /\.css$/, loader: cssLoader /* "style-loader!css-loader" */ },
+  { test: /\.css$/, use: cssLoaders /* "style-loader!css-loader" */ },
   { test: /\.png$/, loader: 'url-loader?limit=100000' },
   {
     test: /\.html$/,
