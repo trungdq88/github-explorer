@@ -111,7 +111,7 @@
     "react-addons-css-transition-group": "^15.1.0",
     "react-markdown": "^2.3.0",
     "react-router": "^2.5.1",
-    "react-router-page-transition": "^1.1.0",
+    "react-router-page-transition": "^2.0.1",
     "rimraf": "^2.5.2",
     "rx": "^4.1.0",
     "whatwg-fetch": "^1.0.0"
