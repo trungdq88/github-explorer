@@ -64,7 +64,7 @@ export default class UserPage extends React.Component {
 
   render() {
     return (
-      <div id="user-page">
+      <div id="user-page" className="transition-item">
         <Profile
           username={this.state.profile.login}
           profile={this.state.profile || {}}

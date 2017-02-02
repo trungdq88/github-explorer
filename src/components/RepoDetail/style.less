@@ -1,8 +1,9 @@
 @tabHeight: 50px;
 
 #repo-detail {
-  min-height: 100vh;
+  z-index: 52;
   overflow: hidden;
+  min-height: 100vh;
   background-color: #f5f5f5;
 
   &.transition-appear {
@@ -18,18 +19,28 @@
 
   &.transition-appear.transition-appear-active {
   }
+
+  &.transition-leave {
+    height: 100vh;
+    transition: transform 0.3s;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.transition-leave.transition-leave-active {
+    transform: translate3d(0, 100%, 0);
+  }
 }
 
 .tab-wrapper-transition-group {
-  height: @tabHeight;
   display: block;
+  height: @tabHeight;
 }
 
 #repo-tabs-wrapper {
-  height: @tabHeight;
-  overflow: hidden;
-  border-bottom: solid 0.5px #e5e5e5;
   z-index: 2;
+  overflow: hidden;
+  height: @tabHeight;
+  border-bottom: solid 0.5px #e5e5e5;
 
   &.fixed {
     position: fixed;
@@ -40,25 +51,25 @@
 }
 
 #repo-tabs {
-  height: @tabHeight + 20px;
-  background-color: #f6f7f8;
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+  height: @tabHeight + 20px;
+  background-color: #f6f7f8;
+  white-space: nowrap;
 
   .repo-tab-item {
-    font-family: GothamPro;
-    font-size: 13px;
-    height: @tabHeight;
-    line-height: @tabHeight;
-    letter-spacing: 0.3px;
-    text-align: center;
-    color: #8f9aa8;
-    display: inline-block;
-    padding: 0 10px;
     position: relative;
+    display: inline-block;
     margin: 0 5px;
+    padding: 0 10px;
+    height: @tabHeight;
+    color: #8f9aa8;
+    text-align: center;
+    letter-spacing: 0.3px;
+    font-size: 13px;
+    font-family: GothamPro;
+    line-height: @tabHeight;
 
     &:first-child {
       margin-left: 15px;
@@ -69,17 +80,17 @@
     }
 
     &:after {
-      transform: scaleX(0);
-      transition: transform 0.3s;
-      transform-origin: left center;
-      content: '';
-      display: block;
       position: absolute;
-      left: 0;
       bottom: 0;
+      left: 0;
+      display: block;
       width: 100%;
       height: 3px;
       background-color: #8f9aa8;
+      content: '';
+      transition: transform 0.3s;
+      transform: scaleX(0);
+      transform-origin: left center;
     }
 
     &.selected:after {
@@ -90,37 +101,37 @@
 
 #repo-tab-content {
   position: relative;
-  overflow: hidden;
   z-index: 1;
+  overflow: hidden;
 
   .repo-content-item {
-    padding: 15px;
-    opacity: 0;
-    transform: translate3d(0, 100px, 0);
-    transition: opacity 0.5s, transform 0.5s;
     position: absolute;
+    top: 15px;
     right: 15px;
     left: 15px;
-    top: 15px;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    transform: translate3d(0, 100px, 0);
 
     &.show {
+      z-index: 99;
       opacity: 1;
       transform: translate3d(0, 0, 0);
-      z-index: 99;
     }
   }
 
   #readme, #files, #languages {
+    border: solid 1px #e5e5e5;
     border-radius: 6px;
     background-color: #ffffff;
-    border: solid 1px #e5e5e5;
   }
 }
 
 .file-item {
   display: flex;
-  color: #8f9aa8;
   margin-bottom: 19px;
+  color: #8f9aa8;
 
   &:last-child {
     margin-bottom: 0;
@@ -130,26 +141,26 @@
     margin-right: 12px;
   }
   .file-name {
-    font-family: GothamPro;
-    font-size: 14px;
-    line-height: 1.5;
     margin-bottom: 8px;
+    font-size: 14px;
+    font-family: GothamPro;
+    line-height: 1.5;
   }
   .file-date {
-    font-family: GothamPro;
-    font-size: 13px;
     color: #aeb6c0;
+    font-size: 13px;
+    font-family: GothamPro;
   }
 }
 
 .contrib-item {
   display: flex;
-  color: #8f9aa8;
   margin-bottom: 5px;
+  padding: 15px;
+  border: solid 0.5px #e5e5e5;
   border-radius: 6px;
   background-color: #ffffff;
-  border: solid 0.5px #e5e5e5;
-  padding: 15px;
+  color: #8f9aa8;
 
   &:last-child {
     margin-bottom: 0;
@@ -159,29 +170,30 @@
     margin-right: 15px;
     width: 40px;
     height: 40px;
+    border-radius: 5px;
     background-position: center center;
     background-size: cover;
-    border-radius: 5px;
   }
 
   .contrib-name {
-    font-family: GothamPro-Medium;
-    font-size: 18px;
-    letter-spacing: -0.2px;
-    color: #5c6877;
     margin-bottom: 11px;
+    color: #5c6877;
+    letter-spacing: -0.2px;
+    font-size: 18px;
+    font-family: GothamPro-Medium;
   }
   .contrib-value {
-    font-family: GothamPro;
-    font-size: 13px;
     color: #aeb6c0;
+    font-size: 13px;
+    font-family: GothamPro;
   }
 }
 
 .lang-item {
   display: flex;
-  color: #8f9aa8;
   margin-bottom: 19px;
+  color: #8f9aa8;
+
   align-items: center;
   &:last-child {
     margin-bottom: 0;
@@ -194,34 +206,34 @@
     border-radius: 16px;
   }
   .lang-name {
-    font-family: GothamPro-Bold;
-    font-size: 15px;
-    line-height: 1.4;
-    color: #5c6877;
     margin-bottom: 5px;
+    color: #5c6877;
+    font-size: 15px;
+    font-family: GothamPro-Bold;
+    line-height: 1.4;
   }
   .lang-date {
-    font-family: GothamPro;
-    font-size: 13px;
     color: #aeb6c0;
+    font-size: 13px;
+    font-family: GothamPro;
   }
 }
 
 .empty-data {
+  color: #ccc;
   text-align: center;
   font-size: 15px;
-  color: #ccc;
 }
 
 .offline-msg {
   margin: 20px 0;
+  color: #ccc;
   text-align: center;
   font-size: 15px;
-  color: #ccc;
   .blue-link {
-    color: #64b5f6;
-    font-weight: bold;
     margin: 10px;
+    color: #64b5f6;
     text-transform: uppercase;
+    font-weight: bold;
   }
 }

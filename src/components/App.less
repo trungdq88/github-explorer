@@ -3,11 +3,12 @@ html {
 }
 
 body {
-  font-family: GothamPro;
-  -webkit-font-smoothing: antialiased;
   overflow: hidden;
-  background-color: #3d536d;
   margin: 0;
+  background-color: #3d536d;
+  font-family: GothamPro;
+
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
@@ -21,13 +22,13 @@ a {
 .round-btn {
   width: 120px;
   height: 32px;
-  border-radius: 50px;
   border: solid 0.5px #7ed321;
-  font-family: GothamPro-Bold;
-  font-size: 14px;
-  text-align: center;
+  border-radius: 50px;
   color: #ffffff;
+  text-align: center;
   text-transform: uppercase;
+  font-size: 14px;
+  font-family: GothamPro-Bold;
   line-height: 32px;
 }
 
@@ -35,24 +36,24 @@ a {
   display: inline-block;
   width: 245px;
   height: 48px;
-  line-height: 48px;
   border-radius: 8px;
   background-image: linear-gradient(to bottom, #a5de41, #55b130);
   box-shadow: inset 0 0.5px 0.5px 0 #e2ffce;
-  font-family: GothamPro-Bold;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  text-align: center;
   color: #ffffff !important;
+  text-align: center;
   text-decoration: none !important;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  font-family: GothamPro-Bold;
+  line-height: 48px;
 }
 
 #menu-overlay {
   position: fixed;
   top: 0;
   right: 0;
-  left: 84%;
   bottom: 0;
+  left: 84%;
   z-index: 3;
   transform: translate3d(1000px, 0, 0);
 }
@@ -83,13 +84,12 @@ a {
 
 .trasition-wrapper {
   position: relative;
-  min-height: 100%;
   z-index: 1;
+  min-height: 100%;
   .transition-item {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    z-index: 99;
+    left: 0;
   }
 }
