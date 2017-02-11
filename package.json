@@ -4,6 +4,7 @@
   "description": "Progressive Web Apps experiment",
   "main": "src/app.jsx",
   "scripts": {
+    "inspect": "NODE_ENV=development npm run webpack",
     "build": "NODE_ENV=production npm run webpack && npm run service-worker && npm run root-assets",
     "clean": "rimraf $npm_package_config_buildDir/*",
     "env": "env",
@@ -108,6 +109,9 @@
     "js-base64": "^2.1.9",
     "json-loader": "^0.5.4",
     "moment": "^2.14.1",
+    "preact": "^6.4.0",
+    "preact-compat": "^3.9.2",
+    "rc-css-transition-group": "^2.1.4",
     "react-addons-css-transition-group": "^15.1.0",
     "react-markdown": "^2.3.0",
     "react-router": "^2.5.1",
