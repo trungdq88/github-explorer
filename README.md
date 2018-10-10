@@ -47,7 +47,8 @@ This project is bootstraped from [plain-react](https://github.com/trungdq88/plai
 Make sure you have NodeJS v6 or above. 
 
 ```bash  
-npm install 
+npm install
+bower install
 npm start 
 ``` 
 
